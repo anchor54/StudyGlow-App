@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.login.components
+package com.example.studyglows.screens.auth.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth

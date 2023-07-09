@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.login.constants
+package com.example.studyglows.screens.auth.common.constants
 
 object NetworkConstants {
     const val SEND_OTP = "/account/send-otp"

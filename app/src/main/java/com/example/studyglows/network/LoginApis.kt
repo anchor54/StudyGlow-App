@@ -1,12 +1,12 @@
 package com.example.studyglows.network
 
-import com.example.studyglows.screens.login.constants.NetworkConstants.RESEND_OTP
-import com.example.studyglows.screens.login.constants.NetworkConstants.SEND_OTP
-import com.example.studyglows.screens.login.constants.NetworkConstants.VERIFY_OTP
-import com.example.studyglows.screens.login.models.OTPRequest
-import com.example.studyglows.screens.login.models.OTPResponse
-import com.example.studyglows.screens.login.models.VerifyOTPRequest
-import com.example.studyglows.screens.login.models.VerifyOTPResponse
+import com.example.studyglows.screens.auth.common.constants.NetworkConstants.RESEND_OTP
+import com.example.studyglows.screens.auth.common.constants.NetworkConstants.SEND_OTP
+import com.example.studyglows.screens.auth.common.constants.NetworkConstants.VERIFY_OTP
+import com.example.studyglows.screens.auth.common.models.OTPRequest
+import com.example.studyglows.screens.auth.common.models.OTPResponse
+import com.example.studyglows.screens.auth.common.models.VerifyOTPRequest
+import com.example.studyglows.screens.auth.common.models.VerifyOTPResponse
 import com.example.studyglows.utils.Constants.BASE_API_URL
 import retrofit2.Response
 import retrofit2.http.Body

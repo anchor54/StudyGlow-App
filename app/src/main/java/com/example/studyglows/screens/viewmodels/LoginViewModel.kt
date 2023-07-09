@@ -3,27 +3,33 @@ package com.example.studyglows.screens.viewmodels
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.studyglows.network.LoginApis
-import com.example.studyglows.screens.login.models.OTPRequest
-import com.example.studyglows.screens.login.models.UIEvent
-import com.example.studyglows.screens.login.models.UIState
-import com.example.studyglows.screens.login.models.VerifyOTPRequest
+import com.example.studyglows.screens.auth.common.models.OTPRequest
+import com.example.studyglows.screens.auth.common.models.UIEvent
+import com.example.studyglows.screens.auth.common.models.UIState
+import com.example.studyglows.screens.auth.common.models.ValidationEvent
+import com.example.studyglows.screens.auth.common.models.VerifyOTPRequest
 import com.example.studyglows.utils.Constants.BASE_API_URL
 import com.example.studyglows.utils.Constants.COUNTRY_CODE
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
-    private val loginNetworkAPI: LoginApis by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(LoginApis::class.java)
-    }
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val loginNetworkAPI: LoginApis) : ViewModel() {
 
-    private val _uiState = mutableStateOf(UIState())
-    val uiState: State<UIState> = _uiState
+    private val _uiState = MutableStateFlow(UIState())
+    val uiState = _uiState.asStateFlow()
+
+    private val _validation = MutableStateFlow<ValidationEvent>(ValidationEvent.NoEvent())
+    val validation = _validation.asStateFlow()
 
     fun onEvent(event: UIEvent) {
         when (event) {
@@ -35,7 +41,7 @@ class LoginViewModel: ViewModel() {
             }
             is UIEvent.OTPChanged -> {
                 _uiState.value = _uiState.value.copy(
-                    phoneNumber = event.otp,
+                    otp = event.otp,
                     isOTPValid = validateOTP(event.otp)
                 )
             }
@@ -45,7 +51,7 @@ class LoginViewModel: ViewModel() {
             is UIEvent.OTPResend -> {
                 getOTP(true)
             }
-            is UIEvent.Submit -> {
+            is UIEvent.OTPSubmit -> {
                 verifyOTP()
             }
         }
@@ -68,7 +74,22 @@ class LoginViewModel: ViewModel() {
                 phone = uiState.value.phoneNumber,
                 otp = uiState.value.otp
             )
-            loginNetworkAPI.verifyOTP(requestBody)
+            viewModelScope.launch(Dispatchers.IO) {
+                val res = loginNetworkAPI.verifyOTP(requestBody)
+                if (res.isSuccessful) {
+                    if (res.body()?.access != null) {
+                        _validation.emit(
+                            ValidationEvent.OTPVerifyError(
+                                res.body()?.message ?: "Something went wrong!"
+                            )
+                        )
+                    }
+                    _validation.emit(ValidationEvent.OTPVerifySuccess())
+                } else {
+                    _validation.emit(ValidationEvent.OTPVerifyError("Something went wrong!"))
+                }
+            }
+
         }
     }
 
@@ -79,10 +100,14 @@ class LoginViewModel: ViewModel() {
                 phone = uiState.value.phoneNumber,
                 resend = isResent
             )
-            if (isResent) {
-                loginNetworkAPI.resendOTP(requestBody)
-            } else {
-                loginNetworkAPI.sendOTP(requestBody)
+            viewModelScope.launch(Dispatchers.IO) {
+                val res =
+                    if (isResent) loginNetworkAPI.resendOTP(requestBody)
+                    else loginNetworkAPI.sendOTP(requestBody)
+                _validation.emit(
+                    if (res.isSuccessful) ValidationEvent.OTPSentSuccess()
+                    else ValidationEvent.OTPSentError("Something went wrong!")
+                )
             }
         }
     }

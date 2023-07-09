@@ -3,38 +3,29 @@ package com.example.studyglows
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.studyglows.screens.login.LoginScreen
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.rememberNavController
+import com.example.studyglows.navigation.NavGraph
+import com.example.studyglows.screens.auth.otp.OTPScreen
+import com.example.studyglows.screens.viewmodels.LoginViewModel
 import com.example.studyglows.ui.theme.StudyGlowsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel: LoginViewModel by viewModels()
         setContent {
             StudyGlowsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    LoginScreen()
-                }
+                val navController = rememberNavController()
+                NavGraph(navHostController = navController)
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    StudyGlowsTheme {
-        LoginScreen()
     }
 }

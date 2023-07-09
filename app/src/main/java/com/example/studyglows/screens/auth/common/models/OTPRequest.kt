@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.login.models
+package com.example.studyglows.screens.auth.common.models
 
 data class OTPRequest(
     val country_code: String,

@@ -69,14 +69,14 @@ fun LoginScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = Modifier
-            .fillMaxSize(1f)
-            .background(color = Color(0xFFE6F1F8)),
+        modifier = Modifier.fillMaxSize()
     ) { padding ->
         val loginState = viewModel.uiState.collectAsState().value
 
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color(0xFFE6F1F8)),
             contentAlignment = Alignment.Center
         ) {
             Column(

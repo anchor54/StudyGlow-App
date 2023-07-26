@@ -45,8 +45,7 @@ fun LoginButton(
                 spread = 7.dp,
                 borderRadius = 28.dp
             )
-            .background(color = backgroundColor, shape = RoundedCornerShape(size = 28.dp))
-            .fillMaxWidth(1f),
+            .background(color = backgroundColor, shape = RoundedCornerShape(size = 28.dp)),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE6F1F8)),
     ) {
         Text(

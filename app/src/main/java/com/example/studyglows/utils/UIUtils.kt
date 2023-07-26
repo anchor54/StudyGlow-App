@@ -3,15 +3,24 @@ package com.example.studyglows.utils
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
-import androidx.compose.ui.graphics.Paint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -121,4 +130,42 @@ object UIUtils {
             frameworkPaint.maskFilter = null
         }
     }
+
+    fun Modifier.bottomBorder(strokeWidth: Dp, color: Color, horizontalOffset: Dp = 0.dp) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawBehind {
+                val width = size.width
+                val height = size.height - strokeWidthPx/2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = horizontalOffset.toPx(), y = height),
+                    end = Offset(x = width - horizontalOffset.toPx(), y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
+
+    fun Modifier.topBorder(strokeWidth: Dp, color: Color, horizontalOffset: Dp = 0.dp) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawBehind {
+                val width = size.width
+                val height = -strokeWidthPx/2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = horizontalOffset.toPx(), y = height),
+                    end = Offset(x = width - horizontalOffset.toPx() , y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
 }

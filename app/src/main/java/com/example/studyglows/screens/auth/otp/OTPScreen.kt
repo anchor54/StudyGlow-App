@@ -40,13 +40,13 @@ import com.example.studyglows.screens.auth.common.components.LoginButton
 import com.example.studyglows.screens.auth.common.components.LoginField
 import com.example.studyglows.screens.auth.common.models.UIEvent
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
-import com.example.studyglows.screens.viewmodels.LoginViewModel
+import com.example.studyglows.screens.auth.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OTPScreen(
     navHostController: NavHostController,
-    viewModel: LoginViewModel
+    viewModel: AuthViewModel
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -141,6 +141,7 @@ fun OTPScreen(
                     onClick = {
                         viewModel.onEvent(UIEvent.OTPSubmit())
                     },
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(
                     modifier = Modifier

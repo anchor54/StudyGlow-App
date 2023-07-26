@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -33,13 +34,13 @@ import com.example.studyglows.screens.auth.common.components.LoginButton
 import com.example.studyglows.screens.auth.common.components.LoginField
 import com.example.studyglows.screens.auth.common.models.UIEvent
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
-import com.example.studyglows.screens.viewmodels.LoginViewModel
+import com.example.studyglows.screens.auth.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navHostController: NavHostController,
-    viewModel: LoginViewModel
+    viewModel: AuthViewModel
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -98,7 +99,7 @@ fun LoginScreen(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth(1f)
-                        .padding(0.dp, 30.dp)
+                        .height(60.dp)
                 )
                 Column(
                     modifier = Modifier
@@ -125,6 +126,7 @@ fun LoginScreen(
                         onClick = {
                             viewModel.onEvent(UIEvent.OTPSend())
                         },
+                        modifier = Modifier.fillMaxWidth(1f)
                     )
                 }
             }

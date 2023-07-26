@@ -1,7 +1,5 @@
-package com.example.studyglows.screens.viewmodels
+package com.example.studyglows.screens.auth
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.studyglows.network.LoginApis
@@ -10,20 +8,16 @@ import com.example.studyglows.screens.auth.common.models.UIEvent
 import com.example.studyglows.screens.auth.common.models.UIState
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
 import com.example.studyglows.screens.auth.common.models.VerifyOTPRequest
-import com.example.studyglows.utils.Constants.BASE_API_URL
 import com.example.studyglows.utils.Constants.COUNTRY_CODE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginNetworkAPI: LoginApis) : ViewModel() {
+class AuthViewModel @Inject constructor(private val loginNetworkAPI: LoginApis) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UIState())
     val uiState = _uiState.asStateFlow()

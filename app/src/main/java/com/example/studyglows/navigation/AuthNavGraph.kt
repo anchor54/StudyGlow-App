@@ -6,15 +6,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.studyglows.screens.auth.login.LoginScreen
 import com.example.studyglows.screens.auth.otp.OTPScreen
-import com.example.studyglows.screens.viewmodels.LoginViewModel
+import com.example.studyglows.screens.welcome.WelcomeScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController
 ) {
     navigation(
-        startDestination = Screen.Login.route,
+        startDestination = Screen.Welcome.route,
         route = Route.AUTHENTICATION_ROUTE.name
     ) {
+        composable(route = Screen.Welcome.route) {
+            WelcomeScreen(navHostController = navHostController)
+        }
         composable(route = Screen.Login.route) {
             LoginScreen(
                 navHostController = navHostController,

@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.studyglows"
-        minSdk 24
+        minSdk 22
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -92,6 +92,15 @@ dependencies {
 
     // compose navigation
     implementation "androidx.navigation:navigation-compose:2.6.0"
+
+    // Landscapist
+    implementation "com.github.skydoves:landscapist-glide:2.2.2"
+    implementation "com.github.skydoves:landscapist-transformation:2.2.2"
+
+    // Exo Player Library
+    implementation "androidx.media3:media3-exoplayer:1.1.0"
+    implementation "androidx.media3:media3-exoplayer-dash:1.1.0"
+    implementation "androidx.media3:media3-ui:1.1.0"
 }
 
 // Allow references to generated code

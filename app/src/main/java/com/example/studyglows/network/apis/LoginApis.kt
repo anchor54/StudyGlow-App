@@ -1,4 +1,4 @@
-package com.example.studyglows.network
+package com.example.studyglows.network.apis
 
 import com.example.studyglows.screens.auth.common.constants.NetworkConstants.RESEND_OTP
 import com.example.studyglows.screens.auth.common.constants.NetworkConstants.SEND_OTP

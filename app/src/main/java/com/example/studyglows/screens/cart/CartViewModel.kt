@@ -2,14 +2,17 @@ package com.example.studyglows.screens.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.studyglows.network.CartApis
+import com.example.studyglows.network.apis.CartApis
 import com.example.studyglows.screens.cart.models.CartItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CartViewModel: ViewModel() {
+@HiltViewModel
+class CartViewModel @Inject constructor(): ViewModel() {
     private val cartRepository = CartApis()
 
     private val _cartItems = MutableStateFlow(listOf<CartItem>())

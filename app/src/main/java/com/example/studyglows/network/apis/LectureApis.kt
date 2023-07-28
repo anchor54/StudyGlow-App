@@ -1,11 +1,12 @@
-package com.example.studyglows.network
+package com.example.studyglows.network.apis
 
 import com.example.studyglows.screens.home.common.models.PlaylistModel
 import com.example.studyglows.screens.home.common.models.ResourceModel
 import com.example.studyglows.screens.home.common.models.VideoModel
 import retrofit2.Response
+import javax.inject.Inject
 
-class LectureApis {
+class LectureApis @Inject constructor() {
     suspend fun getPlaylistsForCourse(courseId: String): Response<List<PlaylistModel>> =
         Response.success(
             listOf(

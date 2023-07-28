@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.courseprofile
+package com.example.studyglows.screens.home.common.models
 
 import com.google.gson.annotations.SerializedName
 

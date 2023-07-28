@@ -1,6 +1,6 @@
 package com.example.studyglows.di
 
-import com.example.studyglows.network.LoginApis
+import com.example.studyglows.network.apis.LoginApis
 import com.example.studyglows.utils.Constants.BASE_API_URL
 import dagger.Module
 import dagger.Provides

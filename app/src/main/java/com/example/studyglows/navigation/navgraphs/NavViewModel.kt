@@ -1,4 +1,4 @@
-package com.example.studyglows.navigation
+package com.example.studyglows.navigation.navgraphs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,7 +13,7 @@ inline fun <reified T: ViewModel> NavBackStackEntry.getViewModel(
     navHostController: NavHostController
 ): T {
     val navGraphRoute = destination.parent?.route ?: return viewModel()
-    val parentEntry = remember(this) {
+    val parentEntry: NavBackStackEntry = remember(this) {
         navHostController.getBackStackEntry(navGraphRoute)
     }
     return hiltViewModel(parentEntry)

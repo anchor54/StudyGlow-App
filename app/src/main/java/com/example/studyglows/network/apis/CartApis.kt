@@ -1,4 +1,4 @@
-package com.example.studyglows.network
+package com.example.studyglows.network.apis
 
 import com.example.studyglows.screens.cart.models.CartItem
 import retrofit2.Response

@@ -32,7 +32,7 @@ import com.example.studyglows.R
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.auth.common.components.LoginButton
 import com.example.studyglows.screens.auth.common.components.LoginField
-import com.example.studyglows.screens.auth.common.models.UIEvent
+import com.example.studyglows.screens.auth.common.models.AuthUIEvent
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
 import com.example.studyglows.screens.auth.AuthViewModel
 
@@ -40,7 +40,8 @@ import com.example.studyglows.screens.auth.AuthViewModel
 @Composable
 fun LoginScreen(
     navHostController: NavHostController,
-    viewModel: AuthViewModel
+    viewModel: AuthViewModel,
+    modifier: Modifier = Modifier
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -70,7 +71,7 @@ fun LoginScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) { padding ->
         val loginState = viewModel.uiState.collectAsState().value
 
@@ -112,7 +113,7 @@ fun LoginScreen(
                         pretext = "+91",
                         label = "YOUR PHONE",
                         keyboardType = KeyboardType.Number,
-                        onTextChanged = { viewModel.onEvent(UIEvent.PhoneNumberChanged(it)) },
+                        onTextChanged = { viewModel.onEvent(AuthUIEvent.PhoneNumberChanged(it)) },
                         modifier = Modifier.fillMaxWidth(1f)
                     )
                     Spacer(
@@ -124,7 +125,7 @@ fun LoginScreen(
                         buttonText = "SEND OTP",
                         backgroundColor = Color(0xFFE6F1F8),
                         onClick = {
-                            viewModel.onEvent(UIEvent.OTPSend())
+                            viewModel.onEvent(AuthUIEvent.OTPSend())
                         },
                         modifier = Modifier.fillMaxWidth(1f)
                     )

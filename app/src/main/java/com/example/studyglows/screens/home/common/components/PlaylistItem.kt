@@ -50,8 +50,10 @@ fun PlaylistItem(
         }
     }
 
-    Box(modifier = modifier.padding(16.dp, 0.dp)) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+    Box(modifier = modifier) {
+        Column(modifier = Modifier
+            .padding(16.dp, 0.dp)
+            .fillMaxWidth()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,10 +116,15 @@ fun PlaylistItem(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxWidth()
-                    .height(70.dp)
-                    .background(color = Color(0X00000000))
+                    .height(80.dp)
+                    .background(color = Color(0x668798AD))
             ) {
-
+                Image(
+                    modifier = Modifier.align(Alignment.Center),
+                    imageVector = ImageVector
+                        .vectorResource(id = R.drawable.lock),
+                    contentDescription = "Locked Content"
+                )
             }
         }
     }

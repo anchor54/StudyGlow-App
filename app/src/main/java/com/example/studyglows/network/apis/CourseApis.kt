@@ -1,16 +1,16 @@
-package com.example.studyglows.network
+package com.example.studyglows.network.apis
 
-import com.example.studyglows.screens.courseprofile.CourseProfileModel
-import com.example.studyglows.screens.courseprofile.Educators
-import com.example.studyglows.screens.courseprofile.FAQ
+import com.example.studyglows.screens.home.common.models.CourseProfileModel
+import com.example.studyglows.screens.home.common.models.Educators
+import com.example.studyglows.screens.home.common.models.FAQ
 import com.example.studyglows.screens.home.common.models.Course
 import com.example.studyglows.screens.home.common.models.OngoingCourse
 import com.example.studyglows.screens.home.common.models.SubjectwiseCourse
 import com.example.studyglows.screens.home.common.models.PopularSubjects
-import kotlinx.coroutines.delay
 import retrofit2.Response
+import javax.inject.Inject
 
-class CourseApis {
+class CourseApis @Inject constructor() {
     suspend fun getMostPopularCourses(): Response<List<Course>> =
         Response.success(
             listOf(
@@ -345,5 +345,10 @@ class CourseApis {
                     tag = "Most Popular"
                 )
             )
+        )
+
+    suspend fun addCourseToCart(courseId: String): Response<Course> =
+        Response.success(
+            Course()
         )
 }

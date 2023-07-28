@@ -2,9 +2,9 @@ package com.example.studyglows.screens.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.studyglows.network.LoginApis
+import com.example.studyglows.network.apis.LoginApis
 import com.example.studyglows.screens.auth.common.models.OTPRequest
-import com.example.studyglows.screens.auth.common.models.UIEvent
+import com.example.studyglows.screens.auth.common.models.AuthUIEvent
 import com.example.studyglows.screens.auth.common.models.UIState
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
 import com.example.studyglows.screens.auth.common.models.VerifyOTPRequest
@@ -25,29 +25,30 @@ class AuthViewModel @Inject constructor(private val loginNetworkAPI: LoginApis) 
     private val _validation = MutableStateFlow<ValidationEvent>(ValidationEvent.NoEvent())
     val validation = _validation.asStateFlow()
 
-    fun onEvent(event: UIEvent) {
+    fun onEvent(event: AuthUIEvent) {
         when (event) {
-            is UIEvent.PhoneNumberChanged -> {
+            is AuthUIEvent.PhoneNumberChanged -> {
                 _uiState.value = _uiState.value.copy(
                     phoneNumber = event.phoneNumber,
                     isPhoneNumberValid = validatePhoneNumber(event.phoneNumber)
                 )
             }
-            is UIEvent.OTPChanged -> {
+            is AuthUIEvent.OTPChanged -> {
                 _uiState.value = _uiState.value.copy(
                     otp = event.otp,
                     isOTPValid = validateOTP(event.otp)
                 )
             }
-            is UIEvent.OTPSend -> {
+            is AuthUIEvent.OTPSend -> {
                 getOTP(false)
             }
-            is UIEvent.OTPResend -> {
+            is AuthUIEvent.OTPResend -> {
                 getOTP(true)
             }
-            is UIEvent.OTPSubmit -> {
+            is AuthUIEvent.OTPSubmit -> {
                 verifyOTP()
             }
+            else -> {}
         }
     }
 

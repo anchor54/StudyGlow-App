@@ -26,26 +26,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.studyglows.R
+import com.example.studyglows.navigation.Screen
+import com.example.studyglows.screens.auth.common.models.HomeUIEvent
 import com.example.studyglows.screens.home.HomeViewModel
 import com.example.studyglows.screens.home.common.components.CourseCard
 import com.example.studyglows.screens.home.common.models.Course
 import com.example.studyglows.shared.components.VerticalGrid
 import com.example.studyglows.utils.Utils
 
-@Preview(showBackground = true)
 @Composable
 fun ExploreCoursesScreen(
+    navHostController: NavHostController,
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier
 ) {
-    val viewModel = viewModel<HomeViewModel>()
     val mostPopularSubjects by viewModel.popularCoursesBySubjects.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getTopCoursesOfPopularSubjects()
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
@@ -61,7 +64,9 @@ fun ExploreCoursesScreen(
                 TopCourses(
                     subjectName = subject.subjectName ?: "",
                     courses = subject.courses ?: listOf()
-                )
+                ) {
+                    viewModel.triggerEvent(HomeUIEvent.NavigateCourseDetails(it))
+                }
                 if (i < mostPopularSubjects.popularSubjectList.size - 1) {
                     Spacer(modifier = Modifier.height(40.dp))
                 }
@@ -73,7 +78,8 @@ fun ExploreCoursesScreen(
 @Composable
 fun TopCourses(
     subjectName: String,
-    courses: List<Course>
+    courses: List<Course>,
+    onCourseClicked: (String) -> Unit = {}
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -109,14 +115,9 @@ fun TopCourses(
             columnSpacing = 13.dp
         ) { course ->
             CourseCard(
-                imageUrl = course.imageUrl ?: "",
-                courseName = course.title ?: "",
-                originalPrice = Utils.amountWithRupeeSymbol(course.originalPrice ?: 0f),
-                discountedPrice = Utils.amountWithRupeeSymbol(course.discountedPrice ?: 0f),
-                purchased = course.isBought ?: false,
-                tagText = course.tag ?: "",
+                courseDetails = course,
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) { onCourseClicked(it) }
         }
     }
 }

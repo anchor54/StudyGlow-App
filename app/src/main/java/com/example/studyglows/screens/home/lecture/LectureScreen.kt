@@ -1,6 +1,5 @@
 package com.example.studyglows.screens.home.lecture
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,24 +13,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.studyglows.screens.home.HomeViewModel
 import com.example.studyglows.screens.home.common.components.PlaylistItem
 import com.example.studyglows.screens.home.common.components.VideoPlayer
 
-@Preview
 @Composable
 fun LectureScreen(
+    navHostController: NavHostController,
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
-    courseId: String = ""
 ) {
     var currVideoIndex by remember { mutableStateOf(0) }
     var currPlaylistIndex by remember { mutableStateOf(0) }
-    val viewModel = viewModel<LectureViewModel>()
     val playlists by viewModel.playlist.collectAsState()
+    val courseId = navHostController.currentBackStackEntry?.arguments?.getString("courseId") ?: ""
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = courseId) {
         viewModel.getPlaylist(courseId)
     }
 

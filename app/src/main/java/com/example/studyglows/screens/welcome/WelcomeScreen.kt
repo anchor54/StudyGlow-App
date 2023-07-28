@@ -15,16 +15,17 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
+import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.auth.common.components.LoginButton
 
 @Composable
 fun WelcomeScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
             .background(color = Color(0xFFE6F1F8))
     ) {
         val (
@@ -68,7 +69,7 @@ fun WelcomeScreen(
             buttonText = "LOG IN",
             backgroundColor = Color(0xFFE6F1F8),
             onClick = {
-                navHostController.navigate(Screen.Login.route)
+                navHostController.navigate(Route.AUTHENTICATION_ROUTE.name)
             },
             modifier = Modifier
                 .constrainAs(loginBtn) {

@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.home
+package com.example.studyglows.screens.home.allcourses
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,18 +18,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.studyglows.navigation.Screen
+import com.example.studyglows.screens.auth.common.models.HomeUIEvent
+import com.example.studyglows.screens.home.HomeViewModel
 import com.example.studyglows.screens.home.common.components.CourseCard
 import com.example.studyglows.shared.components.VerticalGrid
 import com.example.studyglows.utils.Utils
 
-@Preview(showBackground = false)
 @Composable
-fun AllCoursesScreen() {
-    val viewModel = viewModel<HomeViewModel>()
+fun AllCoursesScreen(
+    navHostController: NavHostController,
+    viewModel: HomeViewModel,
+    modifier: Modifier = Modifier
+) {
     val courses by viewModel.subjectSpecificCourses.collectAsState()
+    val subjectId = navHostController.currentBackStackEntry?.arguments?.getString("subjectId")
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getAllCoursesForSubject("UPSC")
+        viewModel.getAllCoursesForSubject(subjectId ?: "UPSC")
     }
 
     Column(
@@ -52,15 +60,10 @@ fun AllCoursesScreen() {
             items = courses.courses ?: listOf(),
             rowSpacing = 16.dp,
             columnSpacing = 16.dp
-        ) {
-            CourseCard(
-                imageUrl = it.imageUrl ?: "",
-                courseName = it.title ?: "",
-                originalPrice = Utils.amountWithRupeeSymbol(it.originalPrice ?: 0f),
-                discountedPrice = Utils.amountWithRupeeSymbol(it.discountedPrice ?: 0f),
-                purchased = it.isBought ?: false,
-                tagText = it.tag ?: ""
-            )
+        ) { course ->
+            CourseCard(course) {
+                viewModel.triggerEvent(HomeUIEvent.NavigateCourseDetails(it))
+            }
         }
     }
 }

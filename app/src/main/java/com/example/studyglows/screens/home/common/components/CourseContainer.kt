@@ -1,6 +1,7 @@
 package com.example.studyglows.screens.home.common.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +25,11 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun CourseContainer(
     modifier: Modifier = Modifier,
-    imageUrl: String,
-    title: AnnotatedString,
-    subtitle: AnnotatedString,
+    imageId: String = "",
+    imageUrl: String = "",
+    title: AnnotatedString = AnnotatedString(""),
+    subtitle: AnnotatedString = AnnotatedString(""),
+    onClicked: (String) -> Unit = {},
     footer: @Composable () -> Unit
 ) {
     Card(
@@ -35,7 +38,7 @@ fun CourseContainer(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        modifier = modifier
+        modifier = modifier.clickable { onClicked(imageId) }
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Card(

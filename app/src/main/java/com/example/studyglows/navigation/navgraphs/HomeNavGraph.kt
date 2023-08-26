@@ -11,23 +11,31 @@ import androidx.navigation.navigation
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.home.HomeScreen
-import com.example.studyglows.screens.home.HomeViewModel
-import com.example.studyglows.screens.home.allcourses.AllCoursesScreen
 import com.example.studyglows.screens.home.courseprofile.CourseDetailsScreen
 import com.example.studyglows.screens.home.lecture.LectureScreen
+import com.example.studyglows.shared.viewmodels.SharedViewModel
 
-fun NavGraphBuilder.dashboardNavGraph(
+fun NavGraphBuilder.homeNavGraph(
     navHostController: NavHostController,
-    viewModel: HomeViewModel? = null
+    appVM: SharedViewModel
 ) {
     navigation(
-        startDestination = Screen.Home.route,
-        route = Route.DASHBOARD_ROUTE.name
+        startDestination = "${Screen.Home.route}/{screenId}",
+        route = Route.HOME_ROUTE.name
     ) {
-        composable(route = Screen.Home.route) {
+        composable(
+            route = Screen.Home.route + "/{screenId}",
+            arguments = listOf(
+                navArgument(name = "screenId") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) {
             HomeScreen(
                 navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController = navHostController),
+                viewModel = it.getViewModel(navHostController = navHostController),
+                sharedViewModel = appVM,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -41,21 +49,7 @@ fun NavGraphBuilder.dashboardNavGraph(
         ) {
             LectureScreen(
                 navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController),
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        composable(
-            route = Screen.AllCourses.route + "?subjectId={subjectId}",
-            arguments = listOf(
-                navArgument(name = "subjectId") {
-                    type = NavType.StringType
-                }
-            )
-        ) {
-            AllCoursesScreen(
-                navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController),
+                viewModel = it.getViewModel(navHostController),
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -69,7 +63,7 @@ fun NavGraphBuilder.dashboardNavGraph(
         ) {
             CourseDetailsScreen(
                 navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController),
+                viewModel = it.getViewModel(navHostController),
                 modifier = Modifier.fillMaxSize()
             )
         }

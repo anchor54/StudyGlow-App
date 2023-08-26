@@ -1,48 +1,78 @@
 package com.example.studyglows.screens.home
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.studyglows.R
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.navigation.navgraphs.coursesNavGraph
+import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.auth.common.models.HomeUIEvent
+import com.example.studyglows.shared.components.FilterBottomSheet
+import com.example.studyglows.screens.home.common.components.homeNavDrawerContent
+import com.example.studyglows.shared.components.HomeAppBar
+import com.example.studyglows.shared.components.HomeScreenContent
+import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
+import com.example.studyglows.shared.viewmodels.SharedViewModel
+import com.example.studyglows.utils.Utils.toShortenedString
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navHostController: NavHostController,
     viewModel: HomeViewModel,
+    sharedViewModel: SharedViewModel,
     modifier: Modifier = Modifier
 ) {
-    Log.d("HomeScreen", viewModel.toString())
+    val filters by viewModel.filters.collectAsState()
+    val filtersToApply by viewModel.selectedFilters.collectAsState()
+    var showSheet by remember { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    val coroutineScope = rememberCoroutineScope()
+    val coursesNavController = rememberNavController()
+
+    val screenId = navHostController.currentBackStackEntry?.arguments?.getString("screenId")
+
+    LaunchedEffect(key1 = screenId) {
+        when (screenId) {
+            Screen.Explore.route -> coursesNavController.navigate(screenId)
+            Screen.SavedCourses.route -> coursesNavController.navigate(screenId)
+            else -> coursesNavController.navigate(Route.DASHBOARD_ROUTE.name)
+        }
+    }
 
     LaunchedEffect(key1 = Unit) {
+        viewModel.getAllCategoryFilters()
+        sharedViewModel.setDrawerMidOptions(
+            options = homeNavDrawerContent(),
+            handler = object : BaseDrawerNavigation(navHostController) {
+                override fun handleDrawerNavigation(itemId: String) {
+                    when (itemId) {
+                        "my_courses" -> {}
+                        "explore_courses" -> {}
+                        "live_classes" -> {}
+                        "saved_courses" -> {}
+                        else -> super.handleDrawerNavigation(itemId)
+                    }
+                }
+            }
+        )
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is HomeUIEvent.NavigateCourseDetails -> {
@@ -52,60 +82,58 @@ fun HomeScreen(
                                 "?courseId=$courseId"
                     )
                 }
+                is HomeUIEvent.ShowFilters -> {
+                    showSheet = true
+                }
                 else -> {}
             }
         }
     }
 
+
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            sheetState = bottomSheetState,
+            dragHandle = null
+        ) {
+            FilterBottomSheet(
+                filters = filters,
+                selectedFilters = filtersToApply,
+                onCancelled = { coroutineScope.launch { showSheet = false } },
+                onAddFilter = { category, filter ->
+                    viewModel.addFilter(category, filter)
+                },
+                onRemoveFilter = { category, filter ->
+                    viewModel.removeFilter(category, filter)
+                },
+                onClearFilter = { category ->
+                    viewModel.clearFilterCategory(category)
+                },
+                onFilterApplied = {
+                    viewModel.applyFilters()
+                    coroutineScope.launch { showSheet = false }
+                    coursesNavController.navigate(
+                        Screen.FilterCourses.route +
+                                "?title=${filtersToApply.flatMap { it.filterFields }.toShortenedString { it }}"
+                    )
+                }
+            )
+        }
+    }
     Column(modifier = modifier.background(Color(0xFFE6F1F8))) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Image(
-                imageVector = ImageVector.vectorResource(id = R.drawable.study_glow_small_icon),
-                contentDescription = "Study Glow Icon"
-            )
-            Text(
-                text = "STUDY GLOWS",
-                style = TextStyle(
-                    fontSize = 22.sp,
-                    color = Color(0xFF01304E),
-                    fontWeight = FontWeight(900),
-                    letterSpacing = 2.2.sp,
-                )
-            )
-            Image(
-                imageVector = ImageVector.vectorResource(id = R.drawable.search),
-                contentDescription = "Study Glow Icon"
-            )
-        }
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            shape = RoundedCornerShape(
-                topStart = 33.dp,
-                topEnd = 33.dp
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            )
-        ) {
-            val coursesNavController = rememberNavController()
-            NavHost(
-                navController = coursesNavController,
-                startDestination = Route.COURSE_ROUTE.name,
-                route = Route.HOME_ROUTE.name
-            ) {
-                coursesNavGraph(
-                    navHostController = coursesNavController,
-                    modifier = Modifier.padding(16.dp),
-                    viewModel = viewModel
-                )
-            }
-        }
+        HomeAppBar(
+            onNavIconClicked = {
+                coroutineScope.launch {
+                    sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer())
+                }
+           },
+            onSearchClicked = {}
+        )
+        HomeScreenContent(
+            viewModel = viewModel,
+            navHostController = coursesNavController,
+            modifier = Modifier.weight(1f)
+        )
     }
 }

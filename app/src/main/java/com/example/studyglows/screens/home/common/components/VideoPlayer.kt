@@ -35,6 +35,11 @@ fun VideoPlayer(
         videoPlayer.seekTo(currentlyPlaying, C.TIME_UNSET)
     }
 
+    LaunchedEffect(key1 = videos) {
+        videoPlayer.setMediaItems(videos.getMediaItems())
+        videoPlayer.seekTo(currentlyPlaying, C.TIME_UNSET)
+    }
+
     DisposableEffect(
         AndroidView(
             modifier = modifier,
@@ -65,7 +70,7 @@ fun PreviewVideoPlayer() {
             VideoModel(
                 title = "History Lesson 1",
                 videoLength = 324,
-                videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
             )
         )
     )

@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.home.common.components
+package com.example.studyglows.screens.cart.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

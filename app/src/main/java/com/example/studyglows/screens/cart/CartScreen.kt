@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -14,7 +15,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,15 +32,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
-import com.example.studyglows.screens.cart.models.CartItem
-import com.example.studyglows.screens.home.common.components.CartItem
-import com.example.studyglows.screens.home.common.components.CartPriceCard
+import com.example.studyglows.screens.cart.models.CartItemModel
+import com.example.studyglows.screens.cart.component.CartPriceCard
+import com.example.studyglows.shared.components.CartItem
 
 @Composable
 fun CartScreen(
@@ -58,6 +56,7 @@ fun CartScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color(0xFFE6F1F8),
         bottomBar = {
             Button(
                 modifier = Modifier
@@ -85,53 +84,52 @@ fun CartScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            val originalTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.originalPrice }
+            val discountedTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.discountedPrice }
+            val totalDiscount = originalTotalPrice - discountedTotalPrice
+
+            CollapsableList(
+                title = "CART",
+                items = cartItems,
             ) {
-                val originalTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.originalPrice }
-                val discountedTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.discountedPrice }
-                val totalDiscount = originalTotalPrice - discountedTotalPrice
-
-                CollapsableList(
-                    title = "CART",
-                    items = cartItems,
-                ) {
-                    RowItem(
-                        item = it,
-                        rowIcon = R.drawable.remove,
-                        onRowIconClicked = { viewModel.removeCartItem(it) }
-                    )
-                }
-
-                CartPriceCard(
-                    discountedTotal = discountedTotalPrice,
-                    originalTotal = originalTotalPrice,
-                    discount = totalDiscount,
-                    modifier = Modifier.padding(17.dp, 22.dp, 17.dp, 8.dp)
+                RowItem(
+                    item = it,
+                    rowIcon = R.drawable.remove,
+                    onRowIconClicked = { viewModel.removeCartItem(it) }
                 )
+            }
 
-                Divider(
-                    color = Color(0xFFB1D4EA),
-                    thickness = 1.dp,
-                    modifier = Modifier.fillMaxWidth(0.8f)
+            CartPriceCard(
+                discountedTotal = discountedTotalPrice,
+                originalTotal = originalTotalPrice,
+                discount = totalDiscount,
+                modifier = Modifier.padding(17.dp, 12.dp, 17.dp, 8.dp)
+            )
+
+            Divider(
+                color = Color(0xFFB1D4EA),
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth(0.8f)
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            CollapsableList(
+                title= "SAVED",
+                items = savedItems,
+            ) {
+                RowItem(
+                    item = it,
+                    rowIcon = R.drawable.add,
+                    onRowIconClicked = {
+                        viewModel.addCartItem(it)
+                        viewModel.removeSavedItem(it)
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 )
-
-                CollapsableList(
-                    title= "SAVED",
-                    items = savedItems,
-                ) {
-                    RowItem(
-                        item = it,
-                        rowIcon = R.drawable.add,
-                        onRowIconClicked = {
-                            viewModel.addCartItem(it)
-                            viewModel.removeSavedItem(it)
-                        }
-                    )
-                }
             }
         }
     }
@@ -187,24 +185,25 @@ fun<T> CollapsableList(
 
 @Composable
 fun RowItem(
-    item: CartItem,
+    modifier: Modifier = Modifier,
+    item: CartItemModel,
     rowIcon: Int,
     onRowIconClicked: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Spacer(modifier = Modifier.width(4.dp))
         Image(
             imageVector = ImageVector.vectorResource(id = rowIcon),
             contentDescription = "Remove item from cart",
             modifier = Modifier.clickable{ onRowIconClicked() }
         )
+        Spacer(modifier = Modifier.width(4.dp))
         CartItem(
-            imageUrl = item.imageUrl,
-            title = item.courseName,
-            originalPrice = item.originalPrice,
-            discountedPrice = item.discountedPrice
+            cartItem = item
         )
+        Spacer(modifier = Modifier.width(20.dp))
     }
 }

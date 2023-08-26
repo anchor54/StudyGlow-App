@@ -168,4 +168,23 @@ object UIUtils {
             }
         }
     )
+
+    fun Modifier.endBorder(strokeWidth: Dp, color: Color) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawBehind {
+                val width = size.width
+                val height = size.height - strokeWidthPx/2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = width, y = 0f),
+                    end = Offset(x = width , y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
 }

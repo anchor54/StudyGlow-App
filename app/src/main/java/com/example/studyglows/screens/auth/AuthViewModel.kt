@@ -1,7 +1,11 @@
 package com.example.studyglows.screens.auth
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.studyglows.network.apis.LoginApis
 import com.example.studyglows.screens.auth.common.models.OTPRequest
 import com.example.studyglows.screens.auth.common.models.AuthUIEvent
@@ -17,7 +21,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(private val loginNetworkAPI: LoginApis) : ViewModel() {
+class AuthViewModel @Inject constructor(
+    private val loginNetworkAPI: LoginApis,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UIState())
     val uiState = _uiState.asStateFlow()
@@ -72,14 +79,15 @@ class AuthViewModel @Inject constructor(private val loginNetworkAPI: LoginApis) 
             viewModelScope.launch(Dispatchers.IO) {
                 val res = loginNetworkAPI.verifyOTP(requestBody)
                 if (res.isSuccessful) {
-                    if (res.body()?.access != null) {
+                    res.body()?.access?.let { accessToken ->
+                        _validation.emit(ValidationEvent.OTPVerifySuccess())
+                    } ?: run {
                         _validation.emit(
                             ValidationEvent.OTPVerifyError(
                                 res.body()?.message ?: "Something went wrong!"
                             )
                         )
                     }
-                    _validation.emit(ValidationEvent.OTPVerifySuccess())
                 } else {
                     _validation.emit(ValidationEvent.OTPVerifyError("Something went wrong!"))
                 }

@@ -13,7 +13,6 @@ import com.example.studyglows.screens.cart.CartViewModel
 
 fun NavGraphBuilder.cartNavGraph(
     navHostController: NavHostController,
-    viewModel: CartViewModel? = null
 ) {
     navigation(
         startDestination = Screen.Cart.route,
@@ -22,7 +21,7 @@ fun NavGraphBuilder.cartNavGraph(
         composable(route = Screen.Cart.route) {
             CartScreen(
                 navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController = navHostController),
+                viewModel = it.getViewModel(navHostController = navHostController),
                 modifier = Modifier.fillMaxSize()
             )
         }

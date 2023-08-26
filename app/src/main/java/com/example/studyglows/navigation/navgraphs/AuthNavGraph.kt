@@ -12,10 +12,10 @@ import com.example.studyglows.screens.auth.AuthViewModel
 import com.example.studyglows.screens.auth.login.LoginScreen
 import com.example.studyglows.screens.auth.otp.OTPScreen
 import com.example.studyglows.screens.welcome.WelcomeScreen
+import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
-    viewModel: AuthViewModel? = null,
 ) {
     navigation(
         startDestination = Screen.Login.route,
@@ -24,14 +24,14 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = Screen.Login.route) {
             LoginScreen(
                 navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController),
+                viewModel = it.getViewModel(navHostController),
                 modifier = Modifier.fillMaxSize()
             )
         }
         composable(route = Screen.Otp.route) {
             OTPScreen(
                 navHostController = navHostController,
-                viewModel = viewModel ?: it.getViewModel(navHostController),
+                viewModel = it.getViewModel(navHostController),
                 modifier = Modifier.fillMaxSize()
             )
         }

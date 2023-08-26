@@ -68,7 +68,7 @@ fun OTPScreen(
                 }
                 is ValidationEvent.OTPVerifySuccess -> {
                     // Navigate to dashboard
-                    navHostController.navigate(Route.DASHBOARD_ROUTE.name)
+                    navHostController.navigate(Route.HOME_ROUTE.name)
                 }
                 is ValidationEvent.OTPVerifyError -> {
                     showSnackbar(event.message)

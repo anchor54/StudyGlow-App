@@ -16,97 +16,97 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         )
                     )
@@ -117,97 +117,97 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                             isViewable = true,
                         )
                     )
@@ -218,82 +218,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),
@@ -303,82 +303,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),
@@ -388,82 +388,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),
@@ -473,82 +473,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),
@@ -558,82 +558,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),
@@ -643,82 +643,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),
@@ -728,82 +728,82 @@ class LectureApis @Inject constructor() {
                         VideoModel(
                             title = "History Lesson 1",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         ),
                         VideoModel(
                             title = "History Lesson 2",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 3",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 4",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 5",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 6",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 7",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 8",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 9",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 10",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 11",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 12",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 13",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         VideoModel(
                             title = "History Lesson 14",
                             videoLength = 324,
-                            videoLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            videoLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     ),
                     resources = listOf(
                         ResourceModel(
                             title = "History Lesson 13",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         ),
                         ResourceModel(
                             title = "History Lesson 14",
-                            resourceLink = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            resourceLink = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                         )
                     )
                 ),

@@ -33,7 +33,7 @@ fun List<VideoModel>.getMediaItems(): List<MediaItem> =
     map {
         MediaItem
             .Builder()
-            .setUri(Uri.parse(it.videoLink))
+            .setUri(it.videoLink)
             .setTag(it)
             .setMediaMetadata(
                 MediaMetadata

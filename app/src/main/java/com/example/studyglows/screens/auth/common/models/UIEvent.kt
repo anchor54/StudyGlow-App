@@ -6,7 +6,6 @@ sealed class AuthUIEvent {
     class OTPSend(): AuthUIEvent()
     class OTPResend(): AuthUIEvent()
     class OTPSubmit(): AuthUIEvent()
-    class Null(): AuthUIEvent()
 }
 
 sealed class HomeUIEvent {
@@ -14,5 +13,15 @@ sealed class HomeUIEvent {
     class AddToCartFailed: HomeUIEvent()
     class NavigateCourseDetails(val courseId: String): HomeUIEvent()
     class NavigateExploreCourses: HomeUIEvent()
-    class Null: HomeUIEvent()
+    class ShowFilters: HomeUIEvent()
+}
+
+sealed class TestUIEvent {
+    class AddToCartSuccess: HomeUIEvent()
+    class AddToCartFailed: HomeUIEvent()
+}
+
+sealed class AppUIEvent {
+    class ShowDrawer(): AppUIEvent()
+    class HideDrawer(): AppUIEvent()
 }

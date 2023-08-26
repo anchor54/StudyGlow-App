@@ -1,26 +1,28 @@
 package com.example.studyglows.network.apis
 
-import com.example.studyglows.screens.cart.models.CartItem
+import com.example.studyglows.screens.cart.models.CartItemModel
+import com.example.studyglows.screens.home.common.models.Course
 import retrofit2.Response
+import javax.inject.Inject
 
-class CartApis {
-    suspend fun getCartItems(): Response<List<CartItem>> =
+class CartApis @Inject constructor() {
+    suspend fun getCartItems(): Response<List<CartItemModel>> =
         Response.success(
             listOf(
-                CartItem(
-                    courseName = "UPSC IAS Live Foundation",
+                CartItemModel(
+                    title = "UPSC IAS Live Foundation",
                     imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
                     originalPrice = 1000f,
                     discountedPrice = 400f
                 ),
-                CartItem(
-                    courseName = "UPSC IAS Live Foundation",
+                CartItemModel(
+                    title = "UPSC IAS Live Foundation",
                     imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
                     originalPrice = 320f,
                     discountedPrice = 320f
                 ),
-                CartItem(
-                    courseName = "UPSC IAS Live Foundation",
+                CartItemModel(
+                    title = "UPSC IAS Live Foundation",
                     imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
                     originalPrice = 500f,
                     discountedPrice = 400f
@@ -28,27 +30,32 @@ class CartApis {
             )
         )
 
-    suspend fun getSavedItems(): Response<List<CartItem>> =
+    suspend fun getSavedCourses(): Response<List<CartItemModel>> =
         Response.success(
             listOf(
-                CartItem(
-                    courseName = "UPSC IAS Live Foundation",
+                CartItemModel(
+                    title = "UPSC IAS Live Foundation",
                     imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
                     originalPrice = 1000f,
                     discountedPrice = 400f
                 ),
-                CartItem(
-                    courseName = "UPSC IAS Live Foundation",
+                CartItemModel(
+                    title = "UPSC IAS Live Foundation",
                     imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
                     originalPrice = 320f,
                     discountedPrice = 320f
                 ),
-                CartItem(
-                    courseName = "UPSC IAS Live Foundation",
+                CartItemModel(
+                    title = "UPSC IAS Live Foundation",
                     imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
                     originalPrice = 500f,
                     discountedPrice = 400f
                 )
             )
+        )
+
+    suspend fun addCourseToCart(courseId: String): Response<Course> =
+        Response.success(
+            Course()
         )
 }

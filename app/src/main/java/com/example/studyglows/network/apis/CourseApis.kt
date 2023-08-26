@@ -1,5 +1,6 @@
 package com.example.studyglows.network.apis
 
+import com.example.studyglows.shared.model.CategoryFilter
 import com.example.studyglows.screens.home.common.models.CourseProfileModel
 import com.example.studyglows.screens.home.common.models.Educators
 import com.example.studyglows.screens.home.common.models.FAQ
@@ -347,8 +348,105 @@ class CourseApis @Inject constructor() {
             )
         )
 
-    suspend fun addCourseToCart(courseId: String): Response<Course> =
+    suspend fun getAllCourseCategoryFilters(): Response<List<CategoryFilter>> =
         Response.success(
-            Course()
+            listOf(
+                CategoryFilter(
+                    filterCategory = "EXAMS",
+                    filterFields = mutableListOf(
+                        "IBPS RRB",
+                        "IBPS PO",
+                        "SBI PO",
+                        "UPSC CSE",
+                        "IDBI",
+                        "RBI ASSISTANT",
+                        "ICAR",
+                        "SSC-CHSL",
+                        "SSC- CGL",
+                        "IB"
+                    )
+                ),
+                CategoryFilter(
+                    filterCategory = "SUBJECTS",
+                    filterFields = mutableListOf(
+                        "QUANT",
+                        "IBPS PO",
+                        "GA",
+                        "ENGLISH",
+                        "IT",
+                        "SOCIOLOGY",
+                        "HISTORY",
+                        "POL. SCI.",
+                        "ECONOMICS",
+                        "GEOGRAPHY",
+                        "PHILOSOPHY",
+                        "PSYCHOLOGY"
+                    )
+                ),
+                CategoryFilter(
+                    filterCategory = "FACULTY",
+                    filterFields = mutableListOf(
+                        "ADITYA SIR",
+                        "ASHSIH SIR",
+                        "GAURAV SIR",
+                        "HARSHITA MAM",
+                        "IDBI",
+                        "LOKESH SIR",
+                        "MUKESH SIR",
+                        "NIKITA MAM",
+                        "SABA MAM",
+                        "RADHEY SIR",
+                        "SHEETAL MAM",
+                        "VIVEK SIR",
+                        "YOGESH SIR"
+                    )
+                )
+            )
+        )
+
+    suspend fun getFilteredCourses(filters: List<CategoryFilter>): Response<List<Course>> =
+        Response.success(
+            listOf(
+                Course(
+                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    title = "PUBLIC SPEAKING",
+                    originalPrice = 1000f,
+                    discountedPrice = 400f,
+                    isBought = false,
+                    tag = "Most Popular"
+                ),
+                Course(
+                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    title = "PUBLIC SPEAKING",
+                    originalPrice = 1000f,
+                    discountedPrice = 400f,
+                    isBought = false,
+                    tag = "Most Popular"
+                ),
+                Course(
+                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    title = "PUBLIC SPEAKING",
+                    originalPrice = 1000f,
+                    discountedPrice = 400f,
+                    isBought = false,
+                    tag = "Most Popular"
+                ),
+                Course(
+                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    title = "PUBLIC SPEAKING",
+                    originalPrice = 1000f,
+                    discountedPrice = 400f,
+                    isBought = false,
+                    tag = "Most Popular"
+                ),
+                Course(
+                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    title = "PUBLIC SPEAKING",
+                    originalPrice = 1000f,
+                    discountedPrice = 400f,
+                    isBought = false,
+                    tag = "Most Popular"
+                )
+            )
         )
 }

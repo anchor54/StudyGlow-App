@@ -11,5 +11,7 @@ enum class Route(name: String) {
     EDITORIAL_ROUTE("editorial"),
     CURRENT_AFFAIRS_ROUTE("current_affairs"),
     TEST_SERIES("test_series"),
+    TEST_SERIES_ROOT("test_root"),
+    TEST_START("test_start"),
     TEST_ROOT("test_root")
 }

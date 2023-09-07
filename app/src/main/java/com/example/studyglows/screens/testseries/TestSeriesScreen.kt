@@ -8,8 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.navigation.navgraphs.testsNavGraph
+import com.example.studyglows.navigation.navgraphs.testSeriesNavGraph
 import com.example.studyglows.screens.auth.common.models.AppUIEvent
+import com.example.studyglows.screens.auth.common.models.TestSeriesUIEvent
 import com.example.studyglows.screens.testseries.model.testNavDrawerContent
 import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
@@ -39,6 +40,12 @@ fun TestSeriesScreen(
                 }
             }
         )
+        viewModel.uiEvent.collect {
+            when(it) {
+                is TestSeriesUIEvent.OpenTestScreen ->
+                    navHostController.navigate(Screen.TestScreen.route + "?testId=${it.testId}")
+            }
+        }
     }
 
     BaseScreenLayout(
@@ -48,11 +55,12 @@ fun TestSeriesScreen(
         NavHost(
             navController = testNavHost,
             startDestination = Route.TEST_SERIES.name,
-            route = Route.TEST_ROOT.name
+            route = Route.TEST_SERIES_ROOT.name
         ) {
-            testsNavGraph(
+            testSeriesNavGraph(
                 navHostController = testNavHost,
-                appVM = sharedViewModel
+                appVM = sharedViewModel,
+                viewModel = viewModel
             )
         }
     }

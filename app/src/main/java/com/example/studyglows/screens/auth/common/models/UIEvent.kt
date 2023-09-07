@@ -25,3 +25,7 @@ sealed class AppUIEvent {
     class ShowDrawer(): AppUIEvent()
     class HideDrawer(): AppUIEvent()
 }
+
+sealed class TestSeriesUIEvent {
+    class OpenTestScreen(val testId: String): TestSeriesUIEvent()
+}

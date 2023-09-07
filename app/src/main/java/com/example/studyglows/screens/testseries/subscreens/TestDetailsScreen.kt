@@ -1,6 +1,7 @@
 package com.example.studyglows.screens.testseries.subscreens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,10 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
-import com.example.studyglows.screens.auth.common.models.AppUIEvent
+import com.example.studyglows.navigation.Route
+import com.example.studyglows.navigation.Screen
+import com.example.studyglows.screens.auth.common.models.TestSeriesUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.TestListItem
-import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.components.DynamicIcon
 import com.example.studyglows.shared.components.TabLayout
 import com.example.studyglows.shared.components.VerticalGrid
@@ -44,10 +46,10 @@ fun TestDetailsScreen(
     sharedViewModel: SharedViewModel,
     viewModel: TestSeriesViewModel
 ) {
-    val testDetails by viewModel.testDetails.collectAsState()
+    val testDetails by viewModel.testSeriesDetails.collectAsState()
     val testId = navHostController.currentBackStackEntry?.arguments?.getString("testId") ?: ""
-    LaunchedEffect(key1 = Unit) {
-        viewModel.getTestDetails(testId)
+    LaunchedEffect(key1 = testId) {
+        viewModel.getTestSeriesDetails(testId)
     }
 
     Column(modifier = modifier.fillMaxWidth()) {
@@ -147,7 +149,14 @@ fun TestDetailsScreen(
                         else -> listOf()
                     }
                     items(listContent.size) {
-                        TestListItem(itemDetails = listContent[it])
+                        TestListItem(
+                            itemDetails = listContent[it],
+                            modifier = Modifier.clickable {
+                                viewModel.sendUIEvent(
+                                    TestSeriesUIEvent.OpenTestScreen(listContent[it].id)
+                                )
+                            }
+                        )
                     }
                 }
             }

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import java.lang.Integer.min
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 object Utils {
     fun amountWithRupeeSymbol(amount: Float = 0f, showPaise: Boolean = true) =
@@ -91,12 +92,18 @@ object Utils {
 
     fun getDate(milliSeconds: Long, dateFormat: String = "dd/MM/yyyy"): String {
         // Create a DateFormatter object for displaying date in specified format.
-        val formatter = SimpleDateFormat(dateFormat)
+        val formatter = SimpleDateFormat(dateFormat, Locale.US)
 
         // Create a calendar object that will convert the date and time value in milliseconds to date.
         val calendar = Calendar.getInstance().apply {
             timeInMillis = milliSeconds
         }
         return formatter.format(calendar.time)
+    }
+
+    fun getTimeInMinsAndSecs(secs: Long): String {
+        val mins = secs / 60
+        val secsRemaining = secs % 60
+        return "${if (mins > 9) mins else "0$mins"}:${if (secsRemaining > 9) secsRemaining else "0$secsRemaining"}"
     }
 }

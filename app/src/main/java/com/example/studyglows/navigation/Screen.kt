@@ -28,4 +28,8 @@ sealed class Screen(val route: String) {
     object TestsAttempted: Screen(route = "attempted_tests_screen")
     object SavedTests: Screen(route = "saved_tests_screen")
     object PopularTests: Screen(route = "popular_tests_screen")
+    object TestScreen: Screen(route = "test_screen")
+    object TestWelcome: Screen(route = "test_welcome_screen")
+    object TestQuestions: Screen(route = "test_questions_screen")
+    object TestResults: Screen(route = "test_results_screen")
 }

@@ -1,13 +1,20 @@
 package com.example.studyglows.network.apis
 
+import com.example.studyglows.screens.testseries.model.CategoryResult
 import com.example.studyglows.screens.testseries.model.ExamCategory
 import com.example.studyglows.screens.testseries.model.FreeMockTestModule
 import com.example.studyglows.screens.testseries.model.PurchasedTestItem
+import com.example.studyglows.screens.testseries.model.QuestionItem
+import com.example.studyglows.screens.testseries.model.QuestionType
 import com.example.studyglows.screens.testseries.model.SavedTestItemModel
 import com.example.studyglows.screens.testseries.model.TestAttemptDetails
 import com.example.studyglows.screens.testseries.model.TestCardItem
 import com.example.studyglows.screens.testseries.model.TestDetailsModule
+import com.example.studyglows.screens.testseries.model.TestSeriesDetailsModule
 import com.example.studyglows.screens.testseries.model.TestItem
+import com.example.studyglows.screens.testseries.model.TestResultModel
+import com.example.studyglows.shared.model.CategorizedList
+import com.example.studyglows.shared.model.CategorizedMap
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -214,9 +221,9 @@ class TestSeriesApis @Inject constructor() {
             )
         )
 
-    suspend fun fetchTestDetails(testId: String): Response<TestDetailsModule> =
+    suspend fun fetchTestSeriesDetails(testId: String): Response<TestSeriesDetailsModule> =
         Response.success(
-            TestDetailsModule(
+            TestSeriesDetailsModule(
                 testId = testId,
                 title = "SBI Clerk Test Series",
                 icon = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/SBI-logo.svg/1000px-SBI-logo.svg.png?20200329171950",
@@ -564,6 +571,183 @@ class TestSeriesApis @Inject constructor() {
                 totalTests = 170,
                 freeTests = 3,
                 price = 3000.0f
+            )
+        )
+
+    suspend fun fetchTestDetails(testId: String): Response<TestDetailsModule> =
+        Response.success(
+            TestDetailsModule(
+                testSeries = "SBI CLERK Test Series",
+                title = "SBI CLERK Prelims- Mock Test 1",
+                testType = "Full Mock Test",
+                duration = 10,
+                questions =
+                    CategorizedList(
+                        categoryMap = mapOf(
+                            Pair(
+                                "English Language",
+                                listOf("30", "68", "56", "7", "67", "2", "75", "79", "92", "32", "25", "30", "53", "87", "75", "34", "30", "1", "53", "40", "47", "71", "99")
+                            ),
+                            Pair(
+                                "General Awareness",
+                                listOf("12", "65", "76", "70", "99", "79", "32", "10", "89", "96", "39", "16", "64", "95", "29", "87", "27", "31", "16", "80", "64", "30", "96", "66", "10", "3", "24", "17", "66", "46", "35", "91")
+                            ),
+                            Pair(
+                                "Logical Reasoning",
+                                listOf("46", "31", "25", "10", "5", "50", "15", "91", "85", "27", "20", "77", "3", "33", "40", "67", "72", "17", "92", "26", "63", "31", "66", "39")
+                            ),
+                            Pair(
+                                "Quantitative Aptitude",
+                                listOf("18", "99", "33", "66", "10", "26", "38", "15", "58", "94", "30", "79", "60", "31", "23", "50", "2", "24", "60", "49", "13", "44", "45", "82", "94", "78")
+                            )
+                        ),
+                    ),
+                totalMarks = 100,
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet quam id dui posuere blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula."
+            )
+        )
+
+    suspend fun fetchQuestionDetails(questionId: String): Response<QuestionItem> {
+        val questionType = QuestionType.values().random()
+        return Response.success(
+            QuestionItem(
+                questionId = questionId,
+                questionText = "Which one of the following statements about Sangam Literature in ancient South India is correct?",
+                type = questionType.type,
+                options = if (questionType == QuestionType.DESCRIPTIVE) null
+                        else listOf(
+                            "Sangam poems are devoid of any reference to material culture.",
+                            "The social classification of Varna was known to Sangam poets.",
+                            "Sangam Poems have no reference to warrior ethic.",
+                            "Sangam literature refers to magical forces as irrational."
+                        )
+            )
+        )
+    }
+
+    suspend fun fetchTestResultDetails(testId: String): Response<TestResultModel> =
+        Response.success(
+            TestResultModel(
+                userRank = 3423,
+                totalRankers = 2356321,
+                score = 231,
+                totalScore = 3452,
+                attempted = 12,
+                totalQuestions = 432,
+                questionStatus = listOf(
+                    CategoryResult(
+                        category = "English Language",
+                        statusMap = listOf(
+                            Pair("20", "unseen"),
+                            Pair("47", "wrong"),
+                            Pair("93", "unattempted"),
+                            Pair("95", "unattempted"),
+                            Pair("7", "unattempted"),
+                            Pair("23", "correct"),
+                            Pair("99", "unseen"),
+                            Pair("3", "unattempted"),
+                            Pair("97", "unattempted"),
+                            Pair("15", "unattempted"),
+                            Pair("78", "unattempted"),
+                            Pair("96", "unattempted"),
+                            Pair("50", "unattempted"),
+                            Pair("43", "correct"),
+                            Pair("90", "unattempted"),
+                            Pair("87", "correct"),
+                            Pair("79", "unattempted"),
+                            Pair("83", "unseen"),
+                            Pair("67", "unseen"),
+                            Pair("46", "correct"),
+                            Pair("81", "correct"),
+                            Pair("9", "unseen"),
+                            Pair("48", "unattempted")
+                        ).toMap()
+                    ),
+                    CategoryResult(
+                        category = "General Awareness",
+                        statusMap = listOf(
+                            Pair("97", "unseen"),
+                            Pair("72", "wrong"),
+                            Pair("43", "wrong"),
+                            Pair("2", "correct"),
+                            Pair("82", "unattempted"),
+                            Pair("53", "unattempted"),
+                            Pair("77", "unattempted"),
+                            Pair("21", "unattempted"),
+                            Pair("15", "correct"),
+                            Pair("59", "correct"),
+                            Pair("74", "wrong"),
+                            Pair("22", "wrong"),
+                            Pair("23", "unattempted"),
+                            Pair("87", "wrong"),
+                            Pair("92", "correct"),
+                            Pair("50", "wrong"),
+                            Pair("66", "correct"),
+                            Pair("70", "unattempted"),
+                            Pair("89", "unattempted"),
+                            Pair("37", "wrong"),
+                            Pair("73", "correct"),
+                            Pair("40", "wrong"),
+                            Pair("54", "correct")
+                        ).toMap()
+                    ),
+                    CategoryResult(
+                        category = "Logical Reasoning",
+                        statusMap = listOf(
+                            Pair("86", "correct"),
+                            Pair("65", "correct"),
+                            Pair("99", "wrong"),
+                            Pair("3", "unseen"),
+                            Pair("91", "unseen"),
+                            Pair("92", "unseen"),
+                            Pair("93", "wrong"),
+                            Pair("95", "unattempted"),
+                            Pair("72", "unattempted"),
+                            Pair("1", "unseen"),
+                            Pair("82", "wrong"),
+                            Pair("79", "unseen"),
+                            Pair("55", "correct"),
+                            Pair("90", "unseen"),
+                            Pair("32", "unseen"),
+                            Pair("33", "wrong"),
+                            Pair("63", "correct"),
+                            Pair("76", "unattempted"),
+                            Pair("13", "unseen"),
+                            Pair("83", "unattempted"),
+                            Pair("7", "unseen"),
+                            Pair("96", "unattempted"),
+                            Pair("9", "unattempted"),
+                            Pair("38", "unattempted"),
+                            Pair("44", "wrong")
+                        ).toMap()
+                    ),
+                    CategoryResult(
+                        category = "Quantitative Aptitude",
+                        statusMap = listOf(
+                            Pair("80", "correct"),
+                            Pair("44", "unattempted"),
+                            Pair("69", "unattempted"),
+                            Pair("30", "correct"),
+                            Pair("13", "unseen"),
+                            Pair("36", "unattempted"),
+                            Pair("90", "correct"),
+                            Pair("78", "unattempted"),
+                            Pair("25", "wrong"),
+                            Pair("43", "wrong"),
+                            Pair("63", "correct"),
+                            Pair("20", "unseen"),
+                            Pair("41", "unattempted"),
+                            Pair("71", "wrong"),
+                            Pair("12", "wrong"),
+                            Pair("65", "wrong"),
+                            Pair("19", "wrong"),
+                            Pair("97", "unseen"),
+                            Pair("51", "unseen"),
+                            Pair("70", "wrong"),
+                            Pair("74", "unseen")
+                        ).toMap()
+                    )
+                )
             )
         )
 }

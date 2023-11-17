@@ -77,7 +77,9 @@ class AuthViewModel @Inject constructor(
                 otp = uiState.value.otp
             )
             viewModelScope.launch(Dispatchers.IO) {
+                _validation.emit(ValidationEvent.Loading(true))
                 val res = loginNetworkAPI.verifyOTP(requestBody)
+                _validation.emit(ValidationEvent.Loading(false))
                 if (res.isSuccessful) {
                     res.body()?.access?.let { accessToken ->
                         _validation.emit(ValidationEvent.OTPVerifySuccess())

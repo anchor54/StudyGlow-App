@@ -23,20 +23,32 @@ class SavedViewModel @Inject constructor(
     private val _savedJobs = MutableStateFlow(listOf<NotificationItem>())
     val savedJobs = _savedJobs.asStateFlow()
 
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
+    private val _error = MutableStateFlow("")
+    val error = _error.asStateFlow()
+
     fun getSavedEditorials() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = savedItemsApis.getSavedEditorials()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _savedEditorials.value = it
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }
 
     fun getSavedJobs() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = savedItemsApis.getSavedJobs()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let { res ->
                     _savedJobs.value = res.map {
@@ -48,6 +60,8 @@ class SavedViewModel @Inject constructor(
                         )
                     }
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }

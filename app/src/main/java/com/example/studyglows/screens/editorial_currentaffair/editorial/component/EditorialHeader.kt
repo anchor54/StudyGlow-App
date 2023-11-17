@@ -22,7 +22,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun TopEditorialItem(
+fun EditorialHeader(
     modifier: Modifier = Modifier,
     item: EditorialItem
 ) {
@@ -35,7 +35,6 @@ fun TopEditorialItem(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(182.dp)
                 .clip(RoundedCornerShape(21.dp))
         )
         Spacer(modifier = Modifier.height(16.dp))

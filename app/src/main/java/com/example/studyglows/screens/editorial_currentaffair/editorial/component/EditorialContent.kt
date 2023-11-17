@@ -1,19 +1,19 @@
 package com.example.studyglows.screens.editorial_currentaffair.editorial.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.navArgument
 import com.example.studyglows.screens.editorial_currentaffair.editorial.model.EditorialItem
 
 @Composable
@@ -23,23 +23,16 @@ fun EditorialContent(
     onHeaderClicked: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Card(
-        shape = RoundedCornerShape(
-            topStart = 33.dp,
-            topEnd = 33.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        modifier = modifier.fillMaxWidth(),
-    ) {
+    Column(modifier = modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
         headerItem?.let {
-            TopEditorialItem(
+            EditorialHeader(
                 item = it,
-                modifier = Modifier.padding(16.dp).clickable { onHeaderClicked() }
+                modifier = Modifier
+                    .clickable { onHeaderClicked() }
+                    .fillMaxWidth()
             )
         }
-        Spacer(modifier = Modifier.height(16.dp).padding(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         content()
     }
 }

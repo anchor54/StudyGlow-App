@@ -1,5 +1,6 @@
 package com.example.studyglows.navigation
 
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.example.studyglows.navigation.navgraphs.authNavGraph
 import com.example.studyglows.navigation.navgraphs.cartNavGraph
 import com.example.studyglows.navigation.navgraphs.currentAffairsNavGraph
@@ -15,12 +17,12 @@ import com.example.studyglows.navigation.navgraphs.editorialNavGraph
 import com.example.studyglows.navigation.navgraphs.getViewModel
 import com.example.studyglows.navigation.navgraphs.homeNavGraph
 import com.example.studyglows.navigation.navgraphs.settingsNavGraph
-import com.example.studyglows.navigation.navgraphs.testSeriesNavGraph
 import com.example.studyglows.screens.editorial_currentaffair.saved.SavedScreen
 import com.example.studyglows.screens.editorial_currentaffair.vacancies.LatestVacancies
 import com.example.studyglows.screens.profile.ProfileScreen
-import com.example.studyglows.screens.testseries.TestSeriesScreen
-import com.example.studyglows.screens.testseries.subscreens.testscreens.TestScreen
+import com.example.studyglows.screens.test.TestFlowContainer
+//import com.example.studyglows.screens.testseries.BaseTestScreen
+import com.example.studyglows.screens.testseries.TestSeriesFlowContainer
 import com.example.studyglows.screens.welcome.WelcomeScreen
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
@@ -31,7 +33,7 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.TestScreen.route + "?testId=234",
+        startDestination = Screen.TestSeriesScreen.route + "?params={screen_params}",
         route = Route.ROOT_ROUTE.name
     ) {
         composable(route = Screen.Welcome.route) {
@@ -64,34 +66,58 @@ fun NavGraph(
                 sharedViewModel = appVM
             )
         }
-        composable(route = Screen.TestSeriesScreen.route) {
-            TestSeriesScreen(
-                viewModel = it.getViewModel(navHostController = navHostController),
-                navHostController = navHostController,
-                modifier = Modifier.fillMaxSize(),
-                sharedViewModel = appVM
-            )
-        }
         composable(
-            route = Screen.TestScreen.route + "?testId={testId}",
+            route = Screen.TestSeriesScreen.route + "?params={screen_params}",
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = DeepLink.TestSeriesScreen
+                    action = Intent.ACTION_VIEW
+                }
+            ),
             arguments = listOf(
-                navArgument(name = "testId") {
+                navArgument(name = "screen_params") {
                     type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
                 }
             )
         ) {
-            TestScreen(
-                navHostController = navHostController,
-                viewModel = it.getViewModel(navHostController),
+            TestSeriesFlowContainer(
+                modifier = Modifier.fillMaxSize(),
                 sharedViewModel = appVM,
-                modifier = Modifier.fillMaxSize()
+                viewModel = it.getViewModel(navHostController = navHostController),
+                navHostController = navHostController
             )
         }
-        authNavGraph(navHostController = navHostController)
+        composable(
+            route = Screen.TestScreen.route + "?params={screen_params}",
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = DeepLink.TestSeriesScreen
+                    action = Intent.ACTION_VIEW
+                }
+            ),
+            arguments = listOf(
+                navArgument(name = "screen_params") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ) {
+            TestFlowContainer(
+                modifier = Modifier.fillMaxSize(),
+                appVm = appVM,
+                viewModel = it.getViewModel(navHostController = navHostController),
+                navHostController = navHostController
+            )
+        }
+        authNavGraph(navHostController = navHostController, appVM = appVM)
         homeNavGraph(navHostController = navHostController, appVM = appVM)
-        cartNavGraph(navHostController = navHostController)
-        settingsNavGraph(navHostController = navHostController)
+        cartNavGraph(navHostController = navHostController, appVM = appVM)
+        settingsNavGraph(navHostController = navHostController, appVM = appVM)
         editorialNavGraph(navHostController = navHostController, appVM = appVM)
         currentAffairsNavGraph(navHostController = navHostController, appVm = appVM)
+//        testNavGraph(navHostController = navHostController, appVm = appVM)
     }
 }

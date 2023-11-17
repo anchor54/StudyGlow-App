@@ -22,10 +22,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.studyglows.screens.auth.common.models.AppUIEvent
+import com.example.studyglows.navigation.Screen
+import com.example.studyglows.screens.auth.common.models.TestSeriesUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.AttemptedTestItem
-import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 import com.example.studyglows.utils.Utils
 
@@ -75,8 +75,8 @@ fun AttemptedTestsScreen(
                     ) {
                         AttemptedTestItem(
                             itemDetails = test,
-                            takeTestClicked = {},
-                            viewResultClicked = {},
+                            takeTestClicked = { viewModel.sendUIEvent(TestSeriesUIEvent.OpenTestScreen(test.testId)) },
+                            viewResultClicked = { navHostController.navigate(Screen.TestResults.route + "/${test.testId}") },
                         )
                     }
                 }

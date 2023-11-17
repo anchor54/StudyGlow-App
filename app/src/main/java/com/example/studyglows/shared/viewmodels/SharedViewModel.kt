@@ -7,11 +7,13 @@ import androidx.navigation.NavHostController
 import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
 import com.example.studyglows.shared.components.drawermenu.MenuItemModel
+import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,7 +22,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SharedViewModel @AssistedInject constructor(
-    @Assisted private val navHostController: NavHostController
+    @Assisted private val navHostController: NavHostController,
+    val gson: Gson
 ): ViewModel() {
 
     @AssistedFactory
@@ -56,19 +59,17 @@ class SharedViewModel @AssistedInject constructor(
     private val _selectedDrawerOption = MutableStateFlow("")
     val selectedDrawerOption = _selectedDrawerOption.asStateFlow()
 
-    private val _error = MutableSharedFlow<String>()
-    val error = _error.asSharedFlow()
-
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
-
 
     fun isLoading(loadingState: Boolean) {
         _isLoading.value = loadingState
     }
     fun showError(error: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _error.emit(error)
+            _uiEvent.emit(AppUIEvent.ShowError(error))
+            delay(3000L)
+            _uiEvent.emit(AppUIEvent.HideError)
         }
     }
 

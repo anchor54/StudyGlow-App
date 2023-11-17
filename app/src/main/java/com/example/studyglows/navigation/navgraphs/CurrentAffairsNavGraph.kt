@@ -38,11 +38,7 @@ fun NavGraphBuilder.currentAffairsNavGraph(
                 }
             )
         ) {
-            CurrentAffairDetails(
-                viewModel = it.getViewModel(navHostController = navHostController),
-                modifier = Modifier.fillMaxSize(),
-                navHostController = navHostController
-            )
+
         }
     }
 }

@@ -19,6 +19,28 @@ class CategorizedList<T>(
         return CategorizedList(newCategoryMap)
     }
 
+    fun removeItem(
+        category: String,
+        item: T
+    ): CategorizedList<T> {
+        val newCategoryMap = categoryMap.toMutableMap()
+        val items = newCategoryMap[category]?.filter { it != item } ?: listOf()
+        newCategoryMap[category] = items
+        return CategorizedList(newCategoryMap)
+    }
+
+    fun clearList(category: String): CategorizedList<T> {
+        val newCategoryMap = categoryMap.toMutableMap()
+        newCategoryMap[category] = listOf()
+        return CategorizedList(newCategoryMap)
+    }
+
+    fun clearAll(): CategorizedList<T> =
+        CategorizedList(getAllCategories().associateWith { listOf() })
+
+    fun getAllItems(): List<T> =
+        categoryMap.flatMap { it.value }
+
     fun size() = categoryMap.size
     fun categorySize(category: String) = categoryMap[category]?.size ?: 0
     fun getAllCategories() = categoryMap.map { it.key }

@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,15 +36,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyglows.R
+import com.example.studyglows.navigation.DeepLink
 import com.example.studyglows.screens.testseries.model.QuestionResultStatus
 import com.example.studyglows.shared.components.VerticalGrid
+import com.example.studyglows.shared.components.onShareClicked
 import com.example.studyglows.shared.model.CategorizedMap
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TestResultQuestionMap(
+    testId: String,
     questionList: CategorizedMap<String, QuestionResultStatus?>
 ) {
+    val context = LocalContext.current
     var currentPage by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState(initialPage = currentPage)
 
@@ -150,7 +155,7 @@ fun TestResultQuestionMap(
                 )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onShareClicked(context, DeepLink.buildTestResultDeeplink(testId)) },
                 colors = ButtonDefaults.buttonColors(Color(0xFF025284)),
                 shape = RoundedCornerShape(100.dp),
                 modifier = Modifier.weight(0.3f)

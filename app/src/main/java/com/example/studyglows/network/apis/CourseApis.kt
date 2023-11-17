@@ -8,6 +8,8 @@ import com.example.studyglows.screens.home.common.models.Course
 import com.example.studyglows.screens.home.common.models.OngoingCourse
 import com.example.studyglows.screens.home.common.models.SubjectwiseCourse
 import com.example.studyglows.screens.home.common.models.PopularSubjects
+import com.example.studyglows.shared.model.CategorizedList
+import com.example.studyglows.shared.model.SearchResultItem
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -348,63 +350,65 @@ class CourseApis @Inject constructor() {
             )
         )
 
-    suspend fun getAllCourseCategoryFilters(): Response<List<CategoryFilter>> =
+    suspend fun getAllCourseCategoryFilters(): Response<CategorizedList<String>> =
         Response.success(
-            listOf(
-                CategoryFilter(
-                    filterCategory = "EXAMS",
-                    filterFields = mutableListOf(
-                        "IBPS RRB",
-                        "IBPS PO",
-                        "SBI PO",
-                        "UPSC CSE",
-                        "IDBI",
-                        "RBI ASSISTANT",
-                        "ICAR",
-                        "SSC-CHSL",
-                        "SSC- CGL",
-                        "IB"
-                    )
-                ),
-                CategoryFilter(
-                    filterCategory = "SUBJECTS",
-                    filterFields = mutableListOf(
-                        "QUANT",
-                        "IBPS PO",
-                        "GA",
-                        "ENGLISH",
-                        "IT",
-                        "SOCIOLOGY",
-                        "HISTORY",
-                        "POL. SCI.",
-                        "ECONOMICS",
-                        "GEOGRAPHY",
-                        "PHILOSOPHY",
-                        "PSYCHOLOGY"
-                    )
-                ),
-                CategoryFilter(
-                    filterCategory = "FACULTY",
-                    filterFields = mutableListOf(
-                        "ADITYA SIR",
-                        "ASHSIH SIR",
-                        "GAURAV SIR",
-                        "HARSHITA MAM",
-                        "IDBI",
-                        "LOKESH SIR",
-                        "MUKESH SIR",
-                        "NIKITA MAM",
-                        "SABA MAM",
-                        "RADHEY SIR",
-                        "SHEETAL MAM",
-                        "VIVEK SIR",
-                        "YOGESH SIR"
+            CategorizedList(
+                categoryMap = mapOf(
+                    Pair(
+                        "EXAMS",
+                        listOf(
+                            "IBPS RRB",
+                            "IBPS PO",
+                            "SBI PO",
+                            "UPSC CSE",
+                            "IDBI",
+                            "RBI ASSISTANT",
+                            "ICAR",
+                            "SSC-CHSL",
+                            "SSC- CGL",
+                            "IB"
+                        )
+                    ),
+                    Pair(
+                        "SUBJECTS",
+                        listOf(
+                            "QUANT",
+                            "IBPS PO",
+                            "GA",
+                            "ENGLISH",
+                            "IT",
+                            "SOCIOLOGY",
+                            "HISTORY",
+                            "POL. SCI.",
+                            "ECONOMICS",
+                            "GEOGRAPHY",
+                            "PHILOSOPHY",
+                            "PSYCHOLOGY"
+                        )
+                    ),
+                    Pair(
+                        "FACULTY",
+                        listOf(
+                            "ADITYA SIR",
+                            "ASHSIH SIR",
+                            "GAURAV SIR",
+                            "HARSHITA MAM",
+                            "IDBI",
+                            "LOKESH SIR",
+                            "MUKESH SIR",
+                            "NIKITA MAM",
+                            "SABA MAM",
+                            "RADHEY SIR",
+                            "SHEETAL MAM",
+                            "VIVEK SIR",
+                            "YOGESH SIR"
+                        )
                     )
                 )
             )
         )
 
-    suspend fun getFilteredCourses(filters: List<CategoryFilter>): Response<List<Course>> =
+    suspend fun getFilteredCourses(filters: CategorizedList<String>): Response<List<Course>> =
         Response.success(
             listOf(
                 Course(
@@ -447,6 +451,22 @@ class CourseApis @Inject constructor() {
                     isBought = false,
                     tag = "Most Popular"
                 )
+            )
+        )
+
+    suspend fun search(text: String): Response<List<SearchResultItem>> =
+        Response.success(
+            listOf(
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics")
             )
         )
 }

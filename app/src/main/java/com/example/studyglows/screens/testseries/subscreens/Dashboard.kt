@@ -12,15 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.ContinueTest
 import com.example.studyglows.screens.testseries.components.RecommendedTests
-import com.example.studyglows.screens.testseries.model.testNavDrawerContent
-import com.example.studyglows.shared.components.BaseScreenLayout
-import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 @Composable
@@ -43,7 +38,7 @@ fun TestDashboard(
             modifier = Modifier.fillMaxWidth(),
             currentTests = currentTests,
             onExploreClicked = { navHostController.navigate(Screen.ExploreTest.route) },
-            onTestClicked = { navHostController.navigate("${Screen.TestDetails.route}?testId=${it}") },
+            onTestClicked = { navHostController.navigate("${Screen.TestSeriesDetails.route}/${it}") },
             showAttemptedClicked = { navHostController.navigate(Screen.TestsAttempted.route)}
         )
         Spacer(modifier = Modifier.height(32.dp))
@@ -51,7 +46,7 @@ fun TestDashboard(
             modifier = Modifier.fillMaxWidth(),
             recommendedTestList = recommendedTests
         ) {
-            navHostController.navigate("${Screen.TestDetails.route}?testId=${it}")
+            navHostController.navigate("${Screen.TestSeriesDetails.route}/${it}")
         }
         Spacer(modifier = Modifier.height(10.dp))
     }

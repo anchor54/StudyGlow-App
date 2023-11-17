@@ -1,5 +1,6 @@
-package com.example.studyglows.screens.testseries.subscreens.testscreens
+package com.example.studyglows.screens.test.subscreens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,8 +46,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
-import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.testseries.TestSeriesViewModel
+import com.example.studyglows.navigation.TestSeriesPathCreator
+import com.example.studyglows.screens.auth.common.models.TestUIEvent
+import com.example.studyglows.screens.test.TestViewModel
 import com.example.studyglows.screens.testseries.components.QuestionComponent
 import com.example.studyglows.screens.testseries.components.BaseTestCard
 import com.example.studyglows.screens.testseries.components.TestAttemptedDialog
@@ -64,7 +66,7 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun TestQuestionsScreen(
     modifier: Modifier = Modifier,
-    viewModel: TestSeriesViewModel,
+    viewModel: TestViewModel,
     sharedViewModel: SharedViewModel,
     navHostController: NavHostController
 ) {
@@ -82,7 +84,9 @@ fun TestQuestionsScreen(
     var openSubmitDialog by remember { mutableStateOf(false) }
     var openAttemptsDialog by remember { mutableStateOf(false) }
     val categoryPagerState = rememberPagerState(initialPage = categoryIdx)
+    val timeUntil by remember { mutableStateOf(System.currentTimeMillis() + testDetails.duration) }
     var timeRemaining by remember { mutableStateOf(testDetails.duration) }
+    var shouldCountDown by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -90,9 +94,16 @@ fun TestQuestionsScreen(
         viewModel.submitTest()
         openAttemptsDialog = true
         openSubmitDialog = false
-        navHostController.navigate(
-            "${Screen.TestResults.route}?testId=${testId}"
-        )
+        shouldCountDown = false
+    }
+
+    fun onAttemptsDismiss() {
+        openAttemptsDialog = false
+        viewModel.sendUIEvent(TestUIEvent.OpenTestResultScreen(testId))
+    }
+
+    BackHandler {
+        openSubmitDialog = true
     }
 
     LaunchedEffect(key1 = categoryIdx) {
@@ -102,14 +113,12 @@ fun TestQuestionsScreen(
         }
     }
 
-    LaunchedEffect(key1 = timeRemaining) {
-        if (timeRemaining > 0) {
+    LaunchedEffect(key1 = timeUntil, key2 = shouldCountDown) {
+        while (shouldCountDown && timeRemaining > 0) {
             delay(1.seconds)
-            timeRemaining--
+            timeRemaining = 0L.coerceAtLeast(timeUntil - System.currentTimeMillis())
         }
-        else {
-            onSubmitTest()
-        }
+        onSubmitTest()
     }
 
     if (openSubmitDialog) {
@@ -130,14 +139,14 @@ fun TestQuestionsScreen(
             val total = questionState.getMapForCategory(it).size
             Pair(attempted, total)
         }
-        Dialog(onDismissRequest = { openAttemptsDialog = false }) {
+        Dialog(onDismissRequest = { onAttemptsDismiss() }) {
             Card(
                 elevation = CardDefaults.cardElevation(4.dp),
                 colors = CardDefaults.cardColors(Color.White),
                 shape = RoundedCornerShape(15.dp)
             ) {
                 TestAttemptedDialog(
-                    onDismiss = { openAttemptsDialog = false },
+                    onDismiss = { onAttemptsDismiss() },
                     questionsAttempted = questionsAttemptedMap
                 )
             }
@@ -217,7 +226,7 @@ fun TestQuestionsScreen(
             Spacer(modifier = Modifier.width(10.dp))
             BaseTestCard {
                 Text(
-                    text = Utils.getTimeInMinsAndSecs(timeRemaining),
+                    text = Utils.getTimeInMinsAndSecs(timeRemaining / 1000),
                     style = TextStyle(
                         fontSize = 13.sp,
                         lineHeight = 15.6.sp,

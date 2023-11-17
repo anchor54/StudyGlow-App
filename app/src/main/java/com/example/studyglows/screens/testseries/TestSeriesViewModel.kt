@@ -18,6 +18,7 @@ import com.example.studyglows.screens.testseries.model.TestDetailsModule
 import com.example.studyglows.screens.testseries.model.TestResultModel
 import com.example.studyglows.screens.testseries.model.TestSeriesDetailsModule
 import com.example.studyglows.shared.model.CategorizedMap
+import com.example.studyglows.shared.model.SearchResultItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -57,29 +58,20 @@ class TestSeriesViewModel @Inject constructor(
     private val _savedCourses = MutableStateFlow<List<SavedTestItemModel>>(listOf())
     val savedCourses = _savedCourses.asStateFlow()
 
-    private val _testDetails = MutableStateFlow(TestDetailsModule())
-    val testDetails = _testDetails.asStateFlow()
-
-    private val _questionState = MutableStateFlow(CategorizedMap<String, QuestionState>())
-    val questionState = _questionState.asStateFlow()
-
-    private val _questions = MutableStateFlow(listOf<QuestionItem?>())
-    val questions = _questions.asStateFlow()
-
     private val _uiEvent = MutableSharedFlow<TestSeriesUIEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private val _currentCategoryIdx = MutableStateFlow(0)
-    val currentCategoryIdx = _currentCategoryIdx.asStateFlow()
-
-    private val _currentQuestionIdxs = MutableStateFlow(listOf<Int>())
-    val currentQuestionIdxs = _currentQuestionIdxs.asStateFlow()
-
-    private val _categories = MutableStateFlow(listOf<String>())
-    val categories = _categories.asStateFlow()
-
     private val _testResult = MutableStateFlow<TestResultModel?>(null)
     val testResult = _testResult.asStateFlow()
+
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
+    private val _error = MutableSharedFlow<String>()
+    val error = _error.asSharedFlow()
+
+    private val _searchResults = MutableStateFlow(listOf<SearchResultItem>())
+    val searchResult = _searchResults.asStateFlow()
 
     fun sendUIEvent(event: TestSeriesUIEvent) {
         viewModelScope.launch(Dispatchers.IO) { _uiEvent.emit(event) }
@@ -87,88 +79,120 @@ class TestSeriesViewModel @Inject constructor(
 
     fun getCurrentlyAttemptingTests(userId: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchRecentlyAttemptedTests()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _testsInProgress.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getRecommendedTests() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchRecommendedTests()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _recommendedTests.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getPopularTests() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchPopularTests()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _popularTests.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getFreeMockTests() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchFreeMockTests()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _freeMocks.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getExamCategories() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchExamCategories()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _examCategories.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getTestSeriesDetails(testId: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchTestSeriesDetails(testId)
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _testSeriesDetails.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getAttemptedTests(userId: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchAttemptedTests(userId)
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _attemptedTests.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
     fun getAllSavedCourses() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.getSavedCourses()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _savedCourses.value = it
                 }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
@@ -180,104 +204,38 @@ class TestSeriesViewModel @Inject constructor(
 
     fun addToCart(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.addTestToCart(courseId)
-//            if (response.isSuccessful) {
-//                triggerEvent(TestUIEvent.AddToCartSuccess())
-//            } else {
-//                triggerEvent(TestUIEvent.AddToCartFailed())
-//            }
-        }
-    }
-
-    fun getTestDetails(testId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = testSeriesApis.fetchTestDetails(testId)
+            _loading.value = false
             if (response.isSuccessful) {
-                response.body()?.let { data ->
-                    _testDetails.value = data
-                    data.questions.apply {
-                        _currentQuestionIdxs.value = getAllCategories().map { 0 }
-                        _categories.value = getAllCategories()
-                        _questionState.value = CategorizedMap(
-                            getAllCategories().associateWith { category ->
-                                getListForCategory(category).associateWith {
-                                    QuestionState.UnseenQuestion
-                                }
-                            }
-                        )
-                    }
-                }
+                // todo: show toast
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
             }
         }
     }
 
-    fun getCategoryQuestions(categoryIdx: Int) {
-        val category = _categories.value[categoryIdx]
-        viewModelScope.launch {
-            val deferredRequests = _testDetails.value.questions.getListForCategory(category)
-                .map { questionId ->
-                    async { testSeriesApis.fetchQuestionDetails(questionId) }
-                }
-
-            _questions.value = deferredRequests
-                .awaitAll()
-                .map { if (it.isSuccessful) it.body() else null }
-        }
-    }
-
-    suspend fun getQuestionDetails(category: String, idx: Int) =
-        testSeriesApis.fetchQuestionDetails(_testDetails.value.questions.getListForCategory(category)[idx])
-
-    fun changeCategory(idx: Int) {
-        _currentCategoryIdx.value = idx
-    }
-
-    fun changeQuestion(questionIdx: Int) {
-        val currentQuesIdx = _currentQuestionIdxs.value[_currentCategoryIdx.value]
-        val category = _categories.value[_currentCategoryIdx.value]
-        val (questionId, questionState) = _questionState.value.getMapForCategory(category).map { it }[currentQuesIdx]
-        if (questionState is QuestionState.UnseenQuestion) {
-            _questionState.value = _questionState.value.modifyOrAddItem(
-                category,
-                questionId,
-                QuestionState.UnAttemptedQuestion
-            )
-        }
-        val updatedMap = _currentQuestionIdxs.value.toMutableList().apply {
-            this[_currentCategoryIdx.value] = questionIdx
-        }
-        _currentQuestionIdxs.value = updatedMap
-    }
-
-    fun addAnswer(questionId: String, answer: String?, questionType: QuestionType?) {
-        val category = _questionState.value.getAllCategories()[_currentCategoryIdx.value]
-        questionType?.let {
-            _questionState.value = _questionState.value.modifyOrAddItem(
-                category,
-                questionId,
-                if (answer != null) {
-                    QuestionState.AttemptedQuestion(
-                        AnswerItem(
-                            questionId = questionId,
-                            answer = answer,
-                            questionType = questionType.type
-                        )
-                    )
-                } else {
-                    QuestionState.UnAttemptedQuestion
-                }
-            )
-        }
-    }
-
-    fun submitTest() {}
-
     fun getTestResult(testId: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = testSeriesApis.fetchTestResultDetails(testId)
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _testResult.value = it
+                }
+            } else {
+                _error.emit(response.message() ?: "Something went wrong")
+            }
+        }
+    }
+
+    fun getSearchResults(searchText: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = testSeriesApis.search(searchText)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    _searchResults.value = it
                 }
             }
         }

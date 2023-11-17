@@ -1,18 +1,9 @@
 package com.example.studyglows.screens.editorial_currentaffair.editorial
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,7 +11,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.studyglows.navigation.Route
@@ -29,8 +19,7 @@ import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.editorial_currentaffair.component.editorialNavDrawerContent
 import com.example.studyglows.screens.editorial_currentaffair.editorial.component.EditorialContent
 import com.example.studyglows.screens.editorial_currentaffair.editorial.component.EditorialListItem
-import com.example.studyglows.screens.editorial_currentaffair.editorial.component.TopEditorialItem
-import com.example.studyglows.shared.components.HomeAppBar
+import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
@@ -42,6 +31,8 @@ fun Editorials(
     viewModel: EditorialViewModel
 ) {
     val editorialList by viewModel.editorials.collectAsState()
+    val loading by viewModel.loading.collectAsState()
+    val searchResult by viewModel.searchResult.collectAsState()
     val topElement by remember(editorialList) {
         derivedStateOf {
             if (editorialList.isNotEmpty()) {
@@ -68,18 +59,28 @@ fun Editorials(
                 }
             }
         )
+        viewModel.error.collect {
+            sharedVM.showError(it)
+        }
+    }
+
+    LaunchedEffect(key1 = loading) {
+        sharedVM.isLoading(loading)
     }
 
     fun navigateToDetails(id: String) {
         navHostController.navigate("${Screen.EditorialDetails.route}/$id")
     }
 
-    Column(
-        modifier = modifier.verticalScroll(rememberScrollState())
+    BaseScreenLayout(
+        openDrawer = { sharedVM.sendUIEvent(AppUIEvent.ShowDrawer) },
+        modifier = modifier,
+        searchResult = searchResult,
+        onSearch = { viewModel.getSearchResults(it) },
+        onResultItemClicked = { navigateToDetails(it) }
     ) {
-        HomeAppBar(onNavIconClicked = { sharedVM.sendUIEvent(AppUIEvent.ShowDrawer()) }) {}
         EditorialContent(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             headerItem = topElement,
             onHeaderClicked = { navigateToDetails(topElement?.id ?: "") }
         ) {

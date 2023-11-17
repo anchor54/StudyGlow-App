@@ -21,6 +21,12 @@ class CartViewModel @Inject constructor(
     private val _savedItems = MutableStateFlow(listOf<CartItemModel>())
     val savedItems = _savedItems.asStateFlow()
 
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
+    private val _error = MutableStateFlow("")
+    val error = _error.asStateFlow()
+
     fun getCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = cartRepository.getCartItems()

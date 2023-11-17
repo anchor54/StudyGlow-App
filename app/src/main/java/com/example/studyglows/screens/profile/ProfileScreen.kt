@@ -25,17 +25,24 @@ fun ProfileScreen(
     val userDetails by viewModel.userData.collectAsState()
     val purchasedCourses by viewModel.purchasedCourses.collectAsState()
     val purchasedTests by viewModel.purchasedTestSeries.collectAsState()
-
+    val loading by viewModel.loading.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getUserDetails()
         viewModel.getAllPurchasedCourses()
         viewModel.getAllPurchasedTests()
     }
+    LaunchedEffect(key1 = loading) {
+        sharedViewModel.isLoading(loading)
+    }
+    LaunchedEffect(key1 = error) {
+        sharedViewModel.showError(error)
+    }
 
     Column(modifier = modifier.background(Color(0xFFE6F1F8))) {
         HomeAppBar(
-            onNavIconClicked = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer()) },
+            onNavIconClicked = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer) },
             onSearchClicked = {}
         )
         ProfileContent(

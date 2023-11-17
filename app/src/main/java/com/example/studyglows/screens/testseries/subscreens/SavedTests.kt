@@ -16,10 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.SavedTestItem
-import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 @Composable
@@ -52,7 +50,7 @@ fun SavedTests(
                 SavedTestItem(
                     savedTest = savedItem,
                     showDetailsClicked = {
-                        navHostController.navigate("${Screen.TestDetails.route}?testId=${savedItem.id}")
+                        navHostController.navigate("${Screen.TestSeriesDetails.route}/${savedItem.id}")
                     },
                     addToCartClicked = {
                         viewModel.addSavedCourseToCart(savedItem.id)

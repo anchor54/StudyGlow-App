@@ -9,9 +9,11 @@ import androidx.navigation.navigation
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.setting.SettingsScreen
+import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 fun NavGraphBuilder.settingsNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    appVM: SharedViewModel
 ) {
     navigation(
         route = Route.SETTINGS_ROUTE.name,
@@ -21,6 +23,7 @@ fun NavGraphBuilder.settingsNavGraph(
             SettingsScreen(
                 navHostController = navHostController,
                 viewModel = it.getViewModel(navHostController = navHostController),
+                sharedViewModel = appVM,
                 modifier = Modifier.fillMaxSize()
             )
         }

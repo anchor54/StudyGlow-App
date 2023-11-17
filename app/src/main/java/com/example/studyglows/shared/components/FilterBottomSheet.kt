@@ -18,6 +18,10 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,33 +33,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyglows.R
-import com.example.studyglows.shared.model.CategoryFilter
 import com.example.studyglows.screens.home.common.models.TabRowItem
+import com.example.studyglows.shared.model.CategorizedList
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FilterBottomSheet(
-    filters: List<CategoryFilter> = listOf(),
-    selectedFilters: List<CategoryFilter> = listOf(),
+    filters: CategorizedList<String>,
+    selectedFilters: CategorizedList<String>,
     modifier: Modifier = Modifier,
     onCancelled: () -> Unit,
-    onFilterApplied: () -> Unit,
-    onAddFilter: (String, String) -> Unit,
-    onRemoveFilter: (String, String) -> Unit,
-    onClearFilter: (String) -> Unit,
+    isSingleSelection: Boolean = false,
+    onFilterApplied: (selectedFilters: CategorizedList<String>) -> Unit,
 ) {
-    val tabRowItems = filters.map { filter ->
+    var filtersApplied by remember { mutableStateOf(selectedFilters) }
+    val tabRowItems = filters.getAllCategories().map { filterCategory ->
         TabRowItem(
-            title = filter.filterCategory,
+            title = filterCategory,
             screen = {
                 FilterListByCategory(
-                    filters = filter.filterFields,
-                    selectedFilters =
-                        selectedFilters.find {
-                            it.filterCategory == filter.filterCategory
-                        }?.filterFields ?: listOf(),
-                    addFilter = { onAddFilter(filter.filterCategory, it) },
-                    removeFilter = { onRemoveFilter(filter.filterCategory, it) }
+                    filters = filters.getListForCategory(filterCategory),
+                    selectedFilters = filtersApplied.getListForCategory(filterCategory),
+                    addFilter = { filtersApplied = filtersApplied.modifyOrAddItem(filterCategory, it, if (isSingleSelection) 0 else null) },
+                    removeFilter = { filtersApplied = filtersApplied.removeItem(filterCategory, it) }
                 )
             }
         )
@@ -93,7 +93,10 @@ fun FilterBottomSheet(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { onClearFilter(filters[pagerState.currentPage].filterCategory) },
+                onClick = {
+                    onFilterApplied(filtersApplied.clearAll())
+                    onCancelled()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent
                 ),
@@ -111,7 +114,7 @@ fun FilterBottomSheet(
                 )
             }
             Button(
-                onClick = { onFilterApplied() },
+                onClick = { onFilterApplied(filtersApplied) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF025284)
                 ),
@@ -164,7 +167,10 @@ fun FilterCheckboxItem(
     filterText: String,
     onFilterToggled: (Boolean) -> Unit
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier.clickable { onFilterToggled(!isChecked) },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Checkbox(
             checked = isChecked,
             onCheckedChange = { onFilterToggled(it) }

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
+import com.example.studyglows.shared.viewmodels.SharedViewModel
 import com.example.studyglows.utils.UIUtils.bottomBorder
 import com.example.studyglows.utils.UIUtils.topBorder
 
@@ -47,7 +48,8 @@ class SettingGroupEntity(
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    viewModel: SettingsViewModel
+    viewModel: SettingsViewModel,
+    sharedViewModel: SharedViewModel
 ) {
     val settingGroups = listOf(
         SettingGroupEntity(

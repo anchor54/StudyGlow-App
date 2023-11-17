@@ -48,7 +48,8 @@ fun CurrentAffairListItem(
                     fontWeight = FontWeight(500),
                     color = Color(0xFF2E384D),
                     letterSpacing = 0.1.sp,
-                )
+                ),
+                modifier = Modifier.weight(0.6f)
             )
             Spacer(modifier = Modifier.width(16.dp))
             GlideImage(

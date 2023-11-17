@@ -30,14 +30,25 @@ fun LatestVacancies(
     val jobs by viewModel.jobNotifications.collectAsState()
     val admitCards by viewModel.admitNotifications.collectAsState()
     val results by viewModel.resultNotifications.collectAsState()
+    val loading by viewModel.loading.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchJobNotifications()
         viewModel.fetchAdmitCardNotifications()
         viewModel.fetchResultNotifications()
     }
+
+    LaunchedEffect(key1 = loading) {
+        sharedViewModel.isLoading(loading)
+    }
+
+    LaunchedEffect(key1 = error) {
+        sharedViewModel.showError(error)
+    }
+
     Column(modifier = modifier) {
-        HomeAppBar(onNavIconClicked = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer()) }) {}
+        HomeAppBar(onNavIconClicked = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer) }) {}
         TabLayout(
             modifier = Modifier.fillMaxWidth(),
             tabNames = listOf(
@@ -56,7 +67,9 @@ fun LatestVacancies(
                 items(listContent.size) {
                     VacancyListItem(
                         itemDetails = listContent[it],
-                        modifier = Modifier.fillMaxWidth().padding(start = 18.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 18.dp)
                     )
                 }
             }

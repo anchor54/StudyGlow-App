@@ -36,29 +36,24 @@ import com.example.studyglows.screens.auth.common.components.LoginField
 import com.example.studyglows.screens.auth.common.models.AuthUIEvent
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
 import com.example.studyglows.screens.auth.AuthViewModel
+import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navHostController: NavHostController,
     viewModel: AuthViewModel,
+    sharedViewModel: SharedViewModel,
     modifier: Modifier = Modifier
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
-
-    suspend fun showSnackbar(message: String) {
-        snackbarHostState.showSnackbar(
-            message = message,
-            duration = SnackbarDuration.Short,
-        )
-    }
-
-    LaunchedEffect(key1 = context) {
+    LaunchedEffect(key1 = Unit) {
         viewModel.validation.collect { event ->
             when (event) {
+                is ValidationEvent.Loading -> {
+                    sharedViewModel.isLoading(event.start)
+                }
                 is ValidationEvent.OTPSentError -> {
-                    showSnackbar(event.message)
+                    sharedViewModel.showError(event.message)
                 }
                 is ValidationEvent.OTPSentSuccess -> {
                     navHostController.navigate(Screen.Otp.route)
@@ -70,67 +65,60 @@ fun LoginScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = modifier
-    ) { padding ->
-        val loginState = viewModel.uiState.collectAsState().value
+    val loginState = viewModel.uiState.collectAsState().value
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color(0xFFE6F1F8)),
-            contentAlignment = Alignment.Center
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = Color(0xFFE6F1F8)),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(0.6f),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .padding(0.dp, 21.dp)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "OTP page logo",
+                contentScale = ContentScale.None,
+            )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .height(60.dp)
+            )
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .padding(padding),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .weight(1f)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
             ) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .padding(0.dp, 21.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "OTP page logo",
-                    contentScale = ContentScale.None,
+                LoginField(
+                    text = loginState.phoneNumber,
+                    pretext = "+91",
+                    label = "YOUR PHONE",
+                    keyboardType = KeyboardType.Number,
+                    onTextChanged = { viewModel.onEvent(AuthUIEvent.PhoneNumberChanged(it)) },
+                    modifier = Modifier.fillMaxWidth(1f)
                 )
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth(1f)
-                        .height(60.dp)
+                        .padding(0.dp, 19.dp)
                 )
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    LoginField(
-                        text = loginState.phoneNumber,
-                        pretext = "+91",
-                        label = "YOUR PHONE",
-                        keyboardType = KeyboardType.Number,
-                        onTextChanged = { viewModel.onEvent(AuthUIEvent.PhoneNumberChanged(it)) },
-                        modifier = Modifier.fillMaxWidth(1f)
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth(1f)
-                            .padding(0.dp, 19.dp)
-                    )
-                    LoginButton(
-                        buttonText = "SEND OTP",
-                        backgroundColor = Color(0xFFE6F1F8),
-                        onClick = {
-                            viewModel.onEvent(AuthUIEvent.OTPSend())
-                        },
-                        modifier = Modifier.fillMaxWidth(1f)
-                    )
-                }
+                LoginButton(
+                    buttonText = "SEND OTP",
+                    backgroundColor = Color(0xFFE6F1F8),
+                    onClick = {
+                        viewModel.onEvent(AuthUIEvent.OTPSend())
+                    },
+                    modifier = Modifier.fillMaxWidth(1f)
+                )
             }
         }
     }

@@ -13,5 +13,7 @@ enum class Route(name: String) {
     TEST_SERIES("test_series"),
     TEST_SERIES_ROOT("test_root"),
     TEST_START("test_start"),
-    TEST_ROOT("test_root")
+    TEST_ROOT("test_root"),
+    TEST_FLOW("test_flow"),
+    TEST_SERIES_FLOW("test_series_flow")
 }

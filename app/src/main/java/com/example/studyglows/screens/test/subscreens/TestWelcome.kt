@@ -1,4 +1,4 @@
-package com.example.studyglows.screens.testseries.subscreens.testscreens
+package com.example.studyglows.screens.test.subscreens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.testseries.TestSeriesViewModel
+import com.example.studyglows.screens.test.TestViewModel
 import com.example.studyglows.shared.components.AppContentCard
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
@@ -42,7 +42,7 @@ import com.example.studyglows.shared.viewmodels.SharedViewModel
 fun TestWelcome(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    viewModel: TestSeriesViewModel,
+    viewModel: TestViewModel,
     sharedViewModel: SharedViewModel
 ) {
     val testId = navHostController.currentBackStackEntry?.arguments?.getString("testId") ?: ""
@@ -170,7 +170,7 @@ fun TestWelcome(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = { navHostController.navigate("${Screen.TestQuestions.route}?testId=$testId") },
+                    onClick = { navHostController.navigate("${Screen.TestQuestions.route}/$testId") },
                     colors = ButtonDefaults.buttonColors(Color(0xFF025284)),
                     modifier = Modifier.fillMaxWidth(0.8f).align(Alignment.CenterHorizontally)
                 ) {

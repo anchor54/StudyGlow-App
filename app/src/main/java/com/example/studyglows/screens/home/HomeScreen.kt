@@ -1,7 +1,5 @@
 package com.example.studyglows.screens.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -14,16 +12,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.auth.common.models.HomeUIEvent
-import com.example.studyglows.shared.components.FilterBottomSheet
 import com.example.studyglows.screens.home.common.components.homeNavDrawerContent
-import com.example.studyglows.shared.components.HomeAppBar
+import com.example.studyglows.shared.components.BaseScreenLayout
+import com.example.studyglows.shared.components.FilterBottomSheet
 import com.example.studyglows.shared.components.HomeScreenContent
 import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
 import com.example.studyglows.shared.viewmodels.SharedViewModel
@@ -40,6 +37,9 @@ fun HomeScreen(
 ) {
     val filters by viewModel.filters.collectAsState()
     val filtersToApply by viewModel.selectedFilters.collectAsState()
+    val loading by viewModel.loading.collectAsState()
+    val error by viewModel.error.collectAsState()
+    val searchResults by viewModel.searchResult.collectAsState()
     var showSheet by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -48,6 +48,14 @@ fun HomeScreen(
     val coursesNavController = rememberNavController()
 
     val screenId = navHostController.currentBackStackEntry?.arguments?.getString("screenId")
+
+    LaunchedEffect(key1 = loading) {
+        sharedViewModel.isLoading(loading)
+    }
+
+    LaunchedEffect(key1 = error) {
+        sharedViewModel.showError(error)
+    }
 
     LaunchedEffect(key1 = screenId) {
         when (screenId) {
@@ -101,39 +109,27 @@ fun HomeScreen(
                 filters = filters,
                 selectedFilters = filtersToApply,
                 onCancelled = { coroutineScope.launch { showSheet = false } },
-                onAddFilter = { category, filter ->
-                    viewModel.addFilter(category, filter)
-                },
-                onRemoveFilter = { category, filter ->
-                    viewModel.removeFilter(category, filter)
-                },
-                onClearFilter = { category ->
-                    viewModel.clearFilterCategory(category)
-                },
                 onFilterApplied = {
-                    viewModel.applyFilters()
+                    viewModel.applyFilters(it)
                     coroutineScope.launch { showSheet = false }
                     coursesNavController.navigate(
                         Screen.FilterCourses.route +
-                                "?title=${filtersToApply.flatMap { it.filterFields }.toShortenedString { it }}"
+                                "?title=${it.getAllItems().toShortenedString { it }}"
                     )
                 }
             )
         }
     }
-    Column(modifier = modifier.background(Color(0xFFE6F1F8))) {
-        HomeAppBar(
-            onNavIconClicked = {
-                coroutineScope.launch {
-                    sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer())
-                }
-           },
-            onSearchClicked = {}
-        )
+    BaseScreenLayout(
+        openDrawer = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer) },
+        modifier = modifier,
+        searchResult = searchResults,
+        onSearch = { viewModel.getSearchResults(it) },
+        onResultItemClicked = {}
+    ) {
         HomeScreenContent(
             viewModel = viewModel,
             navHostController = coursesNavController,
-            modifier = Modifier.weight(1f)
         )
     }
 }

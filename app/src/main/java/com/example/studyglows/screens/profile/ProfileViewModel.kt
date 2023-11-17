@@ -26,20 +26,32 @@ class ProfileViewModel @Inject constructor(
     private val _purchasedTestSeries = MutableStateFlow<List<PurchasedItem>>(listOf())
     val purchasedTestSeries = _purchasedTestSeries.asStateFlow()
 
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
+    private val _error = MutableStateFlow("")
+    val error = _error.asStateFlow()
+
     fun getUserDetails() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = userApis.getUserDetails("")
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let {
                     _userData.value = it
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }
 
     fun getAllPurchasedCourses() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = userApis.getPurchasedCourses("")
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let { courseList ->
                     _purchasedCourses.value = courseList.map {
@@ -50,13 +62,17 @@ class ProfileViewModel @Inject constructor(
                         )
                     }
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }
 
     fun getAllPurchasedTests() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = userApis.getPurchasedTestSeries("")
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let { courseList ->
                     _purchasedTestSeries.value = courseList.map {
@@ -67,6 +83,8 @@ class ProfileViewModel @Inject constructor(
                         )
                     }
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.studyglows.network.apis
 import com.example.studyglows.screens.editorial_currentaffair.editorial.model.Author
 import com.example.studyglows.screens.editorial_currentaffair.editorial.model.EditorialDetails
 import com.example.studyglows.screens.editorial_currentaffair.editorial.model.EditorialItem
+import com.example.studyglows.shared.model.SearchResultItem
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -78,6 +79,22 @@ class EditorialApis @Inject constructor() {
                 content = "It is a surprisingly difficult call, writing about the stabbing of Salman Rushdie in western New York. What can one say beyond saying that it is simply wrong, wrong, wrong — despicable, barbaric, heartbreaking, tragic — but what is the point of multiplying adjectives? The world was a crappy place even before this happened. It is even crappier now. I am pretty much a free speech fundamentalist — almost, most of the time, and such an event merely reinforces that belief. Well, almost.\n" +
                         "\n" +
                         "But it is impossible to finesse that “almost” in the context of the murderous attack that might well leave Rushdie with significant physical damage: One eye gone, liver compromised. Or, indeed, to seek to derive some ironic consolation from the fact that at least his voice is back — practically as soon as he got off the ventilator. As Aatish Taseer reported, Rushdie is back to talking, and joking. Free speech indeed — but at what cost!"
+            )
+        )
+
+    suspend fun search(text: String): Response<List<SearchResultItem>> =
+        Response.success(
+            listOf(
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics")
             )
         )
 }

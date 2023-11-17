@@ -2,6 +2,7 @@ package com.example.studyglows.network.apis
 
 import com.example.studyglows.screens.editorial_currentaffair.current_affairs.model.CurrentAffairDetails
 import com.example.studyglows.screens.editorial_currentaffair.current_affairs.model.CurrentAffairItem
+import com.example.studyglows.shared.model.SearchResultItem
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -112,7 +113,7 @@ class CurrentAffairApis @Inject constructor() {
             )
         )
 
-    suspend fun filterCourses(filters: List<String>): Response<List<CurrentAffairItem>> =
+    suspend fun filterCurrentAffairs(filters: List<String>): Response<List<CurrentAffairItem>> =
         Response.success(
             listOf(
                 CurrentAffairItem(
@@ -145,6 +146,58 @@ class CurrentAffairApis @Inject constructor() {
                     image = "https://i.ytimg.com/vi/2k2WowXugaA/hqdefault.jpg",
                     date = 1691452800000
                 )
+            )
+        )
+
+    suspend fun filterCoursesByDate(date: Long): Response<List<CurrentAffairItem>> =
+        Response.success(
+            listOf(
+                CurrentAffairItem(
+                    title = "Manisha Kalyan becomes 1st Indian to play in UEFA Women’s Champions league",
+                    image = "https://m.media-amazon.com/images/I/51fSJAaysFL._AC_UF1000,1000_QL80_.jpg",
+                    date = 1691625600000
+                ),
+                CurrentAffairItem(
+                    title = "Manisha Kalyan becomes 1st Indian to play in UEFA Women’s Champions league",
+                    image = "https://m.media-amazon.com/images/I/51fSJAaysFL._AC_UF1000,1000_QL80_.jpg",
+                    date = 1691625600000
+                ),
+                CurrentAffairItem(
+                    title = "Manisha Kalyan becomes 1st Indian to play in UEFA Women’s Champions league",
+                    image = "https://m.media-amazon.com/images/I/51fSJAaysFL._AC_UF1000,1000_QL80_.jpg",
+                    date = 1691625600000
+                ),
+                CurrentAffairItem(
+                    title = "Manisha Kalyan becomes 1st Indian to play in UEFA Women’s Champions league",
+                    image = "https://m.media-amazon.com/images/I/51fSJAaysFL._AC_UF1000,1000_QL80_.jpg",
+                    date = 1691625600000
+                ),
+                CurrentAffairItem(
+                    title = "Manisha Kalyan becomes 1st Indian to play in UEFA Women’s Champions league",
+                    image = "https://i.ytimg.com/vi/2k2WowXugaA/hqdefault.jpg",
+                    date = 1691452800000
+                ),
+                CurrentAffairItem(
+                    title = "Manisha Kalyan becomes 1st Indian to play in UEFA Women’s Champions league",
+                    image = "https://i.ytimg.com/vi/2k2WowXugaA/hqdefault.jpg",
+                    date = 1691452800000
+                )
+            )
+        )
+
+    suspend fun search(text: String): Response<List<SearchResultItem>> =
+        Response.success(
+            listOf(
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics")
             )
         )
 }

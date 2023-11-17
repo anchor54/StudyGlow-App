@@ -15,6 +15,7 @@ import com.example.studyglows.screens.testseries.model.TestItem
 import com.example.studyglows.screens.testseries.model.TestResultModel
 import com.example.studyglows.shared.model.CategorizedList
 import com.example.studyglows.shared.model.CategorizedMap
+import com.example.studyglows.shared.model.SearchResultItem
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -580,7 +581,7 @@ class TestSeriesApis @Inject constructor() {
                 testSeries = "SBI CLERK Test Series",
                 title = "SBI CLERK Prelims- Mock Test 1",
                 testType = "Full Mock Test",
-                duration = 10,
+                duration = 10000,
                 questions =
                     CategorizedList(
                         categoryMap = mapOf(
@@ -748,6 +749,22 @@ class TestSeriesApis @Inject constructor() {
                         ).toMap()
                     )
                 )
+            )
+        )
+
+    suspend fun search(text: String): Response<List<SearchResultItem>> =
+        Response.success(
+            listOf(
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics"),
+                SearchResultItem("id", "#Geo-Politics")
             )
         )
 }

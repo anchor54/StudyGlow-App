@@ -26,9 +26,17 @@ class LatestVacancyViewModel @Inject constructor(
     private val _resultNotifications = MutableStateFlow(CategorizedNotification())
     val resultNotifications = _resultNotifications.asStateFlow()
 
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
+    private val _error = MutableStateFlow("")
+    val error = _error.asStateFlow()
+
     fun fetchJobNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = vacancyApis.getJobAlertsAndUpdates()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let { notifications ->
                     _jobNotifications.value = CategorizedNotification(
@@ -43,13 +51,17 @@ class LatestVacancyViewModel @Inject constructor(
                         }
                     )
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }
 
     fun fetchAdmitCardNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = vacancyApis.getAdmitCardAlertsAndUpdates()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let { notifications ->
                     _admitNotifications.value = CategorizedNotification(
@@ -64,13 +76,17 @@ class LatestVacancyViewModel @Inject constructor(
                         }
                     )
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }
 
     fun fetchResultNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
             val response = vacancyApis.getResultAlertsAndUpdates()
+            _loading.value = false
             if (response.isSuccessful) {
                 response.body()?.let { notifications ->
                     _resultNotifications.value = CategorizedNotification(
@@ -85,6 +101,8 @@ class LatestVacancyViewModel @Inject constructor(
                         }
                     )
                 }
+            } else {
+                _error.value = response.message() ?: "Something went wrong"
             }
         }
     }

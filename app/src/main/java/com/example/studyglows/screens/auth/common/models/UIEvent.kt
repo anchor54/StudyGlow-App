@@ -17,13 +17,16 @@ sealed class HomeUIEvent {
 }
 
 sealed class TestUIEvent {
-    class AddToCartSuccess: HomeUIEvent()
-    class AddToCartFailed: HomeUIEvent()
+    class OpenTestResultScreen(val testId: String): TestUIEvent()
 }
 
 sealed class AppUIEvent {
-    class ShowDrawer(): AppUIEvent()
-    class HideDrawer(): AppUIEvent()
+    object ShowDrawer: AppUIEvent()
+    object HideDrawer: AppUIEvent()
+    class ShowError(val error: String): AppUIEvent()
+    object HideError: AppUIEvent()
+    class AddToCartSuccess: HomeUIEvent()
+    class AddToCartFailed: HomeUIEvent()
 }
 
 sealed class TestSeriesUIEvent {

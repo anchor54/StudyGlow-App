@@ -17,30 +17,18 @@ import com.example.studyglows.screens.home.HomeViewModel
 
 @Composable
 fun HomeScreenContent(
-    modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
     navHostController: NavHostController
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(
-            topStart = 33.dp,
-            topEnd = 33.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
+    NavHost(
+        navController = navHostController,
+        startDestination = Route.COURSE_ROUTE.name,
+        route = Route.DASHBOARD_ROUTE.name
     ) {
-        NavHost(
-            navController = navHostController,
-            startDestination = Route.COURSE_ROUTE.name,
-            route = Route.DASHBOARD_ROUTE.name
-        ) {
-            coursesNavGraph(
-                navHostController = navHostController,
-                modifier = Modifier.padding(16.dp),
-                viewModel = viewModel
-            )
-        }
+        coursesNavGraph(
+            navHostController = navHostController,
+            modifier = Modifier.padding(16.dp),
+            viewModel = viewModel
+        )
     }
 }

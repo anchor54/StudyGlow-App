@@ -17,12 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.ExamCategoryCard
 import com.example.studyglows.screens.testseries.components.FreeMockTestCard
 import com.example.studyglows.screens.testseries.components.PurchasableTestCard
-import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.components.ExploreSection
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
@@ -56,9 +54,9 @@ fun ExploreTestsScreen(
             onExpanded = { navHostController.navigate(Screen.PopularTests.route) }
         ) {
             PurchasableTestCard(
-                modifier = Modifier.clickable { navHostController.navigate("${Screen.TestDetails.route}/testId=${it.id}") },
+                modifier = Modifier.clickable { navHostController.navigate("${Screen.TestSeriesDetails.route}/${it.id}") },
                 testCardItem = it,
-                onCardClicked = { navHostController.navigate("${Screen.TestDetails.route}?testId=${it.id}") }
+                onCardClicked = { navHostController.navigate("${Screen.TestSeriesDetails.route}/${it.id}") }
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -68,7 +66,7 @@ fun ExploreTestsScreen(
             modifier = Modifier.padding(16.dp)
         ) {
             FreeMockTestCard(
-                modifier = Modifier.clickable { navHostController.navigate("${Screen.TestDetails.route}/testId=${it.id}") },
+                modifier = Modifier.clickable { navHostController.navigate("${Screen.TestSeriesDetails.route}/${it.id}") },
                 testDetails = it
             )
         }

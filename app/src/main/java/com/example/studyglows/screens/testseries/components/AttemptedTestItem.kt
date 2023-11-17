@@ -117,7 +117,8 @@ fun AttemptedTestItem(
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent
-                )
+                ),
+                enabled = itemDetails.hasResult
             ) {
                 Text(
                     text = if (itemDetails.hasResult) "VIEW RESULT" else "UNDER EVALUATION",
@@ -125,7 +126,7 @@ fun AttemptedTestItem(
                         fontSize = 15.sp,
                         lineHeight = 18.sp,
                         fontWeight = FontWeight(500),
-                        color = if (itemDetails.hasResult) Color(0xFF8BBFDF) else Color(0xFF025284),
+                        color = if (!itemDetails.hasResult) Color(0xFF8BBFDF) else Color(0xFF025284),
                         textAlign = TextAlign.Center,
                         letterSpacing = 1.25.sp,
                     )

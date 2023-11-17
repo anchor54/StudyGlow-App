@@ -25,13 +25,22 @@ fun SavedScreen(
 ) {
     val savedJobs by viewModel.savedJobs.collectAsState()
     val savedEditorials by viewModel.savedEditorials.collectAsState()
+    val loading by viewModel.loading.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getSavedEditorials()
         viewModel.getSavedJobs()
     }
+    LaunchedEffect(key1 = loading) {
+        sharedViewModel.isLoading(loading)
+    }
+    LaunchedEffect(key1 = error) {
+        sharedViewModel.showError(error)
+    }
+
     Column(modifier = modifier) {
-        HomeAppBar(onNavIconClicked = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer()) }) {}
+        HomeAppBar(onNavIconClicked = { sharedViewModel.sendUIEvent(AppUIEvent.ShowDrawer) }) {}
         TabLayout(
             modifier = Modifier.fillMaxWidth(),
             tabNames = listOf(

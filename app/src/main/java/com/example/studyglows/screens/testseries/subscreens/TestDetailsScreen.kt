@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,12 +30,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
+import com.example.studyglows.navigation.DeepLink
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.auth.common.models.TestSeriesUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.TestListItem
 import com.example.studyglows.shared.components.DynamicIcon
+import com.example.studyglows.shared.components.SaveIcon
+import com.example.studyglows.shared.components.ShareButton
 import com.example.studyglows.shared.components.TabLayout
 import com.example.studyglows.shared.components.VerticalGrid
 import com.example.studyglows.shared.viewmodels.SharedViewModel
@@ -66,24 +70,9 @@ fun TestDetailsScreen(
                     .width(31.dp)
                     .height(31.dp)
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.bookmark),
-                    contentDescription = "bookmark test",
-                    modifier = Modifier
-                        .width(24.dp)
-                        .height(24.dp)
-                )
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.share),
-                    contentDescription = "share test link",
-                    modifier = Modifier
-                        .width(24.dp)
-                        .height(24.dp)
-                )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SaveIcon {}
+                ShareButton(DeepLink.buildTestDetailDeeplink(testId))
             }
         }
         Text(
@@ -136,7 +125,9 @@ fun TestDetailsScreen(
                 "Chapter Tests"
             )
         ) { tabIdx ->
-            Box(modifier = Modifier.fillMaxWidth().background(Color(0xFFE6F1F8))) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE6F1F8))) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()

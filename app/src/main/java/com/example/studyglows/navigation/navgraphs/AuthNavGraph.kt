@@ -16,6 +16,7 @@ import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
+    appVM: SharedViewModel
 ) {
     navigation(
         startDestination = Screen.Login.route,
@@ -25,6 +26,7 @@ fun NavGraphBuilder.authNavGraph(
             LoginScreen(
                 navHostController = navHostController,
                 viewModel = it.getViewModel(navHostController),
+                sharedViewModel = appVM,
                 modifier = Modifier.fillMaxSize()
             )
         }

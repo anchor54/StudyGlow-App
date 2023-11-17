@@ -18,10 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.testseries.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.PurchasableTestCard
-import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 @Composable
@@ -58,7 +56,7 @@ fun PopularTestsScreen(
             items(popularTests.size) {
                 val test = popularTests[it]
                 PurchasableTestCard(testCardItem = test) {
-                    navHostController.navigate("${Screen.TestDetails.route}?testId=${test.id}")
+                    navHostController.navigate("${Screen.TestSeriesDetails.route}/${test.id}")
                 }
             }
         }

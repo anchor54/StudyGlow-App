@@ -39,23 +39,35 @@ import com.example.studyglows.R
 import com.example.studyglows.screens.cart.models.CartItemModel
 import com.example.studyglows.screens.cart.component.CartPriceCard
 import com.example.studyglows.shared.components.CartItem
+import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 @Composable
 fun CartScreen(
     navHostController: NavHostController,
     viewModel: CartViewModel,
+    sharedViewModel: SharedViewModel,
     modifier: Modifier = Modifier
 ) {
     val cartItems by viewModel.cartItems.collectAsState()
     val savedItems by viewModel.savedItems.collectAsState()
+    val loadingState by viewModel.loading.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getCartItems()
         viewModel.getSavedItems()
     }
 
+    LaunchedEffect(key1 = loadingState) {
+        sharedViewModel.isLoading(loadingState)
+    }
+
+    LaunchedEffect(key1 = error) {
+        sharedViewModel.showError(error)
+    }
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         containerColor = Color(0xFFE6F1F8),
         bottomBar = {
             Button(

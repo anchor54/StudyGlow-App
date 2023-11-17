@@ -36,17 +36,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
+import com.example.studyglows.navigation.Route
 import com.example.studyglows.screens.auth.common.components.LoginButton
 import com.example.studyglows.screens.auth.common.components.LoginField
-import com.example.studyglows.screens.auth.common.models.UIEvent
+import com.example.studyglows.screens.auth.common.models.AuthUIEvent
 import com.example.studyglows.screens.auth.common.models.ValidationEvent
-import com.example.studyglows.screens.viewmodels.LoginViewModel
+import com.example.studyglows.screens.auth.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OTPScreen(
     navHostController: NavHostController,
-    viewModel: LoginViewModel
+    viewModel: AuthViewModel,
+    modifier: Modifier = Modifier
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -66,6 +68,7 @@ fun OTPScreen(
                 }
                 is ValidationEvent.OTPVerifySuccess -> {
                     // Navigate to dashboard
+                    navHostController.navigate(Route.HOME_ROUTE.name)
                 }
                 is ValidationEvent.OTPVerifyError -> {
                     showSnackbar(event.message)
@@ -79,7 +82,7 @@ fun OTPScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) { padding ->
         val loginState = viewModel.uiState.collectAsState().value
 
@@ -115,7 +118,7 @@ fun OTPScreen(
                     pretext = "+91",
                     label = "YOUR PHONE",
                     keyboardType = KeyboardType.Number,
-                    onTextChanged = { viewModel.onEvent(UIEvent.PhoneNumberChanged(it)) },
+                    onTextChanged = { viewModel.onEvent(AuthUIEvent.PhoneNumberChanged(it)) },
                     modifier = Modifier.fillMaxWidth(1f)
                 )
                 Spacer(
@@ -127,7 +130,7 @@ fun OTPScreen(
                     text = loginState.otp,
                     label = "ENTER OTP",
                     keyboardType = KeyboardType.Password,
-                    onTextChanged = { viewModel.onEvent(UIEvent.OTPChanged(it)) },
+                    onTextChanged = { viewModel.onEvent(AuthUIEvent.OTPChanged(it)) },
                     modifier = Modifier.fillMaxWidth(1f)
                 )
                 Spacer(
@@ -139,8 +142,9 @@ fun OTPScreen(
                     buttonText = "CONFIRM",
                     backgroundColor = Color(0xFFE6F1F8),
                     onClick = {
-                        viewModel.onEvent(UIEvent.OTPSubmit())
+                        viewModel.onEvent(AuthUIEvent.OTPSubmit())
                     },
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(
                     modifier = Modifier
@@ -154,7 +158,7 @@ fun OTPScreen(
                     Text(
                         text = "RESEND OTP",
                         modifier = Modifier.clickable(true) {
-                            viewModel.onEvent(UIEvent.OTPResend())
+                            viewModel.onEvent(AuthUIEvent.OTPResend())
                         },
                         style = TextStyle(
                             fontSize = 12.sp,

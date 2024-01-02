@@ -34,7 +34,7 @@ fun CartItem(
 ) {
     val discountPercent =
         if (cartItem.originalPrice == 0f) 0f
-        else (cartItem.originalPrice - cartItem.discountedPrice) / cartItem.originalPrice
+        else (cartItem.originalPrice - cartItem.discountedPrice) * 100.0f / cartItem.originalPrice
 
     Row(modifier = modifier
         .background(color = Color(0x66FFFFFF))

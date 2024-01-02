@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyglows.screens.testseries.model.PurchasedTestItem
@@ -32,7 +33,7 @@ fun ContinueTest(
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = "Continue Watching",
+            text = "Enrolled Test Series",
             style = TextStyle(
                 fontSize = 17.sp,
                 lineHeight = 20.4.sp,
@@ -43,7 +44,7 @@ fun ContinueTest(
         Spacer(modifier = Modifier.height(5.dp))
         if (currentTests.isEmpty()) {
             EmptyTestsInProgress(exploreTestsClicked = onExploreClicked)
-            Spacer(modifier = Modifier.height(38.dp))
+            Spacer(modifier = Modifier.height(25.dp))
         } else {
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
@@ -60,12 +61,12 @@ fun ContinueTest(
             Spacer(modifier = Modifier.height(44.dp))
         }
         Button(
-            modifier = Modifier.padding(24.dp, 10.dp),
+            modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White
             ),
             shape = RoundedCornerShape(100.dp),
-            elevation = ButtonDefaults.buttonElevation(10.dp),
+            elevation = ButtonDefaults.buttonElevation(5.dp),
             onClick = showAttemptedClicked
         ) {
             Text(
@@ -76,6 +77,7 @@ fun ContinueTest(
                     fontWeight = FontWeight(500),
                     color = Color(0xFF025284),
                     letterSpacing = 1.25.sp,
+                    textAlign = TextAlign.Center
                 )
             )
         }

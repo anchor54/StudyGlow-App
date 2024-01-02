@@ -1,9 +1,12 @@
 package com.example.studyglows.screens.testseries.components
 
+import android.text.Layout
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -23,7 +26,7 @@ fun EmptyTestsInProgress(
     exploreTestsClicked: () -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(50.dp))
@@ -34,7 +37,8 @@ fun EmptyTestsInProgress(
                 lineHeight = 30.sp,
                 color = Color(0xFF2E384D),
                 textAlign = TextAlign.Center,
-            )
+            ),
+            modifier = Modifier.fillMaxWidth(0.8f).align(alignment = Alignment.CenterHorizontally)
         )
         Spacer(modifier = Modifier.height(20.dp))
         Button(

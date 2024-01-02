@@ -3,7 +3,9 @@ package com.example.studyglows.screens.testseries.subscreens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,9 +43,11 @@ fun SavedTests(
                 lineHeight = 20.4.sp,
                 color = Color(0xFF2E384D),
                 letterSpacing = 0.15.sp,
-            )
+            ),
+            modifier = Modifier.padding(16.dp, 20.dp)
         )
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(2.dp))
+        Divider(color = Color(0xFFB1D4EA), thickness = 1.dp, modifier = Modifier.padding(horizontal = 10.dp))
         LazyColumn {
             items(savedCourses.size) {
                 val savedItem = savedCourses[it]

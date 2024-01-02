@@ -54,7 +54,8 @@ fun CourseContainer(
                     imageModel = { imageUrl },
                     imageOptions = ImageOptions(
                         contentScale = ContentScale.FillWidth
-                    )
+                    ),
+                    modifier = Modifier.height(100.dp)
                 )
             }
             Spacer(modifier = Modifier

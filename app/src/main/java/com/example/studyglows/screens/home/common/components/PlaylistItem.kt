@@ -41,6 +41,8 @@ fun PlaylistItem(
     modifier: Modifier = Modifier,
     playlistIndex: Int,
     playlist: PlaylistModel,
+    isPlaying: Boolean = false,
+    currentVideoPlaying: Int = -1,
     onVideoClicked: (Int, Int) -> Unit
 ) {
     var showPlaylist by remember { mutableStateOf(false) }
@@ -105,6 +107,7 @@ fun PlaylistItem(
                             video = video,
                             playlistIndex = playlistIndex,
                             videoIndex = i,
+                            isPlaying = isPlaying && currentVideoPlaying == i,
                             onVideoClicked = onVideoClicked
                         )
                     }

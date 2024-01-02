@@ -11,19 +11,19 @@ class CartApis @Inject constructor() {
             listOf(
                 CartItemModel(
                     title = "UPSC IAS Live Foundation",
-                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    imageUrl = "https://www.ncertbooks.guru/wp-content/uploads/2022/05/Course-details.png",
                     originalPrice = 1000f,
                     discountedPrice = 400f
                 ),
                 CartItemModel(
                     title = "UPSC IAS Live Foundation",
-                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    imageUrl = "https://www.ncertbooks.guru/wp-content/uploads/2022/05/Course-details.png",
                     originalPrice = 320f,
                     discountedPrice = 320f
                 ),
                 CartItemModel(
                     title = "UPSC IAS Live Foundation",
-                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    imageUrl = "https://www.ncertbooks.guru/wp-content/uploads/2022/05/Course-details.png",
                     originalPrice = 500f,
                     discountedPrice = 400f
                 )
@@ -35,19 +35,19 @@ class CartApis @Inject constructor() {
             listOf(
                 CartItemModel(
                     title = "UPSC IAS Live Foundation",
-                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    imageUrl = "https://thevarsity.ca/wp-content/uploads/2018/07/Comment_Course-Selection_Troy-Lawrence-scaled.jpg",
                     originalPrice = 1000f,
                     discountedPrice = 400f
                 ),
                 CartItemModel(
                     title = "UPSC IAS Live Foundation",
-                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    imageUrl = "https://thevarsity.ca/wp-content/uploads/2018/07/Comment_Course-Selection_Troy-Lawrence-scaled.jpg",
                     originalPrice = 320f,
                     discountedPrice = 320f
                 ),
                 CartItemModel(
                     title = "UPSC IAS Live Foundation",
-                    imageUrl = "https://d2v3ngkpxqk4xk.cloudfront.net/media/course/thumbnail/20230714/PUBLIC_SPEAKING_COURSE.png",
+                    imageUrl = "https://thevarsity.ca/wp-content/uploads/2018/07/Comment_Course-Selection_Troy-Lawrence-scaled.jpg",
                     originalPrice = 500f,
                     discountedPrice = 400f
                 )

@@ -1,5 +1,6 @@
 package com.example.studyglows.screens.home.courseprofile
 
+import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -33,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -46,6 +49,7 @@ import com.example.studyglows.screens.home.HomeViewModel
 import com.example.studyglows.screens.home.common.components.CourseCard
 import com.example.studyglows.screens.home.common.components.EducatorCard
 import com.example.studyglows.screens.home.common.components.FAQItem
+import com.example.studyglows.utils.UIUtils
 import com.example.studyglows.utils.Utils
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.components.rememberImageComponent
@@ -286,7 +290,6 @@ fun CourseDetailsScreen(
             }
         }
         TopAppBar(
-            backgroundUrl = courseDetails.imageUrl,
             modifier = Modifier
                 .fillMaxWidth()
                 .constrainAs(topbar) {
@@ -301,27 +304,14 @@ fun CourseDetailsScreen(
 
 @Composable
 fun TopAppBar(
-    backgroundUrl: String = "",
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit = {},
     onCartClicked: () -> Unit = {},
     onFavouriteClicked: () -> Unit = {}
 ) {
-    Box(modifier = modifier) {
-        if (backgroundUrl.isNotEmpty()) {
-            GlideImage(
-                modifier = Modifier
-                    .height(45.dp)
-                    .fillMaxWidth(),
-                imageModel = { backgroundUrl },
-                imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                ),
-                component = rememberImageComponent {
-                    +BlurTransformationPlugin(radius = 100)
-                }
-            )
-        }
+    Box(modifier = modifier
+        .background(color = Color.Black.copy(alpha = 0.75f))
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween

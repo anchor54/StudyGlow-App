@@ -57,7 +57,12 @@ fun LectureScreen(
                 .weight(2f)
         ) {
             itemsIndexed(playlists) { i, playlist ->
-                PlaylistItem(playlist = playlist, playlistIndex = i) { playlistIndex, videoIndex ->
+                PlaylistItem(
+                    playlist = playlist,
+                    playlistIndex = i,
+                    isPlaying = currPlaylistIndex == i,
+                    currentVideoPlaying = if(currPlaylistIndex == i) currVideoIndex else -1
+                ) { playlistIndex, videoIndex ->
                     currPlaylistIndex = playlistIndex
                     currVideoIndex = videoIndex
                 }

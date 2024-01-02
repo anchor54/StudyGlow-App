@@ -52,10 +52,7 @@ fun CourseCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom
         ) {
-            Column {
-                Spacer(modifier = Modifier.height(7.dp))
-                TagChip(courseDetails.tag)
-            }
+            TagChip(courseDetails.tag)
             Card(
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFB1D4EA)

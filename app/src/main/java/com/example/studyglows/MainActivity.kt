@@ -2,6 +2,7 @@ package com.example.studyglows
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -24,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +42,7 @@ import com.example.studyglows.shared.components.drawermenu.NavDrawerContent
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 import com.example.studyglows.ui.theme.StudyGlowsTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -78,6 +81,7 @@ fun Root(
     val isLoading by viewModel.isLoading.collectAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     suspend fun showSnackbar(message: String) {
         snackbarHostState.showSnackbar(
@@ -102,7 +106,11 @@ fun Root(
     }
 
     BaseDrawer(
-        drawerInteractions = drawerNavigation,
+        drawerInteractions = {
+            drawerNavigation.handleDrawerNavigation(it)
+            coroutineScope.launch { drawerState.close() }
+            viewModel.setSelectedDrawerOption(it)
+        },
         drawerMidOptions = drawerMidOptions,
         drawerState = drawerState,
         selectedOption = selectedDrawerOption

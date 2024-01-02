@@ -106,6 +106,7 @@ fun CartScreen(
             CollapsableList(
                 title = "CART",
                 items = cartItems,
+                shouldCollapse = false
             ) {
                 RowItem(
                     item = it,
@@ -132,6 +133,7 @@ fun CartScreen(
             CollapsableList(
                 title= "SAVED",
                 items = savedItems,
+                shouldCollapse = false
             ) {
                 RowItem(
                     item = it,
@@ -151,6 +153,7 @@ fun CartScreen(
 fun<T> CollapsableList(
     title: String,
     items: List<T>,
+    shouldCollapse: Boolean = true,
     content: @Composable (item: T) -> Unit
 ) {
     var collapsed by remember { mutableStateOf(false) }

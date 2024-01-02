@@ -26,8 +26,14 @@ class VideoModel(
     @SerializedName("title") val title: String = "",
     @SerializedName("length") val videoLength: Long = 0,
     @SerializedName("videoUrl") val videoLink: String = "",
-    @SerializedName("isViewable") val isViewable: Boolean = false
+    @SerializedName("isViewable") val isViewable: Boolean = false,
+    @SerializedName("viewStatus") val viewStatus: ViewStatus = ViewStatus.TO_WATCH
 )
+
+enum class ViewStatus(val status: String) {
+    TO_WATCH("play"),
+    COMPLETED("completed"),
+}
 
 fun List<VideoModel>.getMediaItems(): List<MediaItem> =
     map {

@@ -19,25 +19,28 @@ import com.example.studyglows.R
 @Composable
 fun NavDrawerContent(
     midMenuItems: List<MenuItemModel> = listOf(),
-    selectedItem: String = "",
+    selectedItem: String,
     onItemClicked: (String) -> Unit
 ) {
     val topMenuItems = listOf(
         MenuItemModel(
             id = "courses",
-            icon = R.drawable.book,
+            activeIcon = R.drawable.book_active,
+            inactiveIcon = R.drawable.book_inactive,
             title = "Courses",
             contentDescription = "Go to courses page",
         ),
         MenuItemModel(
             id = "readings",
-            icon = R.drawable.file_outline,
+            activeIcon = R.drawable.file_active,
+            inactiveIcon = R.drawable.file_inactive,
             title = "Readings",
             contentDescription = "Go to readings page",
         ),
         MenuItemModel(
             id = "tests",
-            icon = R.drawable.icon_bulb,
+            activeIcon = R.drawable.icon_bulb_active,
+            inactiveIcon = R.drawable.icon_bulb_inactive,
             title = "Tests",
             contentDescription = "Go to tests page",
         )
@@ -45,19 +48,22 @@ fun NavDrawerContent(
     val bottomMenuItems = listOf(
         MenuItemModel(
             id = "profile",
-            icon = R.drawable.person_filled,
+            activeIcon = R.drawable.person_active,
+            inactiveIcon = R.drawable.person_inactive,
             title = "My Profile",
             contentDescription = "Go to profile page",
         ),
         MenuItemModel(
             id = "cart",
-            icon = R.drawable.shopping_cart_outlined,
+            activeIcon = R.drawable.shopping_cart_active,
+            inactiveIcon = R.drawable.shopping_cart_inactive,
             title = "My Cart",
             contentDescription = "Go to cart page",
         ),
         MenuItemModel(
             id = "settings",
-            icon = R.drawable.settings,
+            activeIcon = R.drawable.settings_active,
+            inactiveIcon = R.drawable.settings_inactive,
             title = "Settings",
             contentDescription = "Go to settings page",
         )

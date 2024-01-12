@@ -35,6 +35,7 @@ fun HomeAppBar(
         IconButton(onClick = onNavIconClicked) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.study_glow_small_icon),
+                tint = Color(0xFF01304E),
                 contentDescription = "Study Glow Icon",
             )
         }
@@ -50,6 +51,7 @@ fun HomeAppBar(
         IconButton(onClick = onSearchClicked) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.search),
+                tint = Color(0xFF01304E),
                 contentDescription = "Study Glow Icon",
             )
         }

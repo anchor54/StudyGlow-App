@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.sp
 
 class MenuItemModel(
     val id: String,
-    val icon: Int,
+    val activeIcon: Int,
+    val inactiveIcon: Int,
     val title: String,
     val contentDescription: String,
 )
@@ -33,11 +34,14 @@ fun MenuItem(
 ) {
     Box(
         modifier = modifier
-            .background(Color(if (isActive) 0xFFB1D4EA else 0x00000000))
+            .background(Color(if (isActive) 0x66B1D4EA else 0x00000000))
     ) {
         Row(modifier = Modifier.padding(18.dp, 9.dp)) {
             Icon(
-                imageVector = ImageVector.vectorResource(item.icon),
+                imageVector = ImageVector.vectorResource(
+                    if (isActive) item.activeIcon else item.inactiveIcon,
+                ),
+                tint = Color(0xFF0369A9),
                 contentDescription = item.contentDescription
             )
             Spacer(modifier = Modifier.width(14.dp))

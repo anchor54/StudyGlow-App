@@ -49,7 +49,7 @@ fun TestResultOverview(
         )
         TestResultOverviewItem(
             modifier = Modifier.fillMaxWidth(),
-            icon = R.drawable.file_solid,
+            icon = R.drawable.file_active,
             title = "Attempted",
             values = attempted
         )

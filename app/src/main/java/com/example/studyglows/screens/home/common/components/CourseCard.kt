@@ -2,11 +2,8 @@ package com.example.studyglows.screens.home.common.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -37,14 +34,14 @@ fun CourseCard(
 
     val cartImage = ImageVector.vectorResource(
         id = if (courseDetails.isBought) R.drawable.check
-        else R.drawable.shopping_cart
+        else R.drawable.shopping_cart_active
     )
 
     CourseContainer(
         imageUrl = courseDetails.imageUrl,
         title = AnnotatedString(courseDetails.title),
         subtitle = coursePriceText,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         onClicked = onClicked
     ) {
         Row(

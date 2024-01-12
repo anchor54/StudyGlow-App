@@ -32,7 +32,7 @@ fun BaseDrawer(
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             ModalDrawerSheet(
-                modifier = Modifier.fillMaxWidth(0.7f),
+                modifier = Modifier.fillMaxWidth(0.6f),
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerContainerColor = Color.White
             ) {

@@ -2,13 +2,23 @@ package com.example.studyglows.shared.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
@@ -18,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,25 +45,17 @@ fun BottomSheetTabLayout(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxHeight(0.5f).verticalScroll(rememberScrollState())) {
         if (tabRowItems.size > 1) {
             TabRow(
                 selectedTabIndex = pagerState.currentPage,
-                indicator = { tabPositions ->
-                    if (tabPositions.size > pagerState.currentPage) {
-                        Box(
-                            modifier = Modifier
-                                .tabIndicatorOffset(tabPositions[pagerState.currentPage])
-                                .background(Color(0x1F025284))
-                                .fillMaxSize()
-                                .clip(RoundedCornerShape(100.dp)),
-                        )
-                    }
-                },
+                indicator = {},
             ) {
                 tabRowItems.forEachIndexed { index, item ->
-                    Tab(
+                    BottomSheetTab(
                         selected = pagerState.currentPage == index,
+                        selectedContentColor = Color(0x1F025284),
+                        unselectedContentColor = Color(0x00000000),
                         onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
                         icon = {
                             item.icon?.let { icon ->
@@ -80,6 +83,46 @@ fun BottomSheetTabLayout(
             state = pagerState,
         ) {
             tabRowItems[pagerState.currentPage].screen()
+        }
+    }
+}
+
+@Composable
+fun BottomSheetTab(
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    text: @Composable (() -> Unit)? = null,
+    icon: @Composable (() -> Unit)? = null,
+    selectedContentColor: Color = LocalContentColor.current,
+    unselectedContentColor: Color = selectedContentColor,
+) {
+    Box(modifier = modifier
+        .background(
+            color = if (selected) selectedContentColor else unselectedContentColor,
+            shape = RoundedCornerShape(50.dp)
+        )
+        .selectable(
+            selected = selected,
+            enabled = enabled,
+            onClick = onClick
+        )
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp)
+                ,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (text != null) {
+                Box(Modifier.layoutId("text")) { text() }
+            }
+            Box(modifier = Modifier.width(5.dp))
+            if (icon != null) {
+                Box(Modifier.layoutId("icon")) { icon() }
+            }
         }
     }
 }

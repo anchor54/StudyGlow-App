@@ -41,9 +41,9 @@ fun NavGraphBuilder.coursesNavGraph(
             )
         }
         composable(
-            route = Screen.AllCourses.route + "?subjectId={subjectId}",
+            route = Screen.AllCourses.route + "?subject={subject}",
             arguments = listOf(
-                navArgument(name = "subjectId") {
+                navArgument(name = "subject") {
                     type = NavType.StringType
                 }
             )

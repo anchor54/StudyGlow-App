@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,11 +26,10 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun CourseContainer(
     modifier: Modifier = Modifier,
-    imageId: String = "",
     imageUrl: String = "",
     title: AnnotatedString = AnnotatedString(""),
     subtitle: AnnotatedString = AnnotatedString(""),
-    onClicked: (String) -> Unit = {},
+    onClicked: () -> Unit = {},
     footer: @Composable () -> Unit
 ) {
     Card(
@@ -38,7 +38,7 @@ fun CourseContainer(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        modifier = modifier.clickable { onClicked(imageId) }
+        modifier = modifier.clickable { onClicked() }
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Card(

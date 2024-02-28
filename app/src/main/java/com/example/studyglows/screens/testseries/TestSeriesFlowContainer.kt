@@ -19,6 +19,7 @@ import androidx.navigation.navArgument
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.navigation.TestPathCreator
+import com.example.studyglows.navigation.navgraphs.getViewModel
 import com.example.studyglows.screens.auth.common.models.AppUIEvent
 import com.example.studyglows.screens.auth.common.models.TestSeriesUIEvent
 import com.example.studyglows.screens.testseries.model.testNavDrawerContent
@@ -29,6 +30,7 @@ import com.example.studyglows.screens.testseries.subscreens.SavedTests
 import com.example.studyglows.screens.testseries.subscreens.TestDashboard
 import com.example.studyglows.screens.testseries.subscreens.TestDetailsScreen
 import com.example.studyglows.screens.testseries.subscreens.TestResultScreen
+import com.example.studyglows.screens.testseries.viewmodel.TestSeriesViewModel
 import com.example.studyglows.shared.components.BaseScreenLayout
 import com.example.studyglows.shared.components.drawermenu.BaseDrawerNavigation
 import com.example.studyglows.shared.model.NavItem
@@ -104,6 +106,7 @@ fun TestSeriesFlowContainer(
         modifier = modifier,
         searchResult = searchResults,
         onSearch = { viewModel.getSearchResults(it) },
+        onSearchClicked = {},
         onResultItemClicked = { nestedNavController.navigate("${Screen.TestSeriesDetails.route}/$it") }
     ) {
         NavHost(
@@ -154,8 +157,7 @@ fun TestSeriesFlowContainer(
             ) {
                 TestResultScreen(
                     navHostController = nestedNavController,
-                    viewModel = viewModel,
-                    sharedViewModel = sharedViewModel,
+                    viewModel = it.getViewModel(navHostController = nestedNavController),
                     modifier = Modifier.fillMaxSize()
                 )
             }

@@ -3,6 +3,7 @@ package com.example.studyglows.screens.testseries.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -91,6 +92,7 @@ fun AttemptedTestItem(
         Row(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = { takeTestClicked() },
+                contentPadding = PaddingValues(),
                 modifier = Modifier
                     .weight(1f)
                     .endBorder(
@@ -102,7 +104,7 @@ fun AttemptedTestItem(
                 )
             ) {
                 Text(
-                    text = "RETAKE TEST",
+                    text = "RETAKE THE TEST",
                     style = TextStyle(
                         fontSize = 15.sp,
                         lineHeight = 18.sp,
@@ -114,8 +116,10 @@ fun AttemptedTestItem(
             }
             Button(
                 onClick = { viewResultClicked() },
+                contentPadding = PaddingValues(),
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
+                    disabledContainerColor = Color.Transparent,
                     containerColor = Color.Transparent
                 ),
                 enabled = itemDetails.hasResult

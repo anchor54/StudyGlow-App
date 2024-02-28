@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.testseries.TestSeriesViewModel
+import com.example.studyglows.screens.testseries.viewmodel.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.PurchasableTestCard
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 

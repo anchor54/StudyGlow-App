@@ -43,6 +43,7 @@ fun SearchScreen(
     onResultItemClicked: (id: String) -> Unit,
     onBackClicked: () -> Unit,
     onSearch: (searchTxt: String) -> Unit,
+    onSearchClicked: (String) -> Unit
 ) {
     val coroutine = rememberCoroutineScope()
     var searchTxt by remember { mutableStateOf(TextFieldValue("")) }
@@ -73,11 +74,13 @@ fun SearchScreen(
                 }
             },
             trailingIcon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.search),
-                    contentDescription = "Search",
-                    tint = Color.White
-                )
+                IconButton(onClick = { onSearchClicked(searchTxt.text) }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.search),
+                        contentDescription = "Search",
+                        tint = Color.White
+                    )
+                }
             },
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
@@ -106,25 +109,4 @@ fun SearchScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewSearchScreen() {
-    SearchScreen(
-        results = listOf(
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics"),
-            SearchResultItem("id", "#Geo-Politics")
-        ),
-        onResultItemClicked = {},
-        onBackClicked = {}
-    ) {}
 }

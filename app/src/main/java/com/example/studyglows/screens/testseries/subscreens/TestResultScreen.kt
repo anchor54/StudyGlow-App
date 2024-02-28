@@ -1,5 +1,6 @@
 package com.example.studyglows.screens.testseries.subscreens
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,10 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.studyglows.screens.testseries.TestSeriesViewModel
+import com.example.studyglows.screens.testseries.viewmodel.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.TestResultLegend
 import com.example.studyglows.screens.testseries.components.TestResultOverview
 import com.example.studyglows.screens.testseries.components.TestResultQuestionMap
+import com.example.studyglows.screens.testseries.viewmodel.TestResultViewModel
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 import com.example.studyglows.utils.UIUtils.bottomBorder
 import com.example.studyglows.utils.UIUtils.topBorder
@@ -25,12 +27,11 @@ import com.example.studyglows.utils.UIUtils.topBorder
 fun TestResultScreen(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    sharedViewModel: SharedViewModel,
-    viewModel: TestSeriesViewModel
+    viewModel: TestResultViewModel
 )  {
     val testId = navHostController.currentBackStackEntry?.arguments?.getString("testId") ?: ""
     val testResultDetails by viewModel.testResult.collectAsState()
-    val searchResults by viewModel.searchResult.collectAsState()
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     LaunchedEffect(key1 = testId) {
         viewModel.getTestResult(testId)
@@ -56,7 +57,8 @@ fun TestResultScreen(
             )
             TestResultQuestionMap(
                 testId = testId,
-                questionList = it.categorizedStatus
+                questionList = it.categorizedStatus,
+                onDone = { onBackPressedDispatcher?.onBackPressed() }
             )
         }
     }

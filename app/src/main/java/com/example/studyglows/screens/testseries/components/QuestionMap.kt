@@ -1,18 +1,24 @@
 package com.example.studyglows.screens.testseries.components
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -25,6 +31,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -44,16 +51,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun QuestionMap(
     modifier: Modifier = Modifier,
-    currentPage: Int,
+    pagerState: PagerState,
     updateCurrentPage: (Int) -> Unit,
     questionList: CategorizedMap<String, QuestionState>,
-    questionContent: @Composable (Int, QuestionState) -> Unit
+    onQuestionClicked: (Int) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState(initialPage = currentPage)
-    LaunchedEffect(key1 = currentPage) {
-        pagerState.animateScrollToPage(currentPage)
-    }
     Card(
         shape = RoundedCornerShape(15.dp),
         colors = CardDefaults.cardColors(Color.White),
@@ -68,25 +70,26 @@ fun QuestionMap(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { updateCurrentPage(currentPage - 1) },
-                    enabled = currentPage > 0 && currentPage < questionList.size(),
+                    onClick = { updateCurrentPage(pagerState.currentPage - 1) },
+                    enabled = pagerState.currentPage > 0 && pagerState.currentPage < questionList.size(),
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.double_arrow_left),
                         contentDescription = "previous",
                         tint =
-                            if (currentPage == 0) Color(0xFFB1D4EA)
+                            if (pagerState.currentPage == 0) Color(0xFFB1D4EA)
                             else Color(0xFF025284)
                     )
                 }
                 HorizontalPager(
                     pageCount = questionList.size(),
                     state = pagerState,
-                    modifier = Modifier.width(110.dp),
+                    modifier = Modifier.fillMaxWidth(0.6f),
                     userScrollEnabled = false
                 ) {
+                    Log.d("QuestionMap", "Language index: $it")
                     Text(
-                        text = questionList.getAllCategories()[it],
+                        text = questionList.getAllCategories()[pagerState.currentPage],
                         style = TextStyle(
                             fontSize = 13.sp,
                             lineHeight = 15.6.sp,
@@ -97,14 +100,14 @@ fun QuestionMap(
                     )
                 }
                 IconButton(
-                    onClick = { updateCurrentPage(currentPage + 1) },
-                    enabled = currentPage >= 0 && currentPage < questionList.size() - 1,
+                    onClick = { updateCurrentPage(pagerState.currentPage + 1) },
+                    enabled = pagerState.currentPage >= 0 && pagerState.currentPage < questionList.size() - 1,
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.double_arrow_right),
                         contentDescription = "next",
                         tint =
-                        if (currentPage == questionList.size() - 1) Color(0xFFB1D4EA)
+                        if (pagerState.currentPage == questionList.size() - 1) Color(0xFFB1D4EA)
                         else Color(0xFF025284)
                     )
                 }
@@ -116,7 +119,8 @@ fun QuestionMap(
                 modifier = Modifier.fillMaxWidth(),
                 userScrollEnabled = false
             ) {
-                val currentCategory = questionList.getAllCategories()[it]
+                Log.d("QuestionMap", "Question grid index: $it")
+                val currentCategory = questionList.getAllCategories()[pagerState.currentPage]
                 val questionState = questionList.getMapForCategory(currentCategory)
                 val questionIndexStateMap = questionState.map { it.value }.withIndex().map { it.index to it.value }
                 VerticalGrid(
@@ -125,7 +129,32 @@ fun QuestionMap(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    questionContent(it.first, it.second)
+                    Box(
+                        modifier = Modifier
+                            .clickable { onQuestionClicked(it.first) }
+                            .size(30.dp)
+                            .clip(RoundedCornerShape(30.dp))
+                            .background(
+                                color = when (it.second) {
+                                    is QuestionState.AttemptedQuestion -> Color(0xFF00D408)
+                                    is QuestionState.UnAttemptedQuestion -> Color(0xFFFF2C45)
+                                    is QuestionState.ReviewedQuestion -> Color(0xFFF7E702)
+                                    else -> Color(0xFF025284)
+                                }
+                            )
+                    ) {
+                        Text(
+                            text = (it.first + 1).toString(),
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                color = Color(0xFFE6F1F8),
+                                textAlign = TextAlign.Center,
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.Center)
+                        )
+                    }
                 }
             }
         }

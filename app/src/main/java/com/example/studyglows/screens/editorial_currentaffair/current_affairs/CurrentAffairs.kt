@@ -156,6 +156,7 @@ fun CurrentAffairs(
         modifier = modifier,
         searchResult = searchResult,
         onSearch = { viewModel.getSearchResults(it) },
+        onSearchClicked = {},
         onResultItemClicked = { itemClickedId = it }
     ) {
         Row(

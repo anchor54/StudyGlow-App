@@ -1,5 +1,7 @@
 package com.example.studyglows.screens.home
 
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -12,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.studyglows.navigation.Route
@@ -125,7 +128,16 @@ fun HomeScreen(
         modifier = modifier,
         searchResult = searchResults,
         onSearch = { viewModel.getSearchResults(it) },
-        onResultItemClicked = {}
+        onSearchClicked = {
+            coursesNavController.navigate(
+                Screen.FilterCourses.route + "?title=$it"
+            )
+        },
+        onResultItemClicked = {
+            navHostController.navigate(
+                Screen.CourseDetails.route + "?courseId=$it"
+            )
+        }
     ) {
         HomeScreenContent(
             viewModel = viewModel,

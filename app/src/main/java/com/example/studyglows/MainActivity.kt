@@ -52,9 +52,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applicationContext.deleteDatabase("StudyGlowsDB")
         setContent {
             Log.d("onCreate:", intent?.data?.toString() ?: "null")
-            StudyGlowsTheme {
+            StudyGlowsTheme(darkTheme = false) {
                 val navController = rememberNavController()
                 val sharedViewModel: SharedViewModel by viewModels {
                     SharedViewModel.providesSharedViewModelFactory(

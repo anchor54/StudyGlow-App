@@ -46,7 +46,8 @@ import com.example.studyglows.shared.model.CategorizedMap
 @Composable
 fun TestResultQuestionMap(
     testId: String,
-    questionList: CategorizedMap<String, QuestionResultStatus?>
+    questionList: CategorizedMap<String, QuestionResultStatus?>,
+    onDone: () -> Unit
 ) {
     val context = LocalContext.current
     var currentPage by remember { mutableStateOf(0) }
@@ -134,7 +135,7 @@ fun TestResultQuestionMap(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick = onDone,
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color.White,
                     contentColor = Color(0xFF025284)

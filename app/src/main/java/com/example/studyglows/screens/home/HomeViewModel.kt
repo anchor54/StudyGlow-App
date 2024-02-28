@@ -1,63 +1,137 @@
 package com.example.studyglows.screens.home
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.studyglows.network.DashboardRepository
+import com.example.studyglows.repository.CourseRepository
 import com.example.studyglows.screens.auth.common.models.HomeUIEvent
 import com.example.studyglows.screens.cart.models.CartItemModel
-import com.example.studyglows.shared.model.CategoryFilter
 import com.example.studyglows.screens.home.common.models.Course
 import com.example.studyglows.screens.home.common.models.CourseProfileModel
 import com.example.studyglows.screens.home.common.models.OngoingCourse
 import com.example.studyglows.screens.home.common.models.PlaylistModel
 import com.example.studyglows.screens.home.common.models.PopularSubjects
+import com.example.studyglows.screens.home.common.models.ResourceModel
 import com.example.studyglows.screens.home.common.models.SubjectwiseCourse
+import com.example.studyglows.screens.home.common.models.VideoModel
 import com.example.studyglows.shared.model.CategorizedList
 import com.example.studyglows.shared.model.SearchResultItem
-import com.example.studyglows.utils.Utils.replace
+import com.example.studyglows.utils.Utils.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: DashboardRepository
+    private val courseRepository: CourseRepository
 ): ViewModel() {
-    private val _playlist = MutableStateFlow(listOf<PlaylistModel>())
-    val playlist = _playlist.asStateFlow()
+    val playlist = courseRepository.chapterResourceLD.map {
+        it.map {
+            PlaylistModel(
+                title = it.first,
+                videos = it.second.filter { resource ->
+                    resource.type?.toLowerCase() == "video"
+                }.map { resource ->
+                    VideoModel(
+                        title = resource.name ?: "",
+                        videoLength = resource.duration ?: 0L,
+                        videoLink = resource.url ?: "",
+                        isViewable = true
+                    )
+                },
+                resources = it.second.filter { resource ->
+                    resource.type?.toLowerCase() != "video"
+                }.map { resource ->
+                    ResourceModel(
+                        title = resource.name ?: "",
+                        resourceLink = resource.url ?: ""
+                    )
+                }
+            )
+        }
+    }.asStateFlow(listOf())
 
     private val _currentlyWatching = MutableStateFlow(listOf<OngoingCourse>())
     val currentlyWatching = _currentlyWatching.asStateFlow()
 
-    private val _popularCourses = MutableStateFlow(listOf<Course>())
-    val popularCourses = _popularCourses.asStateFlow()
+    val popularCourses = courseRepository.popularCoursesLD.map {
+        it.map { course -> Course(
+            course.courseId,
+            course.imageUrl ?: "",
+            course.title ?: "",
+            course.originalPrice ?: 0f,
+            course.discountedPrice ?: 0f,
+            false,
+            "Popular"
+        ) }
+    }.asStateFlow(listOf())
 
-    private val _popularCoursesBySubjects = MutableStateFlow(PopularSubjects(listOf()))
-    val popularCoursesBySubjects  = _popularCoursesBySubjects.asStateFlow()
+    val popularCoursesBySubjects = courseRepository.categoryCourseMapLD.map {
+        PopularSubjects(
+            it.entries.map { entry ->
+                SubjectwiseCourse(
+                    entry.key,
+                    entry.value.map { course ->
+                        Course(
+                            course.courseId,
+                            course.imageUrl ?: "",
+                            course.title ?: "",
+                            course.originalPrice ?: 0f,
+                            course.discountedPrice ?: 0f,
+                            false,
+                            "Popular"
+                        )
+                    }
+                )
+            }
+        )
+    }.asStateFlow(PopularSubjects(listOf()))
 
-    private val _subjectSpecificCourses = MutableStateFlow(SubjectwiseCourse("", listOf()))
-    val subjectSpecificCourses  = _subjectSpecificCourses.asStateFlow()
+    val subjectSpecificCourses = courseRepository.coursesBySubcategoryLD.map {
+        SubjectwiseCourse(
+            it.first,
+            it.second.map { course -> Course(
+                course.courseId,
+                course.imageUrl ?: "",
+                course.title ?: "",
+                course.originalPrice ?: 0f,
+                course.discountedPrice ?: 0f,
+                false,
+                "Popular"
+            ) }
+        )
+    }.asStateFlow(SubjectwiseCourse("", listOf()))
 
     private val _courseId = MutableStateFlow("")
     val courseId = _courseId.asStateFlow()
 
-    private val _courseProfile = MutableStateFlow(CourseProfileModel())
-    val courseProfile = _courseProfile.asStateFlow()
+    val courseProfile = courseRepository.courseDetailsLD.asStateFlow(CourseProfileModel())
 
-    private val _similarCourses = MutableStateFlow(listOf<Course>())
-    val similarCourses = _similarCourses.asStateFlow()
+    val similarCourses = courseRepository.similarCoursesLD.map {
+        it.map { course -> Course(
+            course.courseId,
+            course.imageUrl ?: "",
+            course.title ?: "",
+            course.originalPrice ?: 0f,
+            course.discountedPrice ?: 0f,
+            false,
+            "Popular"
+        ) }
+    }.asStateFlow(listOf())
 
     private val _uiEvent = MutableSharedFlow<HomeUIEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private val _filters = MutableStateFlow(CategorizedList<String>())
-    val filters = _filters.asStateFlow()
+    val filters = courseRepository.categorizedFilters.map { CategorizedList(it) }.asStateFlow(
+        CategorizedList()
+    )
 
     private val _selectedFilters = MutableStateFlow(CategorizedList<String>())
     val selectedFilters = _selectedFilters.asStateFlow()
@@ -71,11 +145,25 @@ class HomeViewModel @Inject constructor(
     private val _error = MutableStateFlow("")
     val error = _error.asStateFlow()
 
-    private val _searchResults = MutableStateFlow(listOf<SearchResultItem>())
-    val searchResult = _searchResults.asStateFlow()
+    val searchResult = courseRepository.filteredCoursesLD.map {
+        it.map { course ->
+            SearchResultItem(course.courseId, course.title ?: "")
+        }
+    }.asStateFlow(listOf())
 
-    private val _filteredCourses = MutableStateFlow(listOf<Course>())
-    val filteredCourses = _filteredCourses.asStateFlow()
+    val filteredCourses = courseRepository.filteredCoursesLD.map {
+        it.map { course -> Course(
+            course.courseId,
+            course.imageUrl ?: "",
+            course.title ?: "",
+            course.originalPrice ?: 0f,
+            course.discountedPrice ?: 0f,
+            false,
+            "Popular"
+        ) }
+    }.asStateFlow(listOf())
+
+    val courses = courseRepository.courseLD.asStateFlow(listOf())
 
     fun triggerEvent(event: HomeUIEvent) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -83,167 +171,127 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getCurrentlyWatchingCourses() {
+    init {
+        getAllCourses()
+    }
+
+    private fun getAllCourses() {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getCurrentlyWatchingCourses()
+            courseRepository.getAllCourses()
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _currentlyWatching.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
+        }
+    }
+
+    fun getCurrentlyWatchingCourses() {
+        viewModelScope.launch(Dispatchers.IO) {
+//            _loading.value = true
+//            val response = repository.getCurrentlyWatchingCourses()
+//            _loading.value = false
+//            if (response.isSuccessful) {
+//                response.body()?.let {
+//                    _currentlyWatching.value = it
+//                }
+//            } else {
+//                _error.value = response.message() ?: "Something went wrong"
+//            }
         }
     }
 
     fun getPopularCourses() {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getMostPopularCourses()
+            courseRepository.getPopularCourses()
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _popularCourses.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun getTopCoursesOfPopularSubjects() {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getPopularSubjectCourses()
+            courseRepository.getPopularCoursesBySubCategories(listOf("CLAT", "Personality Development"))
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _popularCoursesBySubjects.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun getAllCoursesForSubject(subjectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getAllCoursesOfSubject(subjectName)
+            courseRepository.getAllCoursesBySubCategory(subjectName)
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _subjectSpecificCourses.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     suspend fun getPlaylist(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getPlaylistsForCourse(courseId)
+            courseRepository.getChaptersForCourse(courseId)
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _playlist.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun fetchCourseDetails(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getCourseDetails(courseId)
+            courseRepository.getCourseDetails(courseId)
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _courseProfile.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun fetchSimilarCourses(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getSimilarCourses(courseId)
+            courseRepository.getSimilarCourses(courseId)
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _similarCourses.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun addToCart(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.addCourseToCart(courseId)
+            courseRepository.addCourseToCart(courseId)
             _loading.value = false
-            if (response.isSuccessful) {
-                triggerEvent(HomeUIEvent.AddToCartSuccess())
-            } else {
-                triggerEvent(HomeUIEvent.AddToCartFailed())
-                _error.value = response.message() ?: "Something went wrong"
-            }
+//            if (response.isSuccessful) {
+//                triggerEvent(HomeUIEvent.AddToCartSuccess())
+//            } else {
+//                triggerEvent(HomeUIEvent.AddToCartFailed())
+//                _error.value = response.message() ?: "Something went wrong"
+//            }
         }
     }
 
     fun getAllCategoryFilters() {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.getAllCategoryFilters()
+            courseRepository.getAllCategoryFilters()
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _filters.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun applyFilters(filters: CategorizedList<String>) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            val response = repository.filterCourses(filters)
+            courseRepository.getFilteredCourses(
+                filters.getListForCategory("Category"),
+                filters.getListForCategory("Subject"),
+                filters.getListForCategory("Faculty")
+            )
             _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _filteredCourses.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
         }
     }
 
     fun getAllSavedCourses() {
         viewModelScope.launch(Dispatchers.IO) {
-            _loading.value = true
-            val response = repository.getSavedCourses()
-            _loading.value = false
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _savedCourses.value = it
-                }
-            } else {
-                _error.value = response.message() ?: "Something went wrong"
-            }
+//            _loading.value = true
+//            val response = repository.getSavedCourses()
+//            _loading.value = false
+//            if (response.isSuccessful) {
+//                response.body()?.let {
+//                    _savedCourses.value = it
+//                }
+//            } else {
+//                _error.value = response.message() ?: "Something went wrong"
+//            }
         }
     }
 
@@ -254,12 +302,7 @@ class HomeViewModel @Inject constructor(
 
     fun getSearchResults(searchText: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = repository.search(searchText)
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _searchResults.value = it
-                }
-            }
+            courseRepository.getSearchedCourses(searchText)
         }
     }
 }

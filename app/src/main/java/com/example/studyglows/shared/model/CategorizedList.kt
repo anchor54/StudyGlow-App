@@ -42,6 +42,13 @@ class CategorizedList<T>(
         categoryMap.flatMap { it.value }
 
     fun size() = categoryMap.size
+    fun hasItems(): Boolean {
+        var check = false
+        categoryMap.values.forEach {
+            if (it.isNotEmpty()) check = true
+        }
+        return check
+    }
     fun categorySize(category: String) = categoryMap[category]?.size ?: 0
     fun getAllCategories() = categoryMap.map { it.key }
     fun getListForCategory(category: String) = categoryMap[category] ?: listOf()

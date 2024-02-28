@@ -77,6 +77,7 @@ fun Editorials(
         modifier = modifier,
         searchResult = searchResult,
         onSearch = { viewModel.getSearchResults(it) },
+        onSearchClicked = {},
         onResultItemClicked = { navigateToDetails(it) }
     ) {
         EditorialContent(

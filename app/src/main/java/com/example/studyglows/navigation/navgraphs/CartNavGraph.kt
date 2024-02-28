@@ -9,7 +9,7 @@ import androidx.navigation.navigation
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.cart.CartScreen
-import com.example.studyglows.screens.cart.CartViewModel
+import com.example.studyglows.screens.checkout.CheckoutScreen
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
 fun NavGraphBuilder.cartNavGraph(
@@ -21,10 +21,17 @@ fun NavGraphBuilder.cartNavGraph(
         route = Route.CART_ROUTE.name
     ) {
         composable(route = Screen.Cart.route) {
-            CartScreen(
+             CartScreen(
                 navHostController = navHostController,
                 sharedViewModel = appVM,
                 viewModel = it.getViewModel(navHostController = navHostController),
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        composable(route = Screen.Checkout.route) {
+            CheckoutScreen(
+                navHostController = navHostController,
+                sharedViewModel = appVM,
                 modifier = Modifier.fillMaxSize()
             )
         }

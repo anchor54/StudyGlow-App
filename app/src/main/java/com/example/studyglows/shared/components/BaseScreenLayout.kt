@@ -22,6 +22,7 @@ fun BaseScreenLayout(
     searchResult: List<SearchResultItem>,
     onResultItemClicked: (String) -> Unit,
     onSearch: (String) -> Unit,
+    onSearchClicked: (String) -> Unit,
     content: @Composable () -> Unit
 ) {
     var showSearchScreen by remember { mutableStateOf(false) }
@@ -34,6 +35,10 @@ fun BaseScreenLayout(
                 showSearchScreen = false
             },
             onSearch = onSearch,
+            onSearchClicked = {
+                showSearchScreen = false
+                onSearchClicked(it)
+           },
             onBackClicked = { showSearchScreen = false }
         )
     } else {

@@ -40,7 +40,7 @@ fun FAQItem(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        shape = RoundedCornerShape(15.dp)
+        shape = RoundedCornerShape(4.dp)
     ) {
         Card(
             modifier = Modifier

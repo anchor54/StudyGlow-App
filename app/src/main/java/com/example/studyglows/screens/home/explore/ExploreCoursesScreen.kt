@@ -14,10 +14,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -66,7 +68,12 @@ fun ExploreCoursesScreen(
             itemsIndexed(mostPopularSubjects.popularSubjectList) { i, subject ->
                 TopCourses(
                     subjectName = subject.subjectName ?: "",
-                    courses = subject.courses ?: listOf()
+                    courses = subject.courses ?: listOf(),
+                    viewAllClicked = {
+                        navHostController.navigate(
+                            Screen.AllCourses.route + "?subject=${subject.subjectName}"
+                        )
+                    }
                 ) {
                     viewModel.triggerEvent(HomeUIEvent.NavigateCourseDetails(it))
                 }
@@ -82,12 +89,14 @@ fun ExploreCoursesScreen(
 fun TopCourses(
     subjectName: String,
     courses: List<Course>,
+    viewAllClicked: () -> Unit,
     onCourseClicked: (String) -> Unit = {}
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = subjectName,
@@ -99,16 +108,18 @@ fun TopCourses(
                     letterSpacing = 0.15.sp,
                 )
             )
-            Text(
-                text = "VIEW ALL",
-                style = TextStyle(
-                    fontSize = 15.sp,
-                    lineHeight = 18.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF025284),
-                    letterSpacing = 1.25.sp,
+            TextButton(onClick = viewAllClicked) {
+                Text(
+                    text = "VIEW ALL",
+                    style = TextStyle(
+                        fontSize = 15.sp,
+                        lineHeight = 18.sp,
+                        fontWeight = FontWeight(500),
+                        color = Color(0xFF025284),
+                        letterSpacing = 1.25.sp,
+                    )
                 )
-            )
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         VerticalGrid(

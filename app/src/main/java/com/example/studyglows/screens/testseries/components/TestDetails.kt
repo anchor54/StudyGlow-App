@@ -1,5 +1,6 @@
 package com.example.studyglows.screens.testseries.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,51 +29,15 @@ import com.example.studyglows.shared.model.CategorizedMap
 @Composable
 fun TestDetails(
     modifier: Modifier = Modifier,
-    questions: CategorizedMap<String, QuestionState>,
-    currentPage: Int,
-    updatePage: (Int) -> Unit,
-    onQuestionClicked: (idx: Int) -> Unit,
-    onSubmit: () -> Unit
+    onSubmit: () -> Unit,
+    content: @Composable () -> Unit
 ) {
-
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        TestLegend(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp))
+        TestLegend(modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 30.dp))
         Divider(thickness = 1.dp, color = Color(0xFFB1D4EA))
-        QuestionMap(
-            questionList = questions,
-            currentPage = currentPage,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 30.dp),
-            updateCurrentPage = updatePage
-        ) { questionIdx, questionState ->
-            Box(
-                modifier = Modifier
-                    .clickable { onQuestionClicked(questionIdx) }
-                    .size(30.dp)
-                    .clip(RoundedCornerShape(30.dp))
-                    .background(
-                        color = when (questionState) {
-                            is QuestionState.AttemptedQuestion -> Color(0xFF00D408)
-                            is QuestionState.UnAttemptedQuestion -> Color(0xFFFF2C45)
-                            is QuestionState.ReviewedQuestion -> Color(0xFFF7E702)
-                            else -> Color(0xFF025284)
-                        }
-                    )
-            ) {
-                Text(
-                    text = (questionIdx + 1).toString(),
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = Color(0xFFE6F1F8),
-                        textAlign = TextAlign.Center,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
-                )
-            }
-        }
+        content()
         Button(
             onClick = onSubmit,
             colors = ButtonDefaults.buttonColors(Color(0xFF025284)),

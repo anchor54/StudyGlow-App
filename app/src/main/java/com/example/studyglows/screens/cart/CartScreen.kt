@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
+import com.example.studyglows.navigation.Screen
 import com.example.studyglows.screens.cart.models.CartItemModel
 import com.example.studyglows.screens.cart.component.CartPriceCard
 import com.example.studyglows.shared.components.CartItem
@@ -77,7 +79,7 @@ fun CartScreen(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF025284)
                 ),
-                onClick = { /*TODO*/ }
+                onClick = { navHostController.navigate(Screen.Checkout.route) }
             ) {
                 Text(
                     text = "CONFIRM",
@@ -103,10 +105,11 @@ fun CartScreen(
             val discountedTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.discountedPrice }
             val totalDiscount = originalTotalPrice - discountedTotalPrice
 
-            CollapsableList(
+            CartItemList(
                 title = "CART",
                 items = cartItems,
-                shouldCollapse = false
+                shouldCollapse = true,
+                onCollapse = { navHostController.popBackStack() }
             ) {
                 RowItem(
                     item = it,
@@ -130,10 +133,10 @@ fun CartScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            CollapsableList(
+            CartItemList(
                 title= "SAVED",
                 items = savedItems,
-                shouldCollapse = false
+                shouldCollapse = false,
             ) {
                 RowItem(
                     item = it,
@@ -150,27 +153,27 @@ fun CartScreen(
 }
 
 @Composable
-fun<T> CollapsableList(
+fun<T> CartItemList(
     title: String,
     items: List<T>,
     shouldCollapse: Boolean = true,
+    onCollapse: (() -> Unit)? = null,
     content: @Composable (item: T) -> Unit
 ) {
-    var collapsed by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .clickable { collapsed = !collapsed },
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            imageVector = ImageVector.vectorResource(id = R.drawable.expand_more),
-            contentDescription = "Expand Cart Items",
-            modifier = Modifier.rotate(
-                if (collapsed) 0f else 180f
-            )
-        )
+        if (shouldCollapse)
+            IconButton(onClick = { onCollapse?.invoke() }) {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.expand_more),
+                    contentDescription = "Expand Cart Items",
+                )
+            }
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = title,
@@ -192,8 +195,6 @@ fun<T> CollapsableList(
             )
         )
     }
-
-    if (collapsed) return
 
     items.map { content(it) }
 }

@@ -93,6 +93,7 @@ fun FilterBottomSheet(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
+                enabled = filtersApplied.hasItems(),
                 onClick = {
                     onFilterApplied(filtersApplied.clearAll())
                     onCancelled()
@@ -114,6 +115,7 @@ fun FilterBottomSheet(
                 )
             }
             Button(
+                enabled = filtersApplied.hasItems(),
                 onClick = { onFilterApplied(filtersApplied) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF025284)

@@ -17,6 +17,11 @@ class TestPathCreator(private val navPath: List<NavItem> = listOf()) {
         TestPathCreator(
             navPath + NavItem(Screen.TestQuestions.route, listOf(testId))
         )
+
+    fun addTestResult(testId: String): TestSeriesPathCreator =
+        TestSeriesPathCreator(
+            navPath + NavItem(Screen.TestResults.route, listOf(testId))
+        )
     fun build(gson: Gson): String {
         val params = String(Base64.encode(gson.toJson(navPath).toByteArray(), Base64.DEFAULT), Charsets.UTF_8).replace(" ", "").replace("\n", "")
         return "${Screen.TestScreen.route}?params=$params"

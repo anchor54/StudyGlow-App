@@ -46,11 +46,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.studyglows.R
-import com.example.studyglows.navigation.TestSeriesPathCreator
-import com.example.studyglows.screens.auth.common.models.TestUIEvent
+import com.example.studyglows.navigation.Screen
+import com.example.studyglows.navigation.TestPathCreator
 import com.example.studyglows.screens.test.TestViewModel
-import com.example.studyglows.screens.testseries.components.QuestionComponent
+import com.example.studyglows.screens.testseries.components.QuestionsComponent
 import com.example.studyglows.screens.testseries.components.BaseTestCard
+import com.example.studyglows.screens.testseries.components.QuestionDetail
+import com.example.studyglows.screens.testseries.components.QuestionMap
 import com.example.studyglows.screens.testseries.components.TestAttemptedDialog
 import com.example.studyglows.screens.testseries.components.TestDetails
 import com.example.studyglows.screens.testseries.components.TestSubmitDialog
@@ -58,9 +60,7 @@ import com.example.studyglows.screens.testseries.model.QuestionState
 import com.example.studyglows.screens.testseries.model.QuestionType
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 import com.example.studyglows.utils.Utils
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -87,6 +87,7 @@ fun TestQuestionsScreen(
     val timeUntil by remember { mutableStateOf(System.currentTimeMillis() + testDetails.duration) }
     var timeRemaining by remember { mutableStateOf(testDetails.duration) }
     var shouldCountDown by remember { mutableStateOf(true) }
+    var showEducation by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -99,26 +100,31 @@ fun TestQuestionsScreen(
 
     fun onAttemptsDismiss() {
         openAttemptsDialog = false
-        viewModel.sendUIEvent(TestUIEvent.OpenTestResultScreen(testId))
+        navHostController.popBackStack()
+        navHostController.navigate(Screen.TestResults.route + "/$testId")
     }
 
     BackHandler {
         openSubmitDialog = true
     }
 
-    LaunchedEffect(key1 = categoryIdx) {
-        viewModel.getCategoryQuestions(categoryIdx)
-        if (categoryPagerState.currentPage != categoryIdx) {
-            categoryPagerState.animateScrollToPage(categoryIdx)
+    fun changeCategory(idx: Int) {
+        viewModel.changeCategory(idx)
+        coroutineScope.launch {
+            categoryPagerState.animateScrollToPage(idx)
         }
     }
 
+    LaunchedEffect(key1 = categoryIdx) {
+        viewModel.getCategoryQuestions(categoryIdx)
+    }
+
     LaunchedEffect(key1 = timeUntil, key2 = shouldCountDown) {
-        while (shouldCountDown && timeRemaining > 0) {
-            delay(1.seconds)
-            timeRemaining = 0L.coerceAtLeast(timeUntil - System.currentTimeMillis())
-        }
-        onSubmitTest()
+//        while (shouldCountDown && timeRemaining > 0) {
+//            delay(1.seconds)
+//            timeRemaining = 0L.coerceAtLeast(timeUntil - System.currentTimeMillis())
+//        }
+//        onSubmitTest()
     }
 
     if (openSubmitDialog) {
@@ -153,132 +159,154 @@ fun TestQuestionsScreen(
         }
     }
 
-    Column(modifier = modifier.background(Color(0xFFE6F1F8))) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 25.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BaseTestCard {
-                Text(
-                    text = "${currQuestionIdx + 1}/${testDetails.categoryQuestionCount(categories[categoryIdx])}",
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 15.6.sp,
-                        color = Color(0xFF2E384D),
-                        letterSpacing = 0.4.sp,
-                    ),
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            BaseTestCard {
-                Row(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(
-                        onClick = { viewModel.changeCategory(categoryIdx - 1) },
-                        enabled = categoryIdx > 0 && categoryIdx < testDetails.categories,
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = modifier
+            .fillMaxSize()
+            .background(Color(0xFFE6F1F8))) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 25.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BaseTestCard {
+                    Text(
+                        text = "${currQuestionIdx + 1}/${testDetails.categoryQuestionCount(categories[categoryIdx])}",
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 15.6.sp,
+                            color = Color(0xFF2E384D),
+                            letterSpacing = 0.4.sp,
+                        ),
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                BaseTestCard {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(5.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.arrow_prev),
-                            contentDescription = "Go to Prev",
-                            tint =
+                        IconButton(
+                            onClick = {
+                                changeCategory(categoryIdx - 1)
+                            },
+                            enabled = categoryIdx > 0 && categoryIdx < testDetails.categories,
+                        ) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.arrow_prev),
+                                contentDescription = "Go to Prev",
+                                tint =
                                 if (categoryIdx == 0) Color(0xFFB1D4EA)
                                 else Color(0xFF025284)
-                        )
-                    }
-                    HorizontalPager(
-                        pageCount = categories.size,
-                        state = categoryPagerState,
-                        modifier = Modifier.width(110.dp),
-                        userScrollEnabled = false
-                    ) {
-                        Text(
-                            text = categories[it],
-                            style = TextStyle(
-                                fontSize = 13.sp,
-                                lineHeight = 15.6.sp,
-                                color = Color(0xFF2E384D),
-                                letterSpacing = 0.4.sp,
-                                textAlign = TextAlign.Center
                             )
-                        )
-                    }
-                    IconButton(
-                        onClick = { viewModel.changeCategory(categoryIdx + 1) },
-                        enabled = categoryIdx >= 0 && categoryIdx < testDetails.categories - 1,
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.arrow_next),
-                            contentDescription = "Go to Next",
-                            tint =
-                            if (categoryIdx == testDetails.categories - 1) Color(0xFFB1D4EA)
-                            else Color(0xFF025284)
-                        )
+                        }
+                        HorizontalPager(
+                            pageCount = categories.size,
+                            state = categoryPagerState,
+                            modifier = Modifier.width(110.dp),
+                            userScrollEnabled = false
+                        ) {
+                            Text(
+                                text = categories[categoryPagerState.currentPage],
+                                style = TextStyle(
+                                    fontSize = 13.sp,
+                                    lineHeight = 15.6.sp,
+                                    color = Color(0xFF2E384D),
+                                    letterSpacing = 0.4.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                changeCategory(categoryIdx + 1)
+                            },
+                            enabled = categoryIdx >= 0 && categoryIdx < testDetails.categories - 1,
+                        ) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.arrow_next),
+                                contentDescription = "Go to Next",
+                                tint =
+                                if (categoryIdx == testDetails.categories - 1) Color(0xFFB1D4EA)
+                                else Color(0xFF025284)
+                            )
+                        }
                     }
                 }
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            BaseTestCard {
-                Text(
-                    text = Utils.getTimeInMinsAndSecs(timeRemaining / 1000),
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 15.6.sp,
-                        color = Color(0xFF2E384D),
-                        letterSpacing = 0.4.sp,
-                    ),
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
-                )
-            }
-        }
-        Box(modifier = Modifier.weight(1f)) {
-            TestDetails(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                questions = questionState,
-                currentPage = categoryIdx,
-                updatePage = { viewModel.changeCategory(it) },
-                onQuestionClicked = {
-                    viewModel.changeQuestion(it)
-                    coroutineScope.launch {
-                        bottomSheetState.expand()
-                    }
-                },
-                onSubmit = { openSubmitDialog = true }
-            )
-            BottomSheetScaffold(
-                scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState),
-                sheetDragHandle = null,
-                sheetContent = {
-                    QuestionComponent(
-                        modifier = modifier.fillMaxSize(),
-                        questions = questions,
-                        currentQuestionIdx = currQuestionIdx,
-                        onQuestionChange = { viewModel.changeQuestion(it) },
-                        showQuestion = bottomSheetState.currentValue == SheetValue.Expanded,
-                        onAnswered = { id, answer, type ->
-                            viewModel.addAnswer(id, answer, QuestionType.getQuestionType(type))
-                        },
-                        toggleShowState = {
-                            coroutineScope.launch {
-                                if (bottomSheetState.currentValue == SheetValue.Expanded) bottomSheetState.partialExpand()
-                                else bottomSheetState.expand()
-                            }
-                        },
-                        getQuestionDetails = { viewModel.getQuestionDetails(categories[categoryIdx], it) }
+                Spacer(modifier = Modifier.width(10.dp))
+                BaseTestCard {
+                    Text(
+                        text = Utils.getTimeInMinsAndSecs(timeRemaining / 1000),
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 15.6.sp,
+                            color = Color(0xFF2E384D),
+                            letterSpacing = 0.4.sp,
+                        ),
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
                     )
-                },
-                sheetContainerColor = Color.White,
-                sheetPeekHeight = 80.dp,
-            ) {}
+                }
+            }
+            Box(modifier = Modifier.weight(1f)) {
+                TestDetails(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    onSubmit = { openSubmitDialog = true }
+                ) {
+                    QuestionMap(
+                        questionList = questionState,
+                        pagerState = categoryPagerState,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 30.dp),
+                        updateCurrentPage = {
+                            changeCategory(it)
+                        },
+                        onQuestionClicked = {
+                            viewModel.changeQuestion(it)
+                            coroutineScope.launch {
+                                bottomSheetState.expand()
+                            }
+                        }
+                    )
+                }
+                BottomSheetScaffold(
+                    scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState),
+                    sheetDragHandle = null,
+                    sheetContent = {
+                        QuestionsComponent(
+                            modifier = modifier.fillMaxSize(),
+                            questions = questions,
+                            currentQuestionIdx = currQuestionIdx,
+                            onQuestionChange = { viewModel.changeQuestion(it) },
+                            showQuestion = bottomSheetState.currentValue == SheetValue.Expanded,
+                            toggleShowState = {
+                                coroutineScope.launch {
+                                    if (bottomSheetState.currentValue == SheetValue.Expanded) bottomSheetState.partialExpand()
+                                    else bottomSheetState.expand()
+                                }
+                            },
+                        ) { questionIdx, question ->
+                            QuestionDetail(
+                                questionIdx = questionIdx,
+                                questionItem = question,
+                                onAnswered = { id, answer, type ->
+                                    viewModel.addAnswer(id, answer, QuestionType.getQuestionType(type))
+                                },
+                                getQuestionDetails = { viewModel.getQuestionDetails(categories[categoryIdx], it) }
+                            )
+                        }
+                    },
+                    sheetContainerColor = Color.White,
+                    sheetPeekHeight = 80.dp,
+                ) {}
+            }
         }
+        if (showEducation) TestEducationScreen { showEducation = false }
     }
 
 }

@@ -56,15 +56,11 @@ fun PopularCourses(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             itemsIndexed(popularCourses) { _, course ->
-                Box(modifier = Modifier
-                    .width(165.dp)
-                    .height(300.dp)) {
-                    CourseCard(
-                        courseDetails = course,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        viewModel.triggerEvent(HomeUIEvent.NavigateCourseDetails(course.courseId))
-                    }
+                CourseCard(
+                    courseDetails = course,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    viewModel.triggerEvent(HomeUIEvent.NavigateCourseDetails(course.courseId))
                 }
             }
         }

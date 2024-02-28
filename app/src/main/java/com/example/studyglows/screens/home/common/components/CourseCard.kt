@@ -3,8 +3,11 @@ package com.example.studyglows.screens.home.common.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,11 +44,11 @@ fun CourseCard(
         imageUrl = courseDetails.imageUrl,
         title = AnnotatedString(courseDetails.title),
         subtitle = coursePriceText,
-        modifier = modifier,
-        onClicked = onClicked
+        modifier = modifier.widthIn(min = 150.dp, max = 200.dp),
+        onClicked = { onClicked(courseDetails.courseId) }
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom
         ) {

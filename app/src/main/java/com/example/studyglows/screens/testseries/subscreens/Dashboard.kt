@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.testseries.TestSeriesViewModel
+import com.example.studyglows.screens.testseries.viewmodel.TestSeriesViewModel
 import com.example.studyglows.screens.testseries.components.ContinueTest
 import com.example.studyglows.screens.testseries.components.RecommendedTests
 import com.example.studyglows.shared.viewmodels.SharedViewModel

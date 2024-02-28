@@ -6,10 +6,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
 import com.example.studyglows.utils.Constants.RUPEE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import java.lang.Integer.min
@@ -105,5 +107,16 @@ object Utils {
         val mins = secs / 60
         val secsRemaining = secs % 60
         return "${if (mins > 9) mins else "0$mins"}:${if (secsRemaining > 9) secsRemaining else "0$secsRemaining"}"
+    }
+
+    fun <T> LiveData<T>.asStateFlow(initialValue: T): StateFlow<T> {
+        val stateFlow = MutableStateFlow(initialValue)
+
+        // Observe LiveData and update StateFlow
+        this.observeForever { newValue ->
+            stateFlow.value = newValue ?: initialValue
+        }
+
+        return stateFlow.asStateFlow()
     }
 }

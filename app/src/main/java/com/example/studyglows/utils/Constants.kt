@@ -1,7 +1,8 @@
 package com.example.studyglows.utils
 
 object Constants {
-    const val BASE_API_URL = "http://65.0.164.61/"
+    const val BASE_API_URL = "http://13.233.147.30:8002/"
     const val COUNTRY_CODE = "IN"
     const val RUPEE = "₹"
+    const val COURSE_PREFERENCE = "course"
 }

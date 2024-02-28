@@ -1,6 +1,7 @@
 package com.example.studyglows.screens.test
 
 import android.util.Base64
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,9 +19,11 @@ import androidx.navigation.navArgument
 import com.example.studyglows.navigation.Route
 import com.example.studyglows.navigation.Screen
 import com.example.studyglows.navigation.TestSeriesPathCreator
+import com.example.studyglows.navigation.navgraphs.getViewModel
 import com.example.studyglows.screens.auth.common.models.TestUIEvent
 import com.example.studyglows.screens.test.subscreens.TestQuestionsScreen
 import com.example.studyglows.screens.test.subscreens.TestWelcome
+import com.example.studyglows.screens.testseries.subscreens.TestResultScreen
 import com.example.studyglows.shared.model.NavItem
 import com.example.studyglows.shared.viewmodels.SharedViewModel
 
@@ -107,6 +110,22 @@ fun TestFlowContainer(
                 viewModel = viewModel,
                 sharedViewModel = appVm,
                 modifier = modifier
+            )
+        }
+
+        composable(
+            route = Screen.TestResults.route + "/{testId}",
+            arguments = listOf(
+                navArgument(name = "testId") {
+                    type = NavType.StringType
+                    defaultValue = if (params.isEmpty()) "" else params[0]
+                }
+            )
+        ) {
+            TestResultScreen(
+                navHostController = navController,
+                viewModel = it.getViewModel(navHostController = navController),
+                modifier = Modifier.fillMaxSize()
             )
         }
     }

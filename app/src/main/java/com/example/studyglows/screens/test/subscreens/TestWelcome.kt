@@ -170,7 +170,10 @@ fun TestWelcome(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = { navHostController.navigate("${Screen.TestQuestions.route}/$testId") },
+                    onClick = {
+                        navHostController.popBackStack()
+                        navHostController.navigate("${Screen.TestQuestions.route}/$testId")
+                    },
                     colors = ButtonDefaults.buttonColors(Color(0xFF025284)),
                     modifier = Modifier.fillMaxWidth(0.8f).align(Alignment.CenterHorizontally)
                 ) {

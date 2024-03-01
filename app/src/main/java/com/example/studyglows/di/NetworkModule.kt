@@ -1,5 +1,6 @@
 package com.example.studyglows.di
 
+import com.example.studyglows.network.apis.CartApiService
 import com.example.studyglows.network.apis.CourseApiService
 import com.example.studyglows.network.apis.LoginApis
 import com.example.studyglows.utils.Constants.BASE_API_URL
@@ -22,5 +23,8 @@ class NetworkModule {
 
     @Provides
     fun providesCourseApiService(retrofit: Retrofit): CourseApiService = retrofit.create(CourseApiService::class.java)
+
+    @Provides
+    fun providesCartApiService(retrofit: Retrofit): CartApiService = retrofit.create(CartApiService::class.java)
 
 }

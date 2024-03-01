@@ -119,4 +119,16 @@ object Utils {
 
         return stateFlow.asStateFlow()
     }
+
+    fun cropText(text: String, maxLength: Int = 30, ellipsis: String = "..."): String {
+        // Check if the text needs to be cropped
+        return if (text.length > maxLength) {
+            // Ensure that the total length respects the maxLength including the ellipsis
+            val endIndex = maxLength - ellipsis.length
+            text.substring(0, endIndex) + ellipsis
+        } else {
+            // Return the original text if it's shorter than maxLength
+            text
+        }
+    }
 }

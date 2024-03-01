@@ -101,21 +101,23 @@ fun CartScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val originalTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.originalPrice }
-            val discountedTotalPrice = cartItems.fold(0f) { acc, cartItem -> acc + cartItem.discountedPrice }
+            val originalTotalPrice = cartItems?.fold(0f) { acc, cartItem -> acc + (cartItem?.originalPrice ?: 0f) } ?: 0f
+            val discountedTotalPrice = cartItems?.fold(0f) { acc, cartItem -> acc + (cartItem?.discountedPrice ?: 0f) } ?: 0f
             val totalDiscount = originalTotalPrice - discountedTotalPrice
 
             CartItemList(
                 title = "CART",
-                items = cartItems,
+                items = cartItems ?: listOf(),
                 shouldCollapse = true,
                 onCollapse = { navHostController.popBackStack() }
-            ) {
-                RowItem(
-                    item = it,
-                    rowIcon = R.drawable.remove,
-                    onRowIconClicked = { viewModel.removeCartItem(it) }
-                )
+            ) { cart ->
+                cart?.let { cartItem ->
+                    RowItem(
+                        item = cartItem,
+                        rowIcon = R.drawable.remove,
+                        onRowIconClicked = { viewModel.removeCartItem(cartItem.id) }
+                    )
+                }
             }
 
             CartPriceCard(
@@ -137,13 +139,13 @@ fun CartScreen(
                 title= "SAVED",
                 items = savedItems,
                 shouldCollapse = false,
-            ) {
+            ) { cart ->
                 RowItem(
-                    item = it,
+                    item = cart,
                     rowIcon = R.drawable.add,
                     onRowIconClicked = {
-                        viewModel.addCartItem(it)
-                        viewModel.removeSavedItem(it)
+                        viewModel.addCartItem(cart.id)
+                        viewModel.removeSavedItem(cart.id)
                     },
                     modifier = Modifier.fillMaxWidth()
                 )

@@ -2,8 +2,10 @@ package com.example.studyglows.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.studyglows.db.StudyGlowsDatabase
+import com.example.studyglows.db.models.Cart
 import com.example.studyglows.db.models.Category
 import com.example.studyglows.db.models.Chapter
 import com.example.studyglows.db.models.ChapterResource
@@ -18,9 +20,11 @@ import com.example.studyglows.db.models.Subcategory
 import com.example.studyglows.network.apis.CourseApiService
 import com.example.studyglows.network.models.CartPostRequestBody
 import com.example.studyglows.screens.home.common.models.CourseProfileModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CourseRepository @Inject constructor(
@@ -198,6 +202,17 @@ class CourseRepository @Inject constructor(
         }
     }
 
+    suspend fun markChapterWithStatus(status: String, id: Long) {
+        database.courseDao().markResourceAs(status, id)
+        _chapterResourcesLD.postValue(
+            _chapterResourcesLD.value?.map {
+                it.first to it.second.map { resource ->
+                    if (resource.id == id) resource.copy(playingStatus = status) else resource
+                }
+            }
+        )
+    }
+
     private suspend fun getResourcesForChapters(chapters: List<String>) {
         coroutineScope {
             val responses = chapters.map { async { courseApi.getAllResourcesForChapter(it) } }.awaitAll()
@@ -221,10 +236,5 @@ class CourseRepository @Inject constructor(
             }
             _chapterResourcesLD.postValue(map)
         }
-    }
-
-    suspend fun addCourseToCart(courseId: Long) {
-        courseApi.addCoursetoCart(CartPostRequestBody("COURSE", courseId), "Bearer token")
-        
     }
 }

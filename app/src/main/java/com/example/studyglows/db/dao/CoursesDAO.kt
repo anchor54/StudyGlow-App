@@ -1,11 +1,13 @@
-package com.example.studyglows.db
+package com.example.studyglows.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RawQuery
+import androidx.room.Update
 import androidx.sqlite.db.SupportSQLiteQuery
+import com.example.studyglows.db.models.Cart
 import com.example.studyglows.db.models.CourseFaculties
 import com.example.studyglows.db.models.CourseFeatures
 import com.example.studyglows.db.models.Category
@@ -49,8 +51,11 @@ interface CoursesDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addChapters(chapters: List<Chapter>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addChapterResources(chapters: List<ChapterResource>)
+
+    @Query("UPDATE chapter_resource SET status = :status WHERE id = :id")
+    suspend fun markResourceAs(status: String, id: Long)
 
     @Query("SELECT courses.id as courseId, course_resource.url as imageUrl, courses.title as title, courses.mrp as originalPrice, courses.price as discountedPrice FROM courses LEFT JOIN course_resource ON courses.resource_id = course_resource.id LIMIT 5")
     suspend fun getPopularCourses(): List<CourseWithResourceModel>

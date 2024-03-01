@@ -81,3 +81,21 @@ data class CartPostRequestBody(
     val type: String,
     val course_id: Long
 )
+
+data class Cart(
+    val id: Int,
+    val is_checkout: Boolean,
+    val product_quantity: List<CartItem>?
+)
+
+data class CartItem(
+    val amount: Double?,
+    val coupon_amount: Double?,
+    val course: Course?,
+    val extra: String?,
+    val id: Long,
+    val tax_amount: Double?,
+    val test_series: String?,
+    val total_amount: Double?,
+    val type: String?
+)

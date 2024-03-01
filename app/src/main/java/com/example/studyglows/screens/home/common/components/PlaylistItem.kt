@@ -33,17 +33,15 @@ import androidx.compose.ui.unit.sp
 import com.example.studyglows.R
 import com.example.studyglows.screens.home.common.models.PlaylistModel
 import com.example.studyglows.screens.home.common.models.VideoModel
+import com.example.studyglows.screens.home.common.models.ViewStatus
 import com.example.studyglows.utils.UIUtils.bottomBorder
 import com.example.studyglows.utils.UIUtils.topBorder
 
 @Composable
 fun PlaylistItem(
     modifier: Modifier = Modifier,
-    playlistIndex: Int,
     playlist: PlaylistModel,
-    isPlaying: Boolean = false,
-    currentVideoPlaying: Int = -1,
-    onVideoClicked: (Int, Int) -> Unit
+    onVideoClicked: (Int) -> Unit
 ) {
     var showPlaylist by remember { mutableStateOf(false) }
     val intractable by remember {
@@ -105,10 +103,7 @@ fun PlaylistItem(
                     playlist.videos.mapIndexed { i, video ->
                         VideoItem(
                             video = video,
-                            playlistIndex = playlistIndex,
-                            videoIndex = i,
-                            isPlaying = isPlaying && currentVideoPlaying == i,
-                            onVideoClicked = onVideoClicked
+                            onVideoClicked = { onVideoClicked(i) }
                         )
                     }
                 }
@@ -137,7 +132,6 @@ fun PlaylistItem(
 @Composable
 fun PreviewPlaylistItem() {
     PlaylistItem(
-        playlistIndex = 0,
         playlist = PlaylistModel(
             title = "Intro to Modern History",
             videos = listOf(
@@ -155,5 +149,5 @@ fun PreviewPlaylistItem() {
                 )
             )
         )
-    ) { _, _ -> }
+    ) {}
 }

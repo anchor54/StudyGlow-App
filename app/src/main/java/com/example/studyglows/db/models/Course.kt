@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.studyglows.network.models.Chapter
+import com.example.studyglows.screens.home.common.models.ViewStatus
 import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
@@ -111,7 +112,8 @@ data class ChapterResource(
     val name: String?,
     val size: Long?,
     val type: String?,
-    val url: String?
+    val url: String?,
+    @ColumnInfo(name = "status") val playingStatus: String = ViewStatus.TO_WATCH.status
 )
 
 @Entity(tableName = "chapter")

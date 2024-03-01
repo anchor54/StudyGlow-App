@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.example.studyglows.screens.home.HomeViewModel
 import com.example.studyglows.screens.home.common.components.PlaylistItem
 import com.example.studyglows.screens.home.common.components.VideoPlayer
+import com.example.studyglows.screens.home.common.models.ViewStatus
 
 @Composable
 fun LectureScreen(
@@ -26,6 +27,7 @@ fun LectureScreen(
 ) {
     var currVideoIndex by remember { mutableStateOf(0) }
     var currPlaylistIndex by remember { mutableStateOf(0) }
+    var currResoruceIndex by remember { mutableStateOf<Long?>(null) }
     val playlists by viewModel.playlist.collectAsState()
     val courseId = navHostController.currentBackStackEntry?.arguments?.getString("courseId") ?: ""
 
@@ -49,22 +51,33 @@ fun LectureScreen(
                 .fillMaxWidth()
                 .weight(1f, fill = true),
             videos = playlists.flatMap { it.videos },
+            duration = if (playlists.isNotEmpty() && playlists[currPlaylistIndex].videos.isNotEmpty())
+                playlists[currPlaylistIndex].videos[currVideoIndex].videoLength
+            else 0L,
             currentlyPlaying = currentlyPlaying
-        )
+        ) {
+            currResoruceIndex?.let {
+                viewModel.markLectureAs(ViewStatus.COMPLETED, it)
+            }
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
         ) {
             itemsIndexed(playlists) { i, playlist ->
-                PlaylistItem(
-                    playlist = playlist,
-                    playlistIndex = i,
-                    isPlaying = currPlaylistIndex == i,
-                    currentVideoPlaying = if(currPlaylistIndex == i) currVideoIndex else -1
-                ) { playlistIndex, videoIndex ->
-                    currPlaylistIndex = playlistIndex
-                    currVideoIndex = videoIndex
+                PlaylistItem(playlist = playlist) {
+                    if (playlists[currPlaylistIndex].videos[currVideoIndex].viewStatus != ViewStatus.COMPLETED) {
+                        currResoruceIndex?.let {
+                            viewModel.markLectureAs(ViewStatus.TO_WATCH, it)
+                        }
+                    }
+                    currVideoIndex = it
+                    currPlaylistIndex = i
+                    currResoruceIndex = playlist.videos[it].id.toLong()
+                    currResoruceIndex?.let {
+                        viewModel.markLectureAs(ViewStatus.WATCHING, it)
+                    }
                 }
             }
         }

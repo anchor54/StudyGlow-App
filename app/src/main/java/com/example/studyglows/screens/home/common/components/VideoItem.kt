@@ -25,21 +25,19 @@ import com.example.studyglows.screens.home.common.models.ViewStatus
 import com.example.studyglows.utils.UIUtils.bottomBorder
 import com.example.studyglows.utils.UIUtils.topBorder
 import com.example.studyglows.utils.Utils
+import com.example.studyglows.utils.Utils.cropText
 
 @Composable
 fun VideoItem(
     video: VideoModel,
-    playlistIndex: Int,
-    videoIndex: Int,
     modifier: Modifier = Modifier,
-    isPlaying: Boolean = false,
-    onVideoClicked: (Int, Int) -> Unit
+    onVideoClicked: () -> Unit
 ) {
     Box(
         modifier = modifier
             .topBorder(1.dp, Color(0xFFB1D4EA))
             .bottomBorder(1.dp, Color(0xFFB1D4EA))
-            .clickable { onVideoClicked(playlistIndex, videoIndex) }
+            .clickable { onVideoClicked() }
     ) {
         Row(
             modifier = Modifier.padding(16.dp, 18.dp),
@@ -47,7 +45,7 @@ fun VideoItem(
         ) {
             Column {
                 Text(
-                    text = video.title,
+                    text = cropText(video.title, 30),
                     style = TextStyle(
                         fontSize = 17.sp,
                         lineHeight = 20.4.sp,
@@ -66,12 +64,11 @@ fun VideoItem(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            if (isPlaying) VideoPlayingChip()
-            if (!isPlaying)
-                when(video.viewStatus) {
-                    ViewStatus.TO_WATCH -> VideoPlayChip()
-                    ViewStatus.COMPLETED -> VideoCompletedChip()
-                }
+            when(video.viewStatus) {
+                ViewStatus.TO_WATCH -> VideoPlayChip()
+                ViewStatus.COMPLETED -> VideoCompletedChip()
+                ViewStatus.WATCHING -> VideoPlayingChip()
+            }
         }
     }
 }
@@ -147,13 +144,12 @@ fun VideoPlayChip(modifier: Modifier = Modifier) {
 @Composable
 fun PreviewVideoItem() {
     VideoItem(
-        playlistIndex = 0,
-        videoIndex = 0,
         video = VideoModel(
             title = "History Lesson 1",
             videoLength = 324,
             videoLink = "https://www.youtube.com/watch?v=9c1NIrAqXe4",
             isViewable = true,
+            viewStatus = ViewStatus.WATCHING
         )
-    ) { _, _ -> }
+    ) {}
 }

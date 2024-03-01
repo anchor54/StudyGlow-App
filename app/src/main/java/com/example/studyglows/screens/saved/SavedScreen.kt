@@ -15,8 +15,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.studyglows.navigation.Screen
-import com.example.studyglows.screens.auth.common.models.HomeUIEvent
 import com.example.studyglows.screens.home.HomeViewModel
 
 @Composable
@@ -25,10 +23,10 @@ fun SavedCoursesScreen(
     navHostController: NavHostController,
     viewModel: HomeViewModel
 ) {
-    val savedCourses by viewModel.savedCourses.collectAsState()
+    val savedCourses by viewModel.savedItems.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getAllSavedCourses()
+        viewModel.getSavedItems()
     }
 
     Column(modifier = modifier) {
@@ -47,9 +45,7 @@ fun SavedCoursesScreen(
                 val savedItem = savedCourses[it]
                 SavedItem(
                     savedItem = savedItem,
-                    showDetailsClicked = {
-                        viewModel.triggerEvent(HomeUIEvent.NavigateCourseDetails(savedItem.id))
-                    },
+                    showDetailsClicked = {},
                     addToCartClicked = {
                         viewModel.addSavedCourseToCart(savedItem.id)
                     }

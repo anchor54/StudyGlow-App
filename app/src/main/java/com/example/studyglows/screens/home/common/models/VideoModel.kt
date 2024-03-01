@@ -32,7 +32,13 @@ class VideoModel(
 
 enum class ViewStatus(val status: String) {
     TO_WATCH("play"),
-    COMPLETED("completed"),
+    WATCHING("watching"),
+    COMPLETED("completed");
+
+    companion object {
+        fun from(status: String) =
+            ViewStatus.values().find { it.status == status } ?: TO_WATCH
+    }
 }
 
 fun List<VideoModel>.getMediaItems(): List<MediaItem> =

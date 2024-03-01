@@ -24,6 +24,7 @@ import com.example.studyglows.screens.cart.models.CartItemModel
 import com.example.studyglows.utils.UIUtils.bottomBorder
 import com.example.studyglows.utils.UIUtils.topBorder
 import com.example.studyglows.utils.Utils
+import com.example.studyglows.utils.Utils.cropText
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -78,7 +79,7 @@ fun CartItem(
                 }
             }
             Text(
-                text = cartItem.title,
+                text = cropText(cartItem.title, 10),
                 style = TextStyle(
                     fontSize = 17.sp,
                     lineHeight = 25.5.sp,
@@ -88,7 +89,7 @@ fun CartItem(
             )
             cartItem.subtitle?.let {
                 Text(
-                    text = it,
+                    text = cropText(it),
                     style = TextStyle(
                         fontSize = 13.sp,
                         lineHeight = 15.6.sp,

@@ -67,6 +67,8 @@ fun CourseDetailsScreen(
     modifier: Modifier = Modifier
 ) {
     val courseId = navHostController.currentBackStackEntry?.arguments?.getString("courseId") ?: ""
+    val isInCart by viewModel.isCourseInCart.collectAsState()
+    val isSaved by viewModel.isCourseSaved.collectAsState()
     val courseDetails by viewModel.courseProfile.collectAsState()
     val similarCourses by viewModel.similarCourses.collectAsState()
     val educatorString by remember(courseDetails.educators) {
@@ -125,7 +127,11 @@ fun CourseDetailsScreen(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
-            onBackPressed = { navHostController.popBackStack() }
+            isInCart = isInCart,
+            isSaved = isSaved,
+            onBackPressed = { navHostController.popBackStack() },
+            onCartClicked = { viewModel.addToCart(courseId) },
+            onFavouriteClicked = { viewModel.addSavedCourseToCart(courseId) }
         )
         BottomBar(
             modifier = Modifier
@@ -242,6 +248,8 @@ fun CourseDetailsContent(
 @Composable
 fun TopAppBar(
     modifier: Modifier = Modifier,
+    isInCart: Boolean = false,
+    isSaved: Boolean = false,
     onBackPressed: () -> Unit = {},
     onCartClicked: () -> Unit = {},
     onFavouriteClicked: () -> Unit = {}
@@ -263,14 +271,14 @@ fun TopAppBar(
             Row {
                 IconButton(onClick = onCartClicked) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.shopping_cart_inactive),
+                        imageVector = ImageVector.vectorResource(id = if (isInCart) R.drawable.shopping_cart_active else R.drawable.shopping_cart_inactive),
                         tint = Color(0xFF023F66),
                         contentDescription = "add to cart"
                     )
                 }
                 IconButton(onClick = onFavouriteClicked) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.bookmark),
+                        imageVector = ImageVector.vectorResource(id = if (isSaved) R.drawable.book_active else R.drawable.bookmark),
                         tint = Color(0xFF023F66),
                         contentDescription = "add to cart"
                     )

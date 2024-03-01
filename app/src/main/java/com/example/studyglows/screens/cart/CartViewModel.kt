@@ -1,9 +1,11 @@
 package com.example.studyglows.screens.cart
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.studyglows.network.apis.CartApis
+import com.example.studyglows.repository.CartRepository
 import com.example.studyglows.screens.cart.models.CartItemModel
+import com.example.studyglows.utils.Utils.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,13 +15,35 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartApis
+    private val cartRepository: CartRepository
 ): ViewModel() {
-    private val _cartItemsModule = MutableStateFlow(listOf<CartItemModel>())
-    val cartItems = _cartItemsModule.asStateFlow()
+    val cartItems = cartRepository.cart.map {
+        it.product_quantity?.map { cartItem ->
+            cartItem.course?.let { course ->
+                CartItemModel(
+                    id = course.id.toString(),
+                    title = course.title ?: "",
+                    subtitle = course.about ?: "",
+                    imageUrl = course.resource?.url ?: "",
+                    discountedPrice = course.price?.toFloat() ?: 0f,
+                    originalPrice = course.mrp?.toFloat() ?: 0f
+                )
+            }
+        }
+    }.asStateFlow(listOf())
 
-    private val _savedItems = MutableStateFlow(listOf<CartItemModel>())
-    val savedItems = _savedItems.asStateFlow()
+    val savedItems = cartRepository.savedCourses.map {
+        it.map { course ->
+            CartItemModel(
+                id = course.courseId,
+                title = course.title ?: "",
+                subtitle = course.brief ?: "",
+                imageUrl = course.imageUrl ?: "",
+                discountedPrice = course.discountedPrice ?: 0f,
+                originalPrice = course.originalPrice ?: 0f
+            )
+        }
+    }.asStateFlow(listOf())
 
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
@@ -29,39 +53,44 @@ class CartViewModel @Inject constructor(
 
     fun getCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = cartRepository.getCartItems()
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _cartItemsModule.value = it
-                }
-            }
+            _loading.value = true
+            cartRepository.getCartItems()
+            _loading.value = false
         }
     }
 
-    fun addCartItem(item: CartItemModel) {
-        _cartItemsModule.value += item
+    fun addCartItem(courseId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
+            cartRepository.addCourseToCart(courseId.toLong())
+            _loading.value = false
+        }
     }
 
-    fun removeCartItem(item: CartItemModel) {
-        _cartItemsModule.value -= item
+    fun removeCartItem(itemId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
+            cartRepository.removeCartItem(itemId, "COURSE")
+            _loading.value = false
+        }
     }
 
     fun getSavedItems() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = cartRepository.getSavedCourses()
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _savedItems.value = it
-                }
-            }
+            _loading.value = true
+            cartRepository.getSavedCourses()
+            _loading.value = false
         }
     }
 
-    fun addSavedItem(item: CartItemModel) {
-        _savedItems.value += item
+    fun addSavedCourseToCart(courseId: String) {
+        removeSavedItem(courseId)
+        addCartItem(courseId)
     }
 
-    fun removeSavedItem(item: CartItemModel) {
-        _savedItems.value -= item
+    fun removeSavedItem(courseId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepository.removeSavedItem(courseId, "COURSE")
+        }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.ImageOptions
@@ -63,13 +64,14 @@ fun CourseContainer(
                 .fillMaxWidth())
             Text(
                 text = title,
+                overflow = TextOverflow.Ellipsis,
                 style = TextStyle(
                     fontSize = 13.sp,
                     lineHeight = 15.6.sp,
                     color = Color(0xFF8798AD),
                     letterSpacing = 0.4.sp,
                 ),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().height(40.dp)
             )
             Text(text = subtitle, modifier = Modifier.fillMaxWidth())
             footer()

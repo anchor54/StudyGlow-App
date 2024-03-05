@@ -59,6 +59,7 @@ import com.example.studyglows.screens.home.common.models.Educators
 import com.example.studyglows.screens.home.common.models.FAQ
 import com.example.studyglows.utils.Utils
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.flow.map
 
 @Composable
 fun CourseDetailsScreen(
@@ -67,10 +68,12 @@ fun CourseDetailsScreen(
     modifier: Modifier = Modifier
 ) {
     val courseId = navHostController.currentBackStackEntry?.arguments?.getString("courseId") ?: ""
-    val isInCart by viewModel.isCourseInCart.collectAsState()
-    val isSaved by viewModel.isCourseSaved.collectAsState()
     val courseDetails by viewModel.courseProfile.collectAsState()
     val similarCourses by viewModel.similarCourses.collectAsState()
+    val isSaved by viewModel.savedCourses.map { it.find { it == courseId } != null }.collectAsState(initial = false)
+    val isInCart by viewModel.cartCourses.map { it.find { it == courseId.toLong() } != null }.collectAsState(
+        initial = false
+    )
     val educatorString by remember(courseDetails.educators) {
         derivedStateOf {
             courseDetails.educators?.let {
@@ -130,8 +133,14 @@ fun CourseDetailsScreen(
             isInCart = isInCart,
             isSaved = isSaved,
             onBackPressed = { navHostController.popBackStack() },
-            onCartClicked = { viewModel.addToCart(courseId) },
-            onFavouriteClicked = { viewModel.addSavedCourseToCart(courseId) }
+            onCartClicked = {
+                if (!isInCart) viewModel.addToCart(courseId)
+                else viewModel.removeFromCart(courseId)
+            },
+            onFavouriteClicked = {
+                if (!isSaved) viewModel.addToSavedCourse(courseId)
+                else viewModel.removeSavedItem(courseId)
+            }
         )
         BottomBar(
             modifier = Modifier

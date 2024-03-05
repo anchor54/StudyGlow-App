@@ -11,7 +11,9 @@ import com.example.studyglows.network.apis.CartApiService
 import com.example.studyglows.network.models.CartPostRequestBody
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CartRepository @Inject constructor(
     private val cartApi: CartApiService,
     private val database: StudyGlowsDatabase
@@ -24,30 +26,20 @@ class CartRepository @Inject constructor(
     val savedCourses: LiveData<List<CourseWithResourceModel>>
         get() = _savedCourses
 
-    private val _courseInCart = MutableLiveData<Boolean>()
-    val courseInCart: LiveData<Boolean>
-        get() = _courseInCart
-
-    private val _courseSaved = MutableLiveData<Boolean>()
-    val courseSaved: LiveData<Boolean>
-        get() = _courseSaved
-
-    suspend fun addCourseToCart(courseId: Long) {
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTgxODY4LCJpYXQiOjE3MDkwOTU0NjgsImp0aSI6IjdhM2YxOTIzMzRhMjQxZmU5YWJlMDBmMjNkMGQwMTllIiwidXNlcl9pZCI6MjV9.lTAxCkc6rndh3V_qo7wAT6RtT-JIvcJFFpfgayGngDg"
+    suspend fun addCourseToCart(courseId: Long, token: String) {
         coroutineScope {
             cartApi.addCoursetoCart(CartPostRequestBody("COURSE", courseId), "Bearer $token")
             database.cartDao().addToCart(Cart(courseId, "COURSE"))
+            getCartItems(token)
         }
     }
 
     suspend fun saveCourse(courseId: Long) {
-        coroutineScope {
-            database.cartDao().save(SavedItem(courseId, "COURSE"))
-        }
+        database.cartDao().save(SavedItem(courseId, "COURSE"))
+        getSavedCourses()
     }
 
-    suspend fun getCartItems() {
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTgxODY4LCJpYXQiOjE3MDkwOTU0NjgsImp0aSI6IjdhM2YxOTIzMzRhMjQxZmU5YWJlMDBmMjNkMGQwMTllIiwidXNlcl9pZCI6MjV9.lTAxCkc6rndh3V_qo7wAT6RtT-JIvcJFFpfgayGngDg"
+    suspend fun getCartItems(token: String) {
         val response = cartApi.getCart("Bearer $token")
         if (response.isSuccessful) {
             response.body()?.let {
@@ -73,9 +65,9 @@ class CartRepository @Inject constructor(
 
     suspend fun removeSavedItem(itemId: String, type: String) {
         database.cartDao().deleteSavedItem(itemId.toLong(), type)
-        if (type == "COURSE") {
+        if (type == "COURSE" && _savedCourses.value != null) {
             _savedCourses.postValue(
-                _savedCourses.value?.filter { it.courseId != itemId }
+                _savedCourses.value!!.filter { it.courseId != itemId }
             )
         }
     }
@@ -92,15 +84,5 @@ class CartRepository @Inject constructor(
             }
             _cart.postValue(newCart)
         }
-    }
-
-    suspend fun getCartItem(courseId: String, type: String) {
-        val data = database.cartDao().getCartItem(courseId.toLong(), type)
-        _courseInCart.postValue(data != null)
-    }
-
-    suspend fun getSavedItem(courseId: String, type: String) {
-        val data = database.cartDao().getSavedItem(courseId.toLong(), type)
-        _courseSaved.postValue(data != null)
     }
 }

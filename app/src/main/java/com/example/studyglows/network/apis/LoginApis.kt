@@ -7,7 +7,6 @@ import com.example.studyglows.screens.auth.common.models.OTPRequest
 import com.example.studyglows.screens.auth.common.models.OTPResponse
 import com.example.studyglows.screens.auth.common.models.VerifyOTPRequest
 import com.example.studyglows.screens.auth.common.models.VerifyOTPResponse
-import com.example.studyglows.utils.Constants.BASE_API_URL
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

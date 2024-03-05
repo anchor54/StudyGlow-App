@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     val userApis: UserApis
 ): ViewModel() {
-    private val _userData = MutableStateFlow<User>(User(id = ""))
+    private val _userData = MutableStateFlow<User>(User(id = 0))
     val userData = _userData.asStateFlow()
 
     fun getUserDetails() {

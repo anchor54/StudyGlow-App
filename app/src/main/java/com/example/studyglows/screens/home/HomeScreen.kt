@@ -141,6 +141,7 @@ fun HomeScreen(
     ) {
         HomeScreenContent(
             viewModel = viewModel,
+            sharedViewModel = sharedViewModel,
             navHostController = coursesNavController,
         )
     }

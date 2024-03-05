@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.studyglows.network.apis.LoginApis
+import com.example.studyglows.preferences.TokenManager
 import com.example.studyglows.screens.auth.common.models.OTPRequest
 import com.example.studyglows.screens.auth.common.models.AuthUIEvent
 import com.example.studyglows.screens.auth.common.models.UIState
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val loginNetworkAPI: LoginApis,
-    private val savedStateHandle: SavedStateHandle
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UIState())
@@ -74,7 +75,7 @@ class AuthViewModel @Inject constructor(
             val requestBody = VerifyOTPRequest(
                 country_code = COUNTRY_CODE,
                 phone = uiState.value.phoneNumber,
-                otp = uiState.value.otp
+                email = uiState.value.otp
             )
             viewModelScope.launch(Dispatchers.IO) {
                 _validation.emit(ValidationEvent.Loading(true))
@@ -82,6 +83,7 @@ class AuthViewModel @Inject constructor(
                 _validation.emit(ValidationEvent.Loading(false))
                 if (res.isSuccessful) {
                     res.body()?.access?.let { accessToken ->
+                        tokenManager.saveToken(accessToken)
                         _validation.emit(ValidationEvent.OTPVerifySuccess())
                     } ?: run {
                         _validation.emit(

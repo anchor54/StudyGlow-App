@@ -3,6 +3,7 @@ package com.example.studyglows.screens.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.studyglows.preferences.TokenManager
 import com.example.studyglows.repository.CartRepository
 import com.example.studyglows.screens.cart.models.CartItemModel
 import com.example.studyglows.utils.Utils.asStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val tokenManager: TokenManager
 ): ViewModel() {
     val cartItems = cartRepository.cart.map {
         it.product_quantity?.map { cartItem ->
@@ -51,10 +53,17 @@ class CartViewModel @Inject constructor(
     private val _error = MutableStateFlow("")
     val error = _error.asStateFlow()
 
+    init {
+        getCartItems()
+        getSavedItems()
+    }
+
     fun getCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            cartRepository.getCartItems()
+            tokenManager.getToken()?.let {
+                cartRepository.getCartItems(it)
+            }
             _loading.value = false
         }
     }
@@ -62,7 +71,9 @@ class CartViewModel @Inject constructor(
     fun addCartItem(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            cartRepository.addCourseToCart(courseId.toLong())
+            tokenManager.getToken()?.let {
+                cartRepository.addCourseToCart(courseId.toLong(), it)
+            }
             _loading.value = false
         }
     }

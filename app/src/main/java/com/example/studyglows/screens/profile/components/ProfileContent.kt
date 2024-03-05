@@ -37,9 +37,9 @@ fun ProfileContent(
         )
     ) {
         ProfileSection(
-            imageUrl = userDetails.profile_image,
-            userName = userDetails.full_name,
-            phoneNumber = userDetails.phone,
+            imageUrl = userDetails.resource ?: "",
+            userName = userDetails.first_name ?: "",
+            phoneNumber = userDetails.phone ?: "",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(14.dp, 20.dp)

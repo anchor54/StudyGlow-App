@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val userApis: UserApis
 ): ViewModel() {
-    private val _userData = MutableStateFlow<User>(User(id = ""))
+    private val _userData = MutableStateFlow<User>(User(id = 0))
     val userData = _userData.asStateFlow()
 
     private val _purchasedCourses = MutableStateFlow<List<PurchasedItem>>(listOf())

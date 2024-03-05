@@ -33,8 +33,8 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.TestSeriesScreen.route + "?params={screen_params}",
-//        startDestination = Screen.Welcome.route,
+//        startDestination = Screen.TestSeriesScreen.route + "?params={screen_params}",
+        startDestination = Screen.Welcome.route,
         route = Route.ROOT_ROUTE.name
     ) {
         composable(route = Screen.Welcome.route) {

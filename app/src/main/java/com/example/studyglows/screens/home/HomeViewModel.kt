@@ -1,9 +1,10 @@
 package com.example.studyglows.screens.home
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.studyglows.network.models.Cart
+import com.example.studyglows.preferences.TokenManager
 import com.example.studyglows.repository.CartRepository
 import com.example.studyglows.repository.CourseRepository
 import com.example.studyglows.screens.auth.common.models.HomeUIEvent
@@ -26,17 +27,22 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val tokenManager: TokenManager
 ): ViewModel() {
-    val isCourseInCart = cartRepository.courseInCart.asStateFlow(false)
-    val isCourseSaved = cartRepository.courseSaved.asStateFlow(false)
+    val cartCourses = cartRepository.cart.map {
+        it.product_quantity?.mapNotNull { it.course?.id } ?: listOf()
+    }.asStateFlow(listOf())
+    val savedCourses = cartRepository.savedCourses.map {
+        it.map { it.courseId }
+    }.asStateFlow(listOf())
+
     val playlist = courseRepository.chapterResourceLD.map {
         it.map {
             PlaylistModel(
@@ -275,7 +281,17 @@ class HomeViewModel @Inject constructor(
     fun addToCart(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            cartRepository.addCourseToCart(courseId.toLong())
+            tokenManager.getToken()?.let {
+                cartRepository.addCourseToCart(courseId.toLong(), it)
+            }
+            _loading.value = false
+        }
+    }
+
+    fun removeFromCart(courseId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _loading.value = true
+            cartRepository.removeCartItem(courseId, "COURSE")
             _loading.value = false
         }
     }
@@ -317,25 +333,21 @@ class HomeViewModel @Inject constructor(
     fun addSavedCourseToCart(courseId: String) {
         removeSavedItem(courseId)
         viewModelScope.launch(Dispatchers.IO) {
-            cartRepository.addCourseToCart(courseId.toLong())
+            tokenManager.getToken()?.let {
+                cartRepository.addCourseToCart(courseId.toLong(), it)
+            }
         }
     }
 
-    private fun removeSavedItem(courseId: String) {
+    fun addToSavedCourse(courseId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepository.saveCourse(courseId.toLong())
+        }
+    }
+
+    fun removeSavedItem(courseId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.removeSavedItem(courseId, "COURSE")
-        }
-    }
-
-    private fun checkCourseInCart(courseId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cartRepository.getCartItem(courseId, "COURSE")
-        }
-    }
-
-    private fun checkCourseInSaved(courseId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cartRepository.getSavedItem(courseId, "COURSE")
         }
     }
 }

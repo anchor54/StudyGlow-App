@@ -10,11 +10,12 @@ class UserApis @Inject constructor() {
     suspend fun getUserDetails(userId: String): Response<User> =
         Response.success(
             User(
-                id = UUID.randomUUID().toString(),
-                full_name = "Ankur Mazumder",
+                id = (0..10).random(),
+                first_name = "Ankur",
+                last_name = "Mazumder",
                 email = "ankur@mail.com",
                 phone = "+91-8637053974",
-                profile_image = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                resource = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             )
         )
 
